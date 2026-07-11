@@ -1,0 +1,1 @@
+Get-ChildItem -Recurse -Filter "文件名.txt" -File | Copy-Item -Destination "D:\目标文件夹\" -Force

@@ -1,0 +1,14 @@
+*
+!*/
+!.gitignore
+
+!*.v
+!*.sv
+!*.vhd
+
+!*.png
+!*.pdf
+
+delta-sigma/vivado_proj/
+MATLAB/
+
