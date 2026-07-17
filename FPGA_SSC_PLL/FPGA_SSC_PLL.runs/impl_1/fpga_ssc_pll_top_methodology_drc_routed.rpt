@@ -1,0 +1,1295 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
+| Date         : Fri Jul 17 14:26:03 2026
+| Host         : DESKTOP-I9E0661 running 64-bit major release  (build 9200)
+| Command      : report_methodology -file fpga_ssc_pll_top_methodology_drc_routed.rpt -pb fpga_ssc_pll_top_methodology_drc_routed.pb -rpx fpga_ssc_pll_top_methodology_drc_routed.rpx
+| Design       : fpga_ssc_pll_top
+| Device       : xcvu9p-flga2104-2L-e
+| Speed File   : -2L
+| Design State : Fully Routed
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Report Methodology
+
+Table of Contents
+-----------------
+1. REPORT SUMMARY
+2. REPORT DETAILS
+
+1. REPORT SUMMARY
+-----------------
+            Netlist: netlist
+          Floorplan: design_1
+      Design limits: <entire design considered>
+             Max checks: <unlimited>
+             Checks found: 234
++-----------+------------------+----------------------------------------------------------+--------+
+| Rule      | Severity         | Description                                              | Checks |
++-----------+------------------+----------------------------------------------------------+--------+
+| TIMING-2  | Critical Warning | Invalid primary clock source pin                         | 11     |
+| TIMING-4  | Critical Warning | Invalid primary clock redefinition on a clock tree       | 2      |
+| TIMING-6  | Critical Warning | No common primary clock between related clocks           | 4      |
+| TIMING-7  | Critical Warning | No common node between related clocks                    | 4      |
+| TIMING-14 | Critical Warning | LUT on the clock tree                                    | 3      |
+| TIMING-17 | Critical Warning | Non-clocked sequential cell                              | 107    |
+| DPIR-2    | Warning          | Asynchronous driver check                                | 10     |
+| LUTAR-1   | Warning          | LUT drives async reset alert                             | 38     |
+| TIMING-16 | Warning          | Large setup violation                                    | 26     |
+| TIMING-18 | Warning          | Missing input or output delay                            | 1      |
+| TIMING-20 | Warning          | Non-clocked latch                                        | 16     |
+| XDCB-2    | Warning          | Clock defined on multiple objects                        | 1      |
+| XDCB-5    | Warning          | Runtime inefficient way to find pin objects              | 6      |
+| CLKC-30   | Advisory         | MMCME4 not driven by IO has BUFG in feedback loop        | 1      |
+| CLKC-36   | Advisory         | BUFGCTRL with MMCM-PLL driver in same region with BUFGCE | 1      |
+| CLKC-53   | Advisory         | FD or LUT drives multiple BUFGs                          | 1      |
+| CLKC-56   | Advisory         | MMCME4 with global clock driver has no LOC               | 1      |
+| LATCH-1   | Advisory         | Existing latches in the design                           | 1      |
++-----------+------------------+----------------------------------------------------------+--------+
+
+2. REPORT DETAILS
+-----------------
+TIMING-2#1 Critical Warning
+Invalid primary clock source pin  
+A primary clock div_out_dtc is created on an inappropriate pin u_lut_dtc_4/dout_INST_0/O. It is recommended to create a primary clock only on a proper clock source (input port or primitive output pin with no timing arc)
+Related violations: <none>
+
+TIMING-2#2 Critical Warning
+Invalid primary clock source pin  
+A primary clock dtc_code is created on an inappropriate pin u_dtc_ctrl/dtc_code[0]_INST_0/O. It is recommended to create a primary clock only on a proper clock source (input port or primitive output pin with no timing arc)
+Related violations: <none>
+
+TIMING-2#3 Critical Warning
+Invalid primary clock source pin  
+A primary clock dtc_code is created on an inappropriate pin u_dtc_ctrl/dtc_code[1]_INST_0/O. It is recommended to create a primary clock only on a proper clock source (input port or primitive output pin with no timing arc)
+Related violations: <none>
+
+TIMING-2#4 Critical Warning
+Invalid primary clock source pin  
+A primary clock dtc_code is created on an inappropriate pin u_dtc_ctrl/dtc_code[2]_INST_0/O. It is recommended to create a primary clock only on a proper clock source (input port or primitive output pin with no timing arc)
+Related violations: <none>
+
+TIMING-2#5 Critical Warning
+Invalid primary clock source pin  
+A primary clock dtc_code is created on an inappropriate pin u_dtc_ctrl/dtc_code[3]_INST_0/O. It is recommended to create a primary clock only on a proper clock source (input port or primitive output pin with no timing arc)
+Related violations: <none>
+
+TIMING-2#6 Critical Warning
+Invalid primary clock source pin  
+A primary clock dtc_code is created on an inappropriate pin u_dtc_ctrl/dtc_code[4]_INST_0/O. It is recommended to create a primary clock only on a proper clock source (input port or primitive output pin with no timing arc)
+Related violations: <none>
+
+TIMING-2#7 Critical Warning
+Invalid primary clock source pin  
+A primary clock dtc_code is created on an inappropriate pin u_dtc_ctrl/dtc_code[5]_INST_0/O. It is recommended to create a primary clock only on a proper clock source (input port or primitive output pin with no timing arc)
+Related violations: <none>
+
+TIMING-2#8 Critical Warning
+Invalid primary clock source pin  
+A primary clock dtc_code is created on an inappropriate pin u_dtc_ctrl/dtc_code[6]_INST_0/O. It is recommended to create a primary clock only on a proper clock source (input port or primitive output pin with no timing arc)
+Related violations: <none>
+
+TIMING-2#9 Critical Warning
+Invalid primary clock source pin  
+A primary clock dtc_code is created on an inappropriate pin u_dtc_ctrl/dtc_code[7]_INST_0/O. It is recommended to create a primary clock only on a proper clock source (input port or primitive output pin with no timing arc)
+Related violations: <none>
+
+TIMING-2#10 Critical Warning
+Invalid primary clock source pin  
+A primary clock dtc_code is created on an inappropriate pin u_dtc_ctrl/dtc_code[8]_INST_0/O. It is recommended to create a primary clock only on a proper clock source (input port or primitive output pin with no timing arc)
+Related violations: <none>
+
+TIMING-2#11 Critical Warning
+Invalid primary clock source pin  
+A primary clock f45 is created on an inappropriate pin u_fracn_div/u_dual_div/u_div_45/u3_reg_sync/Qn/O. It is recommended to create a primary clock only on a proper clock source (input port or primitive output pin with no timing arc)
+Related violations: <none>
+
+TIMING-4#1 Critical Warning
+Invalid primary clock redefinition on a clock tree  
+Invalid clock redefinition on a clock tree. The primary clock div_out_dtc is defined downstream of clock dtc_code and overrides its insertion delay and/or waveform definition
+Related violations: <none>
+
+TIMING-4#2 Critical Warning
+Invalid primary clock redefinition on a clock tree  
+Invalid clock redefinition on a clock tree. The primary clock dtc_code is defined downstream of clock sys_clk_p and overrides its insertion delay and/or waveform definition
+Related violations: <none>
+
+TIMING-6#1 Critical Warning
+No common primary clock between related clocks  
+The clocks div_out_dtc and sys_clk_p are related (timed together) but they have no common primary clock. The design could fail in hardware. To find a timing path between these clocks, run the following command: report_timing -from [get_clocks div_out_dtc] -to [get_clocks sys_clk_p]
+Related violations: <none>
+
+TIMING-6#2 Critical Warning
+No common primary clock between related clocks  
+The clocks dtc_code and sys_clk_p are related (timed together) but they have no common primary clock. The design could fail in hardware. To find a timing path between these clocks, run the following command: report_timing -from [get_clocks dtc_code] -to [get_clocks sys_clk_p]
+Related violations: <none>
+
+TIMING-6#3 Critical Warning
+No common primary clock between related clocks  
+The clocks f45 and sys_clk_p are related (timed together) but they have no common primary clock. The design could fail in hardware. To find a timing path between these clocks, run the following command: report_timing -from [get_clocks f45] -to [get_clocks sys_clk_p]
+Related violations: <none>
+
+TIMING-6#4 Critical Warning
+No common primary clock between related clocks  
+The clocks sys_clk_p and div_out_dtc are related (timed together) but they have no common primary clock. The design could fail in hardware. To find a timing path between these clocks, run the following command: report_timing -from [get_clocks sys_clk_p] -to [get_clocks div_out_dtc]
+Related violations: <none>
+
+TIMING-7#1 Critical Warning
+No common node between related clocks  
+The clocks div_out_dtc and sys_clk_p are related (timed together) but they have no common node. The design could fail in hardware. To find a timing path between these clocks, run the following command: report_timing -from [get_clocks div_out_dtc] -to [get_clocks sys_clk_p]
+Related violations: <none>
+
+TIMING-7#2 Critical Warning
+No common node between related clocks  
+The clocks dtc_code and sys_clk_p are related (timed together) but they have no common node. The design could fail in hardware. To find a timing path between these clocks, run the following command: report_timing -from [get_clocks dtc_code] -to [get_clocks sys_clk_p]
+Related violations: <none>
+
+TIMING-7#3 Critical Warning
+No common node between related clocks  
+The clocks f45 and sys_clk_p are related (timed together) but they have no common node. The design could fail in hardware. To find a timing path between these clocks, run the following command: report_timing -from [get_clocks f45] -to [get_clocks sys_clk_p]
+Related violations: <none>
+
+TIMING-7#4 Critical Warning
+No common node between related clocks  
+The clocks sys_clk_p and div_out_dtc are related (timed together) but they have no common node. The design could fail in hardware. To find a timing path between these clocks, run the following command: report_timing -from [get_clocks sys_clk_p] -to [get_clocks div_out_dtc]
+Related violations: <none>
+
+TIMING-14#1 Critical Warning
+LUT on the clock tree  
+The LUT u_fracn_div/u_dual_div/u_div_45/u3_reg_sync/Qn has been found on the clock tree. Run opt_design to optimize the clock trees, then re-run report_methodology. If LUT(s) are still present in the clock trees, modify the RTL or the synthesis options accordingly to move the clock gating logic to dedicated clock enable resources. Keep in mind that post-opt_design database cannot be used for pin-planning tasks
+Related violations: <none>
+
+TIMING-14#2 Critical Warning
+LUT on the clock tree  
+The LUT u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_i_2 has been found on the clock tree. Run opt_design to optimize the clock trees, then re-run report_methodology. If LUT(s) are still present in the clock trees, modify the RTL or the synthesis options accordingly to move the clock gating logic to dedicated clock enable resources. Keep in mind that post-opt_design database cannot be used for pin-planning tasks
+Related violations: <none>
+
+TIMING-14#3 Critical Warning
+LUT on the clock tree  
+The LUT u_lut_dtc_4/dout_INST_0 has been found on the clock tree. Run opt_design to optimize the clock trees, then re-run report_methodology. If LUT(s) are still present in the clock trees, modify the RTL or the synthesis options accordingly to move the clock gating logic to dedicated clock enable resources. Keep in mind that post-opt_design database cannot be used for pin-planning tasks
+Related violations: <none>
+
+TIMING-17#1 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/Eo_reg[0]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#2 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/Eo_reg[1]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#3 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/Eo_reg[2]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#4 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/Eo_reg[3]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#5 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/Eo_reg[4]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#6 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/Eo_reg[5]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#7 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/Eo_reg[6]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#8 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/Eo_reg[7]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#9 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/Eo_reg[8]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#10 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/Eo_reg[9]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#11 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/Fout_reg_reg/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#12 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_calculate_ps/real_integer_reg[0]/F1/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#13 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_calculate_ps/real_integer_reg[0]/F2/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#14 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_calculate_ps/real_integer_reg[1]/F1/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#15 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_calculate_ps/real_integer_reg[1]/F2/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#16 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_calculate_ps/real_integer_reg[2]/F1/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#17 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_calculate_ps/real_integer_reg[2]/F2/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#18 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_calculate_ps/real_integer_reg[3]/F1/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#19 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_calculate_ps/real_integer_reg[3]/F2/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#20 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_calculate_ps/real_integer_reg[4]/F1/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#21 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_calculate_ps/real_integer_reg[4]/F2/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#22 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_calculate_ps/real_integer_reg[5]/F1/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#23 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_calculate_ps/real_integer_reg[5]/F2/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#24 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_calculate_ps/real_integer_reg[6]/F1/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#25 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_calculate_ps/real_integer_reg[6]/F2/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#26 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_calculate_ps/real_integer_reg[7]/F1/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#27 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_calculate_ps/real_integer_reg[7]/F2/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#28 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_dual_div/MC_dly_reg/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#29 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_dual_div/ss_cnt_reg[0]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#30 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_dual_div/ss_cnt_reg[1]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#31 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_dual_div/ss_cnt_reg[2]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#32 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_dual_div/ss_cnt_reg[3]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#33 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_dual_div/u_div_45/u1_reg_sync/Q_reg[0]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#34 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_dual_div/u_div_45/u2_reg_sync/Q_reg[0]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#35 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_dual_div/u_div_45/u3_reg_sync/Q_reg[0]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#36 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg/F1/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#37 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg/F2/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#38 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg/F1/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#39 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg/F2/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#40 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg/F1/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#41 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg/F2/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#42 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg/F1/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#43 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg/F2/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#44 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg/F1/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#45 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg/F2/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#46 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_reg/F1/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#47 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_reg/F2/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#48 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/c1_reg_reg[0]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#49 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/c1_reg_reg[1]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#50 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/c1_reg_reg[2]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#51 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/eo_d1_reg[0]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#52 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/eo_d1_reg[1]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#53 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/eo_d1_reg[2]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#54 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/eo_d1_reg[3]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#55 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/eo_d1_reg[4]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#56 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/eo_d1_reg[5]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#57 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/eo_d1_reg[6]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#58 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/eo_d1_reg[7]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#59 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/eo_d1_reg[8]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#60 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/eo_d1_reg[9]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#61 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_1/sum_r_reg[0]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#62 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_1/sum_r_reg[10]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#63 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_1/sum_r_reg[1]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#64 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_1/sum_r_reg[2]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#65 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_1/sum_r_reg[3]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#66 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_1/sum_r_reg[4]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#67 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_1/sum_r_reg[5]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#68 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_1/sum_r_reg[6]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#69 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_1/sum_r_reg[7]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#70 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_1/sum_r_reg[8]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#71 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_1/sum_r_reg[9]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#72 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_2/sum_r_reg[0]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#73 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_2/sum_r_reg[10]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#74 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_2/sum_r_reg[1]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#75 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_2/sum_r_reg[2]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#76 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_2/sum_r_reg[3]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#77 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_2/sum_r_reg[4]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#78 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_2/sum_r_reg[5]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#79 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_2/sum_r_reg[6]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#80 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_2/sum_r_reg[7]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#81 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_2/sum_r_reg[8]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#82 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_2/sum_r_reg[9]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#83 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_3/sum_r_reg[0]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#84 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_3/sum_r_reg[10]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#85 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_3/sum_r_reg[1]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#86 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_3/sum_r_reg[2]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#87 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_3/sum_r_reg[3]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#88 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_3/sum_r_reg[4]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#89 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_3/sum_r_reg[5]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#90 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_3/sum_r_reg[6]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#91 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_3/sum_r_reg[7]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#92 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_3/sum_r_reg[8]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#93 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_hk_efm_3/sum_r_reg[9]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#94 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_mash_stage/inst/PROBE_OUT_ALL_INST/Committ_1_reg/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#95 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_mash_stage/inst/PROBE_OUT_ALL_INST/Committ_2_reg/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#96 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_mash_stage/inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/Probe_out_reg[0]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#97 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/u_mash_stage/inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/Probe_out_reg[1]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#98 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/y2_d_reg/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#99 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/y3_d_reg/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#100 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_mash111/y3_dd_reg/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#101 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_fracn_div/u_sync_rstn_dff/Q_reg/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#102 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_mux_01/I0 is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#103 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_mux_02/I1 is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#104 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_mux_pll_01/I0 is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#105 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_mux_pll_01/I1 is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#106 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_mux_pll_02/I0 is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#107 Critical Warning
+Non-clocked sequential cell  
+The clock pin u_mux_pll_ref/I0 is not reached by a timing clock
+Related violations: <none>
+
+DPIR-2#1 Warning
+Asynchronous driver check  
+DSP u_dtc_ctrl/mult input pin u_dtc_ctrl/mult/A[10] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
+Related violations: <none>
+
+DPIR-2#2 Warning
+Asynchronous driver check  
+DSP u_dtc_ctrl/mult input pin u_dtc_ctrl/mult/A[1] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
+Related violations: <none>
+
+DPIR-2#3 Warning
+Asynchronous driver check  
+DSP u_dtc_ctrl/mult input pin u_dtc_ctrl/mult/A[2] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
+Related violations: <none>
+
+DPIR-2#4 Warning
+Asynchronous driver check  
+DSP u_dtc_ctrl/mult input pin u_dtc_ctrl/mult/A[3] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
+Related violations: <none>
+
+DPIR-2#5 Warning
+Asynchronous driver check  
+DSP u_dtc_ctrl/mult input pin u_dtc_ctrl/mult/A[4] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
+Related violations: <none>
+
+DPIR-2#6 Warning
+Asynchronous driver check  
+DSP u_dtc_ctrl/mult input pin u_dtc_ctrl/mult/A[5] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
+Related violations: <none>
+
+DPIR-2#7 Warning
+Asynchronous driver check  
+DSP u_dtc_ctrl/mult input pin u_dtc_ctrl/mult/A[6] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
+Related violations: <none>
+
+DPIR-2#8 Warning
+Asynchronous driver check  
+DSP u_dtc_ctrl/mult input pin u_dtc_ctrl/mult/A[7] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
+Related violations: <none>
+
+DPIR-2#9 Warning
+Asynchronous driver check  
+DSP u_dtc_ctrl/mult input pin u_dtc_ctrl/mult/A[8] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
+Related violations: <none>
+
+DPIR-2#10 Warning
+Asynchronous driver check  
+DSP u_dtc_ctrl/mult input pin u_dtc_ctrl/mult/A[9] is connected to registers with an asynchronous reset. This is preventing the possibility of merging these registers in to the DSP Block since the DSP block registers only possess synchronous reset capability.  It is suggested to recode or change these registers to remove the reset or use a synchronous reset to get the best optimization for performance, power and area.
+Related violations: <none>
+
+LUTAR-1#1 Warning
+LUT drives async reset alert  
+LUT cell dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_RD/U_RD_FIFO/SUBCORE_FIFO.xsdbm_v3_0_3_rdfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gwrrd_rst_sync_stage[2].rrst_inst/ngwrdrst.grst.g7serrst.rd_rst_reg[2]_i_1, with 2 or more inputs, drives asynchronous preset/clear pin(s) dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_RD/U_RD_FIFO/SUBCORE_FIFO.xsdbm_v3_0_3_rdfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.rd_rst_reg_reg[0]/PRE,
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_RD/U_RD_FIFO/SUBCORE_FIFO.xsdbm_v3_0_3_rdfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.rd_rst_reg_reg[1]/PRE
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_RD/U_RD_FIFO/SUBCORE_FIFO.xsdbm_v3_0_3_rdfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.rd_rst_reg_reg[2]/PRE. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#2 Warning
+LUT drives async reset alert  
+LUT cell dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_RD/U_RD_FIFO/SUBCORE_FIFO.xsdbm_v3_0_3_rdfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gwrrd_rst_sync_stage[2].wrst_inst/ngwrdrst.grst.g7serrst.wr_rst_reg[2]_i_1, with 2 or more inputs, drives asynchronous preset/clear pin(s) dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_RD/U_RD_FIFO/SUBCORE_FIFO.xsdbm_v3_0_3_rdfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.wr_rst_reg_reg[0]/PRE,
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_RD/U_RD_FIFO/SUBCORE_FIFO.xsdbm_v3_0_3_rdfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.wr_rst_reg_reg[1]/PRE
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_RD/U_RD_FIFO/SUBCORE_FIFO.xsdbm_v3_0_3_rdfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.wr_rst_reg_reg[2]/PRE. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#3 Warning
+LUT drives async reset alert  
+LUT cell dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_WR/U_WR_FIFO/SUBCORE_FIFO.xsdbm_v3_0_3_wrfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gwrrd_rst_sync_stage[2].rrst_inst/ngwrdrst.grst.g7serrst.rd_rst_reg[2]_i_1, with 2 or more inputs, drives asynchronous preset/clear pin(s) dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_WR/U_WR_FIFO/SUBCORE_FIFO.xsdbm_v3_0_3_wrfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.rd_rst_reg_reg[0]/PRE,
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_WR/U_WR_FIFO/SUBCORE_FIFO.xsdbm_v3_0_3_wrfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.rd_rst_reg_reg[1]/PRE
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_WR/U_WR_FIFO/SUBCORE_FIFO.xsdbm_v3_0_3_wrfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.rd_rst_reg_reg[2]/PRE. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#4 Warning
+LUT drives async reset alert  
+LUT cell dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_WR/U_WR_FIFO/SUBCORE_FIFO.xsdbm_v3_0_3_wrfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gwrrd_rst_sync_stage[2].wrst_inst/ngwrdrst.grst.g7serrst.wr_rst_reg[2]_i_1, with 2 or more inputs, drives asynchronous preset/clear pin(s) dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_WR/U_WR_FIFO/SUBCORE_FIFO.xsdbm_v3_0_3_wrfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.wr_rst_reg_reg[0]/PRE,
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_WR/U_WR_FIFO/SUBCORE_FIFO.xsdbm_v3_0_3_wrfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.wr_rst_reg_reg[1]/PRE
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_WR/U_WR_FIFO/SUBCORE_FIFO.xsdbm_v3_0_3_wrfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.wr_rst_reg_reg[2]/PRE. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#5 Warning
+LUT drives async reset alert  
+LUT cell dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/m_bscan_sel[0]_INST_0, with 2 or more inputs, drives asynchronous preset/clear pin(s) dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.U_ICON/U_CMD/iTARGET_reg[10]/CLR,
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.U_ICON/U_CMD/iTARGET_reg[11]/CLR,
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.U_ICON/U_CMD/iTARGET_reg[12]/CLR,
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.U_ICON/U_CMD/iTARGET_reg[13]/CLR,
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.U_ICON/U_CMD/iTARGET_reg[14]/CLR,
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.U_ICON/U_CMD/iTARGET_reg[15]/CLR,
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.U_ICON/U_CMD/iTARGET_reg[6]/CLR,
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.U_ICON/U_CMD/iTARGET_reg[7]/CLR,
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.U_ICON/U_CMD/iTARGET_reg[8]/CLR
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.U_ICON/U_CMD/iTARGET_reg[9]/CLR. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#6 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_2, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_reg/PRE. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#7 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_2__0, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg/CLR,
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg/F1/CLR
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg/L7/CLR. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#8 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_2__1, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg/CLR,
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg/F1/CLR
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg/L7/CLR. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#9 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_2__2, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg/CLR,
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg/F1/CLR
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg/L7/CLR. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#10 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_2__3, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg/CLR,
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg/F1/CLR
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg/L7/CLR. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#11 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_2__4, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg/CLR,
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg/F1/CLR
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg/L7/CLR. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#12 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_2__5, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg/CLR,
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg/F1/CLR
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg/L7/CLR. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#13 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_3, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg/F2/PRE
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg/PRE. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#14 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_3__0, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg/F2/PRE
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg/PRE. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#15 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_3__1, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg/F2/PRE
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg/PRE. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#16 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_3__2, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg/F2/PRE
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg/PRE. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#17 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_3__3, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg/F2/PRE
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg/PRE. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#18 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_3__4, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg/F2/PRE
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg/PRE. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#19 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_i_3__0, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg/CLR,
+u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg/F1/CLR
+u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg/L7/CLR. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#20 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_i_4, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg/F2/PRE
+u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg/PRE. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#21 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_i_2__0, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_reg/CLR,
+u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_reg/F1/CLR
+u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_reg/L7/CLR. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#22 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_i_3, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_reg/F2/PRE
+u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_reg/PRE. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#23 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_sync_rstn_dff/real_integer[0]_i_1, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_calculate_ps/real_integer_reg[0]/CLR,
+u_fracn_div/u_calculate_ps/real_integer_reg[0]/F1/CLR
+u_fracn_div/u_calculate_ps/real_integer_reg[0]/L7/CLR. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#24 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_sync_rstn_dff/real_integer[0]_i_2, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_calculate_ps/real_integer_reg[0]/F2/PRE
+u_fracn_div/u_calculate_ps/real_integer_reg[0]/PRE. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#25 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_sync_rstn_dff/real_integer[1]_i_1, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_calculate_ps/real_integer_reg[1]/CLR,
+u_fracn_div/u_calculate_ps/real_integer_reg[1]/F1/CLR
+u_fracn_div/u_calculate_ps/real_integer_reg[1]/L7/CLR. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#26 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_sync_rstn_dff/real_integer[1]_i_2, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_calculate_ps/real_integer_reg[1]/F2/PRE
+u_fracn_div/u_calculate_ps/real_integer_reg[1]/PRE. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#27 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_sync_rstn_dff/real_integer[2]_i_1, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_calculate_ps/real_integer_reg[2]/CLR,
+u_fracn_div/u_calculate_ps/real_integer_reg[2]/F1/CLR
+u_fracn_div/u_calculate_ps/real_integer_reg[2]/L7/CLR. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#28 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_sync_rstn_dff/real_integer[2]_i_2, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_calculate_ps/real_integer_reg[2]/F2/PRE
+u_fracn_div/u_calculate_ps/real_integer_reg[2]/PRE. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#29 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_sync_rstn_dff/real_integer[3]_i_1, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_calculate_ps/real_integer_reg[3]/CLR,
+u_fracn_div/u_calculate_ps/real_integer_reg[3]/F1/CLR
+u_fracn_div/u_calculate_ps/real_integer_reg[3]/L7/CLR. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#30 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_sync_rstn_dff/real_integer[3]_i_2, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_calculate_ps/real_integer_reg[3]/F2/PRE
+u_fracn_div/u_calculate_ps/real_integer_reg[3]/PRE. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#31 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_sync_rstn_dff/real_integer[4]_i_1, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_calculate_ps/real_integer_reg[4]/CLR,
+u_fracn_div/u_calculate_ps/real_integer_reg[4]/F1/CLR
+u_fracn_div/u_calculate_ps/real_integer_reg[4]/L7/CLR. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#32 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_sync_rstn_dff/real_integer[4]_i_2, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_calculate_ps/real_integer_reg[4]/F2/PRE
+u_fracn_div/u_calculate_ps/real_integer_reg[4]/PRE. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#33 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_sync_rstn_dff/real_integer[5]_i_1, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_calculate_ps/real_integer_reg[5]/CLR,
+u_fracn_div/u_calculate_ps/real_integer_reg[5]/F1/CLR
+u_fracn_div/u_calculate_ps/real_integer_reg[5]/L7/CLR. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#34 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_sync_rstn_dff/real_integer[5]_i_2, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_calculate_ps/real_integer_reg[5]/F2/PRE
+u_fracn_div/u_calculate_ps/real_integer_reg[5]/PRE. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#35 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_sync_rstn_dff/real_integer[6]_i_1, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_calculate_ps/real_integer_reg[6]/CLR,
+u_fracn_div/u_calculate_ps/real_integer_reg[6]/F1/CLR
+u_fracn_div/u_calculate_ps/real_integer_reg[6]/L7/CLR. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#36 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_sync_rstn_dff/real_integer[6]_i_2, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_calculate_ps/real_integer_reg[6]/F2/PRE
+u_fracn_div/u_calculate_ps/real_integer_reg[6]/PRE. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#37 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_sync_rstn_dff/real_integer[7]_i_2, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_calculate_ps/real_integer_reg[7]/CLR,
+u_fracn_div/u_calculate_ps/real_integer_reg[7]/F1/CLR
+u_fracn_div/u_calculate_ps/real_integer_reg[7]/L7/CLR. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#38 Warning
+LUT drives async reset alert  
+LUT cell u_fracn_div/u_sync_rstn_dff/real_integer[7]_i_3, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_fracn_div/u_calculate_ps/real_integer_reg[7]/F2/PRE
+u_fracn_div/u_calculate_ps/real_integer_reg[7]/PRE. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+TIMING-16#1 Warning
+Large setup violation  
+There is a large setup violation of -1.000 ns between u_dtc_ctrl/dtc_code[7]_INST_0/O (clocked by dtc_code) and u_ila/inst/ila_core_inst/u_trig/U_TM/N_DDR_MODE.G_NMU[4].U_M/allx_typeA_match_detection.ltlib_v1_0_2_allx_typeA_inst/probeDelay1_reg[7]/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#2 Warning
+Large setup violation  
+There is a large setup violation of -1.041 ns between u_dtc_ctrl/dtc_code[3]_INST_0/O (clocked by dtc_code) and u_ila/inst/ila_core_inst/u_trig/U_TM/N_DDR_MODE.G_NMU[4].U_M/allx_typeA_match_detection.ltlib_v1_0_2_allx_typeA_inst/probeDelay1_reg[3]/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#3 Warning
+Large setup violation  
+There is a large setup violation of -1.042 ns between u_dtc_ctrl/dtc_code[2]_INST_0/O (clocked by dtc_code) and u_ila/inst/ila_core_inst/u_trig/U_TM/N_DDR_MODE.G_NMU[4].U_M/allx_typeA_match_detection.ltlib_v1_0_2_allx_typeA_inst/probeDelay1_reg[2]/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#4 Warning
+Large setup violation  
+There is a large setup violation of -1.054 ns between u_dtc_ctrl/dtc_code[4]_INST_0/O (clocked by dtc_code) and u_ila/inst/ila_core_inst/u_trig/U_TM/N_DDR_MODE.G_NMU[4].U_M/allx_typeA_match_detection.ltlib_v1_0_2_allx_typeA_inst/probeDelay1_reg[4]/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#5 Warning
+Large setup violation  
+There is a large setup violation of -1.078 ns between u_dtc_ctrl/dtc_code[7]_INST_0/O (clocked by dtc_code) and u_ila/inst/ila_core_inst/shifted_data_in_reg[7][22]_srl8/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#6 Warning
+Large setup violation  
+There is a large setup violation of -1.088 ns between u_dtc_ctrl/dtc_code[3]_INST_0/O (clocked by dtc_code) and u_ila/inst/ila_core_inst/shifted_data_in_reg[7][18]_srl8/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#7 Warning
+Large setup violation  
+There is a large setup violation of -1.091 ns between u_fracn_div/u_dual_div/u_s_counter/u_mc_dff/Q_reg/C (clocked by f45) and u_fracn_div/u_dual_div/u_ila_dualdiv/inst/ila_core_inst/u_trig/U_TM/N_DDR_MODE.G_NMU[3].U_M/allx_typeA_match_detection.ltlib_v1_0_2_allx_typeA_inst/probeDelay1_reg[1]/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#8 Warning
+Large setup violation  
+There is a large setup violation of -1.115 ns between u_dtc_ctrl/dtc_code[5]_INST_0/O (clocked by dtc_code) and u_ila/inst/ila_core_inst/u_trig/U_TM/N_DDR_MODE.G_NMU[4].U_M/allx_typeA_match_detection.ltlib_v1_0_2_allx_typeA_inst/probeDelay1_reg[5]/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#9 Warning
+Large setup violation  
+There is a large setup violation of -1.128 ns between u_dtc_ctrl/dtc_code[0]_INST_0/O (clocked by dtc_code) and u_ila/inst/ila_core_inst/u_trig/U_TM/N_DDR_MODE.G_NMU[4].U_M/allx_typeA_match_detection.ltlib_v1_0_2_allx_typeA_inst/probeDelay1_reg[0]/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#10 Warning
+Large setup violation  
+There is a large setup violation of -1.131 ns between u_dtc_ctrl/dtc_code[2]_INST_0/O (clocked by dtc_code) and u_ila/inst/ila_core_inst/shifted_data_in_reg[7][17]_srl8/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#11 Warning
+Large setup violation  
+There is a large setup violation of -1.142 ns between u_dtc_ctrl/dtc_code[5]_INST_0/O (clocked by dtc_code) and u_ila/inst/ila_core_inst/shifted_data_in_reg[7][20]_srl8/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#12 Warning
+Large setup violation  
+There is a large setup violation of -1.143 ns between u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_reg/C (clocked by f45) and u_fracn_div/u_dual_div/u_ila_dualdiv/inst/ila_core_inst/u_trig/U_TM/N_DDR_MODE.G_NMU[5].U_M/allx_typeA_match_detection.ltlib_v1_0_2_allx_typeA_inst/probeDelay1_reg[0]/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#13 Warning
+Large setup violation  
+There is a large setup violation of -1.145 ns between u_dtc_ctrl/dtc_code[6]_INST_0/O (clocked by dtc_code) and u_ila/inst/ila_core_inst/u_trig/U_TM/N_DDR_MODE.G_NMU[4].U_M/allx_typeA_match_detection.ltlib_v1_0_2_allx_typeA_inst/probeDelay1_reg[6]/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#14 Warning
+Large setup violation  
+There is a large setup violation of -1.157 ns between u_dtc_ctrl/dtc_code[4]_INST_0/O (clocked by dtc_code) and u_ila/inst/ila_core_inst/shifted_data_in_reg[7][19]_srl8/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#15 Warning
+Large setup violation  
+There is a large setup violation of -1.193 ns between u_dtc_ctrl/dtc_code[1]_INST_0/O (clocked by dtc_code) and u_ila/inst/ila_core_inst/shifted_data_in_reg[7][16]_srl8/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#16 Warning
+Large setup violation  
+There is a large setup violation of -1.216 ns between u_dtc_ctrl/dtc_code[0]_INST_0/O (clocked by dtc_code) and u_ila/inst/ila_core_inst/shifted_data_in_reg[7][15]_srl8/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#17 Warning
+Large setup violation  
+There is a large setup violation of -1.231 ns between u_dtc_ctrl/dtc_code[6]_INST_0/O (clocked by dtc_code) and u_ila/inst/ila_core_inst/shifted_data_in_reg[7][21]_srl8/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#18 Warning
+Large setup violation  
+There is a large setup violation of -1.234 ns between u_dtc_ctrl/dtc_code[8]_INST_0/O (clocked by dtc_code) and u_ila/inst/ila_core_inst/u_trig/U_TM/N_DDR_MODE.G_NMU[4].U_M/allx_typeA_match_detection.ltlib_v1_0_2_allx_typeA_inst/probeDelay1_reg[8]/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#19 Warning
+Large setup violation  
+There is a large setup violation of -1.240 ns between u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_reg/C (clocked by f45) and u_fracn_div/u_dual_div/u_ila_dualdiv/inst/ila_core_inst/shifted_data_in_reg[7][16]_srl8/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#20 Warning
+Large setup violation  
+There is a large setup violation of -1.243 ns between u_dtc_ctrl/dtc_code[8]_INST_0/O (clocked by dtc_code) and u_ila/inst/ila_core_inst/shifted_data_in_reg[7][23]_srl8/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#21 Warning
+Large setup violation  
+There is a large setup violation of -1.282 ns between u_fracn_div/u_dual_div/u_s_counter/u_mc_dff/Q_reg/C (clocked by f45) and u_fracn_div/u_dual_div/u_ila_dualdiv/inst/ila_core_inst/shifted_data_in_reg[7][11]_srl8/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#22 Warning
+Large setup violation  
+There is a large setup violation of -1.505 ns between u_dtc_ctrl/dtc_code[1]_INST_0/O (clocked by dtc_code) and u_ila/inst/ila_core_inst/u_trig/U_TM/N_DDR_MODE.G_NMU[4].U_M/allx_typeA_match_detection.ltlib_v1_0_2_allx_typeA_inst/probeDelay1_reg[1]/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#23 Warning
+Large setup violation  
+There is a large setup violation of -1.582 ns between u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg/F2/C (clocked by f45) and u_fracn_div/u_dual_div/u_ila_dualdiv/inst/ila_core_inst/u_trig/U_TM/N_DDR_MODE.G_NMU[2].U_M/allx_typeA_match_detection.ltlib_v1_0_2_allx_typeA_inst/probeDelay1_reg[0]/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#24 Warning
+Large setup violation  
+There is a large setup violation of -1.713 ns between u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg/F2/C (clocked by f45) and u_fracn_div/u_dual_div/u_ila_dualdiv/inst/ila_core_inst/shifted_data_in_reg[7][8]_srl8/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#25 Warning
+Large setup violation  
+There is a large setup violation of -2.272 ns between u_fracn_div/u_dual_div/u_div_45/u3_reg_sync/Qn/O (clocked by f45) and u_fracn_div/u_dual_div/u_ila_dualdiv/inst/ila_core_inst/shifted_data_in_reg[7][9]_srl8/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#26 Warning
+Large setup violation  
+There is a large setup violation of -2.334 ns between u_fracn_div/u_dual_div/u_div_45/u3_reg_sync/Qn/O (clocked by f45) and u_fracn_div/u_dual_div/u_ila_dualdiv/inst/ila_core_inst/u_trig/U_TM/N_DDR_MODE.G_NMU[2].U_M/allx_typeA_match_detection.ltlib_v1_0_2_allx_typeA_inst/probeDelay1_reg[1]/D (clocked by sys_clk_p). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-18#1 Warning
+Missing input or output delay  
+An input delay is missing on sys_rst relative to the rising and/or falling clock edge(s) of sys_clk_p.
+Related violations: <none>
+
+TIMING-20#1 Warning
+Non-clocked latch  
+The latch u_fracn_div/u_calculate_ps/real_integer_reg[0]/L7 (in u_fracn_div/u_calculate_ps/real_integer_reg[0] macro) cannot be properly analyzed as its control pin u_fracn_div/u_calculate_ps/real_integer_reg[0]/L7/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#2 Warning
+Non-clocked latch  
+The latch u_fracn_div/u_calculate_ps/real_integer_reg[1]/L7 (in u_fracn_div/u_calculate_ps/real_integer_reg[1] macro) cannot be properly analyzed as its control pin u_fracn_div/u_calculate_ps/real_integer_reg[1]/L7/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#3 Warning
+Non-clocked latch  
+The latch u_fracn_div/u_calculate_ps/real_integer_reg[2]/L7 (in u_fracn_div/u_calculate_ps/real_integer_reg[2] macro) cannot be properly analyzed as its control pin u_fracn_div/u_calculate_ps/real_integer_reg[2]/L7/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#4 Warning
+Non-clocked latch  
+The latch u_fracn_div/u_calculate_ps/real_integer_reg[3]/L7 (in u_fracn_div/u_calculate_ps/real_integer_reg[3] macro) cannot be properly analyzed as its control pin u_fracn_div/u_calculate_ps/real_integer_reg[3]/L7/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#5 Warning
+Non-clocked latch  
+The latch u_fracn_div/u_calculate_ps/real_integer_reg[4]/L7 (in u_fracn_div/u_calculate_ps/real_integer_reg[4] macro) cannot be properly analyzed as its control pin u_fracn_div/u_calculate_ps/real_integer_reg[4]/L7/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#6 Warning
+Non-clocked latch  
+The latch u_fracn_div/u_calculate_ps/real_integer_reg[5]/L7 (in u_fracn_div/u_calculate_ps/real_integer_reg[5] macro) cannot be properly analyzed as its control pin u_fracn_div/u_calculate_ps/real_integer_reg[5]/L7/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#7 Warning
+Non-clocked latch  
+The latch u_fracn_div/u_calculate_ps/real_integer_reg[6]/L7 (in u_fracn_div/u_calculate_ps/real_integer_reg[6] macro) cannot be properly analyzed as its control pin u_fracn_div/u_calculate_ps/real_integer_reg[6]/L7/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#8 Warning
+Non-clocked latch  
+The latch u_fracn_div/u_calculate_ps/real_integer_reg[7]/L7 (in u_fracn_div/u_calculate_ps/real_integer_reg[7] macro) cannot be properly analyzed as its control pin u_fracn_div/u_calculate_ps/real_integer_reg[7]/L7/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#9 Warning
+Non-clocked latch  
+The latch u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg/L7 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg macro) cannot be properly analyzed as its control pin u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg/L7/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#10 Warning
+Non-clocked latch  
+The latch u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg/L7 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg macro) cannot be properly analyzed as its control pin u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg/L7/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#11 Warning
+Non-clocked latch  
+The latch u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg/L7 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg macro) cannot be properly analyzed as its control pin u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg/L7/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#12 Warning
+Non-clocked latch  
+The latch u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg/L7 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg macro) cannot be properly analyzed as its control pin u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg/L7/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#13 Warning
+Non-clocked latch  
+The latch u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg/L7 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg macro) cannot be properly analyzed as its control pin u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg/L7/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#14 Warning
+Non-clocked latch  
+The latch u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg/L7 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg macro) cannot be properly analyzed as its control pin u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg/L7/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#15 Warning
+Non-clocked latch  
+The latch u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg/L7 (in u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg macro) cannot be properly analyzed as its control pin u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg/L7/G is not reached by a timing clock
+Related violations: <none>
+
+TIMING-20#16 Warning
+Non-clocked latch  
+The latch u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_reg/L7 (in u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_reg macro) cannot be properly analyzed as its control pin u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_reg/L7/G is not reached by a timing clock
+Related violations: <none>
+
+XDCB-2#1 Warning
+Clock defined on multiple objects  
+The clock dtc_code is defined on multiple objects. Although this is logically functional for timing analysis, it cannot exist in hardware. It is recommended to define a primary clock on a single object.
+create_clock -period 20.000 -name dtc_code [get_nets {dtc_code[*]}]
+C:/Users/admin/Desktop/cygao/20260715/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/constrs_1/new/TOP.xdc (Line: 40)
+Related violations: <none>
+
+XDCB-5#1 Warning
+Runtime inefficient way to find pin objects  
+The option '-from : [get_pins -hierarchical -filter {NAME =~ *ila_core_inst/u_trig/N_DDR_TC.N_DDR_TC_INST[*].U_TC/allx_typeA_match_detection.ltlib_v1_0_2_allx_typeA_inst/DUT/u_srl_drive/CLK}]' of constraint 'set_false_path' uses inefficient query to find pin objects (see constraint position '111' in the Timing Constraint window in Vivado IDE). To reduce runtime, it is recommended to get the pins through the cell objects. Please refer to Using Constraints Guide (Constraints Efficiency). An example of optimal query is: get_pins -filter {REF_PIN_NAME=~yy*} -of_objects [get_cells -hierarchical xx*].
+Current XDC: c:/Users/admin/Desktop/cygao/20260715/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/ila_1/ila_v6_2/constraints/ila.xdc (Line: 72)
+Related violations: <none>
+
+XDCB-5#2 Warning
+Runtime inefficient way to find pin objects  
+The option '-from : [get_pins -hierarchical -filter {NAME =~ *ila_core_inst/u_trig/N_DDR_TC.N_DDR_TC_INST[*].U_TC/allx_typeA_match_detection.ltlib_v1_0_2_allx_typeA_inst/DUT/u_srl_drive/CLK}]' of constraint 'set_false_path' uses inefficient query to find pin objects (see constraint position '166' in the Timing Constraint window in Vivado IDE). To reduce runtime, it is recommended to get the pins through the cell objects. Please refer to Using Constraints Guide (Constraints Efficiency). An example of optimal query is: get_pins -filter {REF_PIN_NAME=~yy*} -of_objects [get_cells -hierarchical xx*].
+Current XDC: c:/Users/admin/Desktop/cygao/20260715/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/ila_dualdiv/ila_v6_2/constraints/ila.xdc (Line: 72)
+Related violations: <none>
+
+XDCB-5#3 Warning
+Runtime inefficient way to find pin objects  
+The option '-from : [get_pins -hierarchical -filter {NAME =~ *ila_core_inst/u_trig/N_DDR_TC.N_DDR_TC_INST[*].U_TC/allx_typeA_match_detection.ltlib_v1_0_2_allx_typeA_inst/DUT/u_srl_drive/CLK}]' of constraint 'set_false_path' uses inefficient query to find pin objects (see constraint position '52' in the Timing Constraint window in Vivado IDE). To reduce runtime, it is recommended to get the pins through the cell objects. Please refer to Using Constraints Guide (Constraints Efficiency). An example of optimal query is: get_pins -filter {REF_PIN_NAME=~yy*} -of_objects [get_cells -hierarchical xx*].
+Current XDC: c:/Users/admin/Desktop/cygao/20260715/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/ila_0/ila_v6_2/constraints/ila.xdc (Line: 72)
+Related violations: <none>
+
+XDCB-5#4 Warning
+Runtime inefficient way to find pin objects  
+The option '-to : [get_pins -hierarchical -filter {NAME =~ *ila_core_inst/u_trig/N_DDR_TC.N_DDR_TC_INST[*].U_TC/yes_output_reg.dout_reg_reg/D}]' of constraint 'set_false_path' uses inefficient query to find pin objects (see constraint position '111' in the Timing Constraint window in Vivado IDE). To reduce runtime, it is recommended to get the pins through the cell objects. Please refer to Using Constraints Guide (Constraints Efficiency). An example of optimal query is: get_pins -filter {REF_PIN_NAME=~yy*} -of_objects [get_cells -hierarchical xx*].
+Current XDC: c:/Users/admin/Desktop/cygao/20260715/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/ila_1/ila_v6_2/constraints/ila.xdc (Line: 72)
+Related violations: <none>
+
+XDCB-5#5 Warning
+Runtime inefficient way to find pin objects  
+The option '-to : [get_pins -hierarchical -filter {NAME =~ *ila_core_inst/u_trig/N_DDR_TC.N_DDR_TC_INST[*].U_TC/yes_output_reg.dout_reg_reg/D}]' of constraint 'set_false_path' uses inefficient query to find pin objects (see constraint position '166' in the Timing Constraint window in Vivado IDE). To reduce runtime, it is recommended to get the pins through the cell objects. Please refer to Using Constraints Guide (Constraints Efficiency). An example of optimal query is: get_pins -filter {REF_PIN_NAME=~yy*} -of_objects [get_cells -hierarchical xx*].
+Current XDC: c:/Users/admin/Desktop/cygao/20260715/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/ila_dualdiv/ila_v6_2/constraints/ila.xdc (Line: 72)
+Related violations: <none>
+
+XDCB-5#6 Warning
+Runtime inefficient way to find pin objects  
+The option '-to : [get_pins -hierarchical -filter {NAME =~ *ila_core_inst/u_trig/N_DDR_TC.N_DDR_TC_INST[*].U_TC/yes_output_reg.dout_reg_reg/D}]' of constraint 'set_false_path' uses inefficient query to find pin objects (see constraint position '52' in the Timing Constraint window in Vivado IDE). To reduce runtime, it is recommended to get the pins through the cell objects. Please refer to Using Constraints Guide (Constraints Efficiency). An example of optimal query is: get_pins -filter {REF_PIN_NAME=~yy*} -of_objects [get_cells -hierarchical xx*].
+Current XDC: c:/Users/admin/Desktop/cygao/20260715/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/ila_0/ila_v6_2/constraints/ila.xdc (Line: 72)
+Related violations: <none>
+
+CLKC-30#1 Advisory
+MMCME4 not driven by IO has BUFG in feedback loop  
+The MMCME4 cell u_mmcm_pll/inst/mmcme4_adv_inst has a BUFGCTRL u_mux_pll_ref clock buffer in the feedback loop, but the clock input is not directly driven by an I/O to create a Zero Delay Buffer Clock (a common use for having a buffer in the feedback loop). If there is no specific need for this buffer in the feedback loop (e.g. no timing paths between CLKINx/CLKOUTx domains or low latency requirement), then it is suggested to remove that BUFG* from the feedback path. This will allow for a lower power solution and free the clock resource for other purposes.
+Related violations: <none>
+
+CLKC-36#1 Advisory
+BUFGCTRL with MMCM-PLL driver in same region with BUFGCE  
+The BUFGCTRL cell u_mux_pll_01 is driven by BUFGCTRL u_mmcm_pll/inst/mmcme4_adv_inst in the same CLOCK_REGION, but with an intervening BUFGCE u_mmcm_pll/inst/clkout1_buf. This BUFGCE is not needed and should be removed.MMCME4_ADV
+Related violations: <none>
+
+CLKC-53#1 Advisory
+FD or LUT drives multiple BUFGs  
+The FDCE cell u_fracn_div/Fout_reg_reg drives multiple clock buffers in parallel (see list). This is not a recommended clocking structure as it results in difficult timing closure because of the variable skew between the corresponding clocks throughout the implementation flow. Xilinx recommends to combine the clock buffers or reconnect the buffers to an input buffer, or MMCM/PLL primitive, and use the clock buffer divide and enable features as needed. If the clocking logic cannot be modified, consider constraining the clock buffers and their driver as close to each other as possible. The parallel clock buffers are: u_fracn_div/Fout_BUFG_inst, u_sys_bufg_fracn_out
+Related violations: <none>
+
+CLKC-56#1 Advisory
+MMCME4 with global clock driver has no LOC  
+The MMCME4_ADV cell u_mmcm_pll/inst/mmcme4_adv_inst CLKIN1 or CLKIN2 pin is driven by global Clock buffer(s) u_sys_bufg_2 and does not have a LOC constraint. It is recommended to LOC the MMCM and use the CLOCK_DEDICATED_ROUTE constraint on the net(s) driven by the global Clock buffer(s).
+Related violations: <none>
+
+LATCH-1#1 Advisory
+Existing latches in the design  
+There are 16 latches found in the design. Inferred latches are often the result of HDL coding mistakes, such as incomplete if or case statements.
+Related violations: <none>
+
+

@@ -1,0 +1,303 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
+| Date         : Fri Jul 17 14:25:55 2026
+| Host         : DESKTOP-I9E0661 running 64-bit major release  (build 9200)
+| Command      : report_drc -file fpga_ssc_pll_top_drc_routed.rpt -pb fpga_ssc_pll_top_drc_routed.pb -rpx fpga_ssc_pll_top_drc_routed.rpx
+| Design       : fpga_ssc_pll_top
+| Device       : xcvu9p-flga2104-2L-e
+| Speed File   : -2L
+| Design State : Fully Routed
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Report DRC
+
+Table of Contents
+-----------------
+1. REPORT SUMMARY
+2. REPORT DETAILS
+
+1. REPORT SUMMARY
+-----------------
+            Netlist: netlist
+          Floorplan: design_1
+      Design limits: <entire design considered>
+           Ruledeck: default
+             Max checks: <unlimited>
+             Checks found: 45
++-------------+----------+-------------------------------------------------------------+--------+
+| Rule        | Severity | Description                                                 | Checks |
++-------------+----------+-------------------------------------------------------------+--------+
+| DPIP-2      | Warning  | Input pipelining                                            | 2      |
+| DPOP-3      | Warning  | PREG Output pipelining                                      | 1      |
+| DPOP-4      | Warning  | MREG Output pipelining                                      | 1      |
+| PDCN-1569   | Warning  | LUT equation term check                                     | 3      |
+| PDRC-132    | Warning  | SLICE_PairEqSame_A6A5_WARN                                  | 1      |
+| PDRC-140    | Warning  | SLICE_PairEqSame_A6A5_WARN                                  | 4      |
+| PDRC-153    | Warning  | Gated clock check                                           | 24     |
+| PLHOLDVIO-2 | Warning  | Non-Optimal connections which could lead to hold violations | 8      |
+| RTSTAT-10   | Warning  | No routable loads                                           | 1      |
++-------------+----------+-------------------------------------------------------------+--------+
+
+2. REPORT DETAILS
+-----------------
+DPIP-2#1 Warning
+Input pipelining  
+DSP u_dtc_ctrl/mult input u_dtc_ctrl/mult/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-2#2 Warning
+Input pipelining  
+DSP u_dtc_ctrl/mult input u_dtc_ctrl/mult/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPOP-3#1 Warning
+PREG Output pipelining  
+DSP u_dtc_ctrl/mult output u_dtc_ctrl/mult/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
+Related violations: <none>
+
+DPOP-4#1 Warning
+MREG Output pipelining  
+DSP u_dtc_ctrl/mult multiplier stage u_dtc_ctrl/mult/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.
+Related violations: <none>
+
+PDCN-1569#1 Warning
+LUT equation term check  
+Used physical LUT pin 'A3' of cell dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/temp_curid[31]_i_1 (pin dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/temp_curid[31]_i_1/I0) is not included in the LUT equation: 'O5=(A1*A4)+(A1*(~A4)*(~A2))+((~A1))'. If this cell is a user instantiated LUT in the design, please remove connectivity to the pin or change the equation and/or INIT string of the LUT to prevent this issue. If the cell is inferred or IP created LUT, please regenerate the IP and/or resynthesize the design to attempt to correct the issue.
+Related violations: <none>
+
+PDCN-1569#2 Warning
+LUT equation term check  
+Used physical LUT pin 'A5' of cell dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/temp_curid[31]_i_1 (pin dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/temp_curid[31]_i_1/I1) is not included in the LUT equation: 'O5=(A1*A4)+(A1*(~A4)*(~A2))+((~A1))'. If this cell is a user instantiated LUT in the design, please remove connectivity to the pin or change the equation and/or INIT string of the LUT to prevent this issue. If the cell is inferred or IP created LUT, please regenerate the IP and/or resynthesize the design to attempt to correct the issue.
+Related violations: <none>
+
+PDCN-1569#3 Warning
+LUT equation term check  
+Used physical LUT pin 'A5' of cell dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.id_state[0]_i_1 (pin dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.id_state[0]_i_1/I0) is not included in the LUT equation: 'O6=(A6+~A6)*((A1))'. If this cell is a user instantiated LUT in the design, please remove connectivity to the pin or change the equation and/or INIT string of the LUT to prevent this issue. If the cell is inferred or IP created LUT, please regenerate the IP and/or resynthesize the design to attempt to correct the issue.
+Related violations: <none>
+
+PDRC-132#1 Warning
+SLICE_PairEqSame_A6A5_WARN  
+Luts A6LUT and A5LUT in use in site SLICE_X106Y381 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-140#1 Warning
+SLICE_PairEqSame_A6A5_WARN  
+Luts A6LUT and A5LUT in use in site SLICE_X102Y382 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-140#2 Warning
+SLICE_PairEqSame_A6A5_WARN  
+Luts A6LUT and A5LUT in use in site SLICE_X104Y381 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-140#3 Warning
+SLICE_PairEqSame_A6A5_WARN  
+Luts A6LUT and A5LUT in use in site SLICE_X108Y380 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-140#4 Warning
+SLICE_PairEqSame_A6A5_WARN  
+Luts A6LUT and A5LUT in use in site SLICE_X110Y380 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-153#1 Warning
+Gated clock check  
+Net u_fracn_div/u_dual_div/u_div_45/u3_reg_sync/f45 is a gated clock net sourced by a combinational pin u_fracn_div/u_dual_div/u_div_45/u3_reg_sync/Qn/O, cell u_fracn_div/u_dual_div/u_div_45/u3_reg_sync/Qn. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#2 Warning
+Gated clock check  
+Net u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg/Q is a gated clock net sourced by a combinational pin u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg/L3/O, cell u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#3 Warning
+Gated clock check  
+Net u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg/Q is a gated clock net sourced by a combinational pin u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg/L3/O, cell u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#4 Warning
+Gated clock check  
+Net u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg/Q is a gated clock net sourced by a combinational pin u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg/L3/O, cell u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#5 Warning
+Gated clock check  
+Net u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg/Q is a gated clock net sourced by a combinational pin u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg/L3/O, cell u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#6 Warning
+Gated clock check  
+Net u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg/Q is a gated clock net sourced by a combinational pin u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg/L3/O, cell u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#7 Warning
+Gated clock check  
+Net u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_reg_1 is a gated clock net sourced by a combinational pin u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_3/O, cell u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_3. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#8 Warning
+Gated clock check  
+Net u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_reg_2 is a gated clock net sourced by a combinational pin u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_3__0/O, cell u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_3__0. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#9 Warning
+Gated clock check  
+Net u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_reg_3 is a gated clock net sourced by a combinational pin u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_3__1/O, cell u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_3__1. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#10 Warning
+Gated clock check  
+Net u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_reg_4 is a gated clock net sourced by a combinational pin u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_3__2/O, cell u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_3__2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#11 Warning
+Gated clock check  
+Net u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_reg_6 is a gated clock net sourced by a combinational pin u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_3__3/O, cell u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_3__3. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#12 Warning
+Gated clock check  
+Net u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_reg_7 is a gated clock net sourced by a combinational pin u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_3__4/O, cell u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_i_3__4. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#13 Warning
+Gated clock check  
+Net u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_i_4_n_0 is a gated clock net sourced by a combinational pin u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_i_4/O, cell u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_i_4. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#14 Warning
+Gated clock check  
+Net u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg/Q is a gated clock net sourced by a combinational pin u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg/L3/O, cell u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#15 Warning
+Gated clock check  
+Net u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_i_3_n_0 is a gated clock net sourced by a combinational pin u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_i_3/O, cell u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_i_3. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#16 Warning
+Gated clock check  
+Net u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/clk_i_0 is a gated clock net sourced by a combinational pin u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_i_2/O, cell u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#17 Warning
+Gated clock check  
+Net u_fracn_div/u_sync_rstn_dff/Q_reg_10 is a gated clock net sourced by a combinational pin u_fracn_div/u_sync_rstn_dff/real_integer[4]_i_2/O, cell u_fracn_div/u_sync_rstn_dff/real_integer[4]_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#18 Warning
+Gated clock check  
+Net u_fracn_div/u_sync_rstn_dff/Q_reg_11 is a gated clock net sourced by a combinational pin u_fracn_div/u_sync_rstn_dff/real_integer[7]_i_3/O, cell u_fracn_div/u_sync_rstn_dff/real_integer[7]_i_3. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#19 Warning
+Gated clock check  
+Net u_fracn_div/u_sync_rstn_dff/Q_reg_12 is a gated clock net sourced by a combinational pin u_fracn_div/u_sync_rstn_dff/real_integer[0]_i_2/O, cell u_fracn_div/u_sync_rstn_dff/real_integer[0]_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#20 Warning
+Gated clock check  
+Net u_fracn_div/u_sync_rstn_dff/Q_reg_13 is a gated clock net sourced by a combinational pin u_fracn_div/u_sync_rstn_dff/real_integer[1]_i_2/O, cell u_fracn_div/u_sync_rstn_dff/real_integer[1]_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#21 Warning
+Gated clock check  
+Net u_fracn_div/u_sync_rstn_dff/Q_reg_14 is a gated clock net sourced by a combinational pin u_fracn_div/u_sync_rstn_dff/real_integer[2]_i_2/O, cell u_fracn_div/u_sync_rstn_dff/real_integer[2]_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#22 Warning
+Gated clock check  
+Net u_fracn_div/u_sync_rstn_dff/Q_reg_15 is a gated clock net sourced by a combinational pin u_fracn_div/u_sync_rstn_dff/real_integer[3]_i_2/O, cell u_fracn_div/u_sync_rstn_dff/real_integer[3]_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#23 Warning
+Gated clock check  
+Net u_fracn_div/u_sync_rstn_dff/Q_reg_8 is a gated clock net sourced by a combinational pin u_fracn_div/u_sync_rstn_dff/real_integer[6]_i_2/O, cell u_fracn_div/u_sync_rstn_dff/real_integer[6]_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#24 Warning
+Gated clock check  
+Net u_fracn_div/u_sync_rstn_dff/Q_reg_9 is a gated clock net sourced by a combinational pin u_fracn_div/u_sync_rstn_dff/real_integer[5]_i_2/O, cell u_fracn_div/u_sync_rstn_dff/real_integer[5]_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PLHOLDVIO-2#1 Warning
+Non-Optimal connections which could lead to hold violations  
+A LUT u_fracn_div/u_dual_div/u_div_45/u3_reg_sync/Qn is driving clock pin of 5 cells. This could lead to large hold time violations. Involved cells are:
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg/F1 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg macro),
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg/F2 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg macro),
+u_fracn_div/u_dual_div/u_p_counter/rst_n_d1_reg,
+u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_reg
+u_fracn_div/u_dual_div/u_s_counter/u_mc_dff/Q_reg
+Related violations: <none>
+
+PLHOLDVIO-2#2 Warning
+Non-Optimal connections which could lead to hold violations  
+A LUT u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg macro) is driving clock pin of 2 cells. This could lead to large hold time violations. Involved cells are:
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg/F1 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg macro)
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg/F2 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg macro)
+Related violations: <none>
+
+PLHOLDVIO-2#3 Warning
+Non-Optimal connections which could lead to hold violations  
+A LUT u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg macro) is driving clock pin of 2 cells. This could lead to large hold time violations. Involved cells are:
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg/F1 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg macro)
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg/F2 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg macro)
+Related violations: <none>
+
+PLHOLDVIO-2#4 Warning
+Non-Optimal connections which could lead to hold violations  
+A LUT u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg macro) is driving clock pin of 2 cells. This could lead to large hold time violations. Involved cells are:
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg/F1 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg macro)
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg/F2 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg macro)
+Related violations: <none>
+
+PLHOLDVIO-2#5 Warning
+Non-Optimal connections which could lead to hold violations  
+A LUT u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg macro) is driving clock pin of 2 cells. This could lead to large hold time violations. Involved cells are:
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg/F1 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg macro)
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg/F2 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg macro)
+Related violations: <none>
+
+PLHOLDVIO-2#6 Warning
+Non-Optimal connections which could lead to hold violations  
+A LUT u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg macro) is driving clock pin of 2 cells. This could lead to large hold time violations. Involved cells are:
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg/F1 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg macro)
+u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg/F2 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg macro)
+Related violations: <none>
+
+PLHOLDVIO-2#7 Warning
+Non-Optimal connections which could lead to hold violations  
+A LUT u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg macro) is driving clock pin of 2 cells. This could lead to large hold time violations. Involved cells are:
+u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_reg/F1 (in u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_reg macro)
+u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_reg/F2 (in u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_reg macro)
+Related violations: <none>
+
+PLHOLDVIO-2#8 Warning
+Non-Optimal connections which could lead to hold violations  
+A LUT u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_i_2 is driving clock pin of 2 cells. This could lead to large hold time violations. Involved cells are:
+u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg/F1 (in u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg macro)
+u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg/F2 (in u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg macro)
+Related violations: <none>
+
+RTSTAT-10#1 Warning
+No routable loads  
+45 net(s) have no routable loads. The problem bus(es) and/or net(s) are dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD1/ctl_reg_en_2[1],
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_RD/U_RD_FIFO/SUBCORE_FIFO.xsdbm_v3_0_3_rdfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gr1.gr1_int.rfwft/aempty_fwft_i,
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_RD/U_RD_FIFO/SUBCORE_FIFO.xsdbm_v3_0_3_rdfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.wr/gwhf.whf/overflow,
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_RD/U_RD_FIFO/SUBCORE_FIFO.xsdbm_v3_0_3_rdfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.wr_rst_reg[2],
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_WR/U_WR_FIFO/SUBCORE_FIFO.xsdbm_v3_0_3_wrfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.wr/gwhf.whf/overflow,
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_WR/U_WR_FIFO/SUBCORE_FIFO.xsdbm_v3_0_3_wrfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.rd_rst_reg[0],
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_WR/U_WR_FIFO/SUBCORE_FIFO.xsdbm_v3_0_3_wrfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.wr_rst_reg[2],
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD7_CTL/ctl_reg[2:0],
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD7_CTL/ctl_reg_en_2[1],
+dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_inst/TMS,
+dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/m_bscan_capture[0],
+dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/m_bscan_drck[0],
+dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/m_bscan_runtest[0],
+u_vio_rst/inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[0].PROBE_OUT0_INST/probe_out0[0],
+u_vio_rst/inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[1].PROBE_OUT0_INST/probe_out1[0]
+ (the first 15 of 41 listed).
+Related violations: <none>
+
+

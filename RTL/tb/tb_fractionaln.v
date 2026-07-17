@@ -33,6 +33,7 @@ end
 
 initial
 begin
+    #(PERIOD*10) rst_n  =  0;
     #(PERIOD*20) rst_n  =  1;
 end
 
@@ -54,7 +55,7 @@ initial
 begin
 	$dumpfile("fracn_div.vcd");      // 指定输出文件名
     $dumpvars(0, tb_fractionaln);
-    Integer = 8'd50;
+    Integer = 8'd31;
     //Fraction = 24'd8388607; // 2^23 - 1 (0.5)
 	Fraction = 24'd0; // 2^23 - 1 (0.5)
     #(PERIOD*120*10000);

@@ -24,10 +24,12 @@ module calculate_ps #(
             real_integer <= Integer;
         end else begin
             real_integer <= Integer + {{(INT_WIDTH-4){delta_sigma[3]}}, delta_sigma};
+//            real_integer <= Integer + {{(INT_WIDTH-4){delta_sigma[3]}}, delta_sigma};
         end
     end
 
-    assign Pi = real_integer[INT_WIDTH-1:INT_WIDTH-P_WIDTH];
+    //assign Pi = real_integer[INT_WIDTH-1:INT_WIDTH-P_WIDTH];
+	assign Pi = real_integer >> 2;
     assign Si = real_integer[S_WIDTH-1:0];
     
 endmodule

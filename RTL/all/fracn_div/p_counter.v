@@ -3,7 +3,7 @@
 module p_counter #(
     parameter WIDTH = 5
 ) (
-    input rst_n,
+    input wire rst_n,
     input wire Fin,
     input wire [WIDTH-1:0] Pi,
 
@@ -21,6 +21,8 @@ module p_counter #(
     wire ld_d;
     wire ld_q;
     wire [WIDTH-1:0] Pi_correct;
+	reg rst_n_d1;
+	wire ldi;
 
     // Generate block
     // 例化 5 个 D 触发器
@@ -41,20 +43,27 @@ module p_counter #(
 
     dff  u_ld_dff (
         .clk                     ( Fin      ),
-        .LD                      ( ~rst_n   ),
+        .LD                      ( ldi   ),
         .P                       ( 1'b1     ),
         .D                       ( ld_d     ),
 
         .Q                       ( ld_q     ),
-        .Qn                      (     )
+        .Qn                      (          )
     );
 
+
+    always @(posedge Fin) begin
+        rst_n_d1 <= rst_n;
+    end
+	
+	assign ldi = (rst_n == 1 & rst_n_d1 == 0) ? 1 : 0;
+
     // 这部分的原理见 “A 37 GHz wide-band programmable divide-by-N frequency divider”
-    assign Pi_correct = Pi ;
+    assign Pi_correct = Pi - 1'd1;
     assign d_i = qn_o;
     assign clk_i[0] = Fin;
     assign clk_i[WIDTH-1:1] = q_o[WIDTH-2:0];
-    assign Fout = qn_o[WIDTH-1] & qn_o[WIDTH-2];
+    assign Fout = (qn_o == ~Pi_correct | qn_o == ~(Pi_correct-1)) ? 1 : 0;
     assign h_nand = ~(&qn_o[WIDTH-1:1]);
     assign ld_d = ~(qn_o[0]|h_nand);
     assign LD_i = {WIDTH{ld_q}};
