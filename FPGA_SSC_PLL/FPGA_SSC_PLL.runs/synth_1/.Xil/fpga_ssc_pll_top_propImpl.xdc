@@ -1,4 +1,4 @@
-set_property SRC_FILE_INFO {cfile:C:/Users/admin/Desktop/cygao/20260715/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/constrs_1/new/TOP.xdc rfile:../../../FPGA_SSC_PLL.srcs/constrs_1/new/TOP.xdc id:1} [current_design]
+set_property SRC_FILE_INFO {cfile:C:/Users/Administrator/Desktop/GS/FPGA_PROJECT/FPGA_PROJECT/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/constrs_1/new/TOP.xdc rfile:../../../FPGA_SSC_PLL.srcs/constrs_1/new/TOP.xdc id:1} [current_design]
 set_property src_info {type:XDC file:1 line:15 export:INPUT save:INPUT read:READ} [current_design]
 set_property -dict {PACKAGE_PIN R32 IOSTANDARD LVDS} [get_ports sma_dtc_p]
 set_property src_info {type:XDC file:1 line:16 export:INPUT save:INPUT read:READ} [current_design]

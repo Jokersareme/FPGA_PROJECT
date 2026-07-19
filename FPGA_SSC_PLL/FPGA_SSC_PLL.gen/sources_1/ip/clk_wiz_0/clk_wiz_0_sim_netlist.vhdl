@@ -2,10 +2,10 @@
 -- Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
--- Date        : Wed Jul 15 13:56:06 2026
--- Host        : DESKTOP-I9E0661 running 64-bit major release  (build 9200)
+-- Date        : Sun Jul 19 13:53:17 2026
+-- Host        : DESKTOP-NDKL8NS running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode funcsim
---               c:/Users/admin/Desktop/cygao/20260715/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_sim_netlist.vhdl
+--               c:/Users/Administrator/Desktop/GS/FPGA_PROJECT/FPGA_PROJECT/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_sim_netlist.vhdl
 -- Design      : clk_wiz_0
 -- Purpose     : This VHDL netlist is a functional simulation representation of the design and should not be modified or
 --               synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -79,7 +79,7 @@ clkout1_buf: unisim.vcomponents.BUFGCE
     );
 mmcme4_adv_inst: unisim.vcomponents.MMCME4_ADV
     generic map(
-      BANDWIDTH => "HIGH",
+      BANDWIDTH => "LOW",
       CLKFBOUT_MULT_F => 100.000000,
       CLKFBOUT_PHASE => 0.000000,
       CLKFBOUT_USE_FINE_PS => "FALSE",

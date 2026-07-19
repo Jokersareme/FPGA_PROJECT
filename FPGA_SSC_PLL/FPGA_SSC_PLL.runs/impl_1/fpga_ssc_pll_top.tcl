@@ -1,5 +1,5 @@
 namespace eval ::optrace {
-  variable script "C:/Users/admin/Desktop/cygao/20260715/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/impl_1/fpga_ssc_pll_top.tcl"
+  variable script "C:/Users/Administrator/Desktop/GS/FPGA_PROJECT/FPGA_PROJECT/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/impl_1/fpga_ssc_pll_top.tcl"
   variable category "vivado_impl"
 }
 
@@ -105,14 +105,10 @@ start_step write_bitstream
 set ACTIVE_STEP write_bitstream
 set rc [catch {
   create_msg_db write_bitstream.pb
-  set_param chipscope.maxJobs 6
-  set_param power.BramSDPPropagationFix 1
-  set_param power.enableUnconnectedCarry8PinPower 1
-  set_param power.enableCarry8RouteBelPower 1
-  set_param power.enableLutRouteBelPower 1
-  set_param runs.launchOptions { -jobs 8  }
+  set_param chipscope.maxJobs 3
+  set_param runs.launchOptions { -jobs 6  }
   open_checkpoint fpga_ssc_pll_top_routed.dcp
-  set_property webtalk.parent_dir C:/Users/admin/Desktop/cygao/20260715/FPGA_SSC_PLL/FPGA_SSC_PLL.cache/wt [current_project]
+  set_property webtalk.parent_dir C:/Users/Administrator/Desktop/GS/FPGA_PROJECT/FPGA_PROJECT/FPGA_SSC_PLL/FPGA_SSC_PLL.cache/wt [current_project]
 set_property TOP fpga_ssc_pll_top [current_fileset]
 OPTRACE "read constraints: write_bitstream" START { }
 OPTRACE "read constraints: write_bitstream" END { }

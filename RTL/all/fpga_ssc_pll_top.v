@@ -58,6 +58,8 @@ module fpga_ssc_pll_top (
     wire and_rst_n_mmcm;
     wire and_rst_n_dtc;
     
+    wire dtc_sel;
+    
     assign and_rst_n_fracn =   1'b1   &&   sys_rst_n;
     assign and_rst_n_mmcm =    1'b1   &&   sys_rst_n;
     assign and_rst_n_dtc =     1'b1   &&   sys_rst_n;
@@ -66,7 +68,7 @@ module fpga_ssc_pll_top (
         if (!sys_rst_n) begin
             div_cnt      <= 4'd0;
             clk_div10 <= 1'b0;
-        end else if (div_cnt == div_cnt_cmp) begin
+        end else if (div_cnt == ref_div_cnt_cmp) begin
             div_cnt      <= 4'd0;
             clk_div10 <= ~clk_div10;
         end else begin
@@ -127,7 +129,7 @@ module fpga_ssc_pll_top (
       .probe_out0(rst_n_fracn),  // output wire [0 : 0] probe_out0
       .probe_out1(rst_n_mmcm),  // output wire [0 : 0] probe_out1
       .probe_out2(rst_n_dtc),  // output wire [0 : 0] probe_out2
-      .probe_out3()  // output wire [0 : 0] probe_out3
+      .probe_out3(dtc_sel)  // output wire [0 : 0] probe_out3
     );
     
     
@@ -255,6 +257,7 @@ BUFG u_sys_bufg_4 (.I (div_out_dtc), .O (div_out_dtc_g));
              .din           (div_out_raw_g),
              .code          (dtc_code),
              .cal_mode      (cal_mode),
+             .dtc_sel       (dtc_sel),
              .dout          (div_out_dtc_0),
              .cal_result    (cal_result),
              .cal_valid     (cal_valid)
@@ -269,6 +272,7 @@ BUFG u_sys_bufg_4 (.I (div_out_dtc), .O (div_out_dtc_g));
              .din           (div_out_dtc_0),
              .code          (dtc_code),
              .cal_mode      (cal_mode),
+             .dtc_sel       (dtc_sel),
              .dout          (div_out_dtc_1),
              .cal_result    (cal_result),
              .cal_valid     (cal_valid)
@@ -283,6 +287,7 @@ BUFG u_sys_bufg_4 (.I (div_out_dtc), .O (div_out_dtc_g));
              .din           (div_out_dtc_1),
              .code          (dtc_code),
              .cal_mode      (cal_mode),
+             .dtc_sel       (dtc_sel),
              .dout          (div_out_dtc_2),
              .cal_result    (cal_result),
              .cal_valid     (cal_valid)
@@ -297,6 +302,7 @@ lut_dtc #(
              .din           (div_out_dtc_2),
              .code          (dtc_code),
              .cal_mode      (cal_mode),
+             .dtc_sel       (dtc_sel),
              .dout          (div_out_dtc_3),
              .cal_result    (cal_result),
              .cal_valid     (cal_valid)
@@ -311,6 +317,7 @@ lut_dtc #(
              .din           (div_out_dtc_3),
              .code          (dtc_code),
              .cal_mode      (cal_mode),
+             .dtc_sel       (dtc_sel),
              .dout          (div_out_dtc),
              .cal_result    (cal_result),
              .cal_valid     (cal_valid)

@@ -1,0 +1,8 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Administrator/Desktop/GS/FPGA_PROJECT/FPGA_PROJECT/RTL/testbench/workbuddy/carry8_model.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module CARRY8
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Administrator/Desktop/GS/FPGA_PROJECT/FPGA_PROJECT/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/lut_dtc.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module lut_dtc
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Administrator/Desktop/GS/FPGA_PROJECT/FPGA_PROJECT/RTL/testbench/workbuddy/tb_lut_dtc.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb_lut_dtc
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Administrator/Desktop/GS/FPGA_PROJECT/FPGA_PROJECT/FPGA_SSC_PLL/FPGA_SSC_PLL.sim/sim_1/behav/xsim/glbl.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module glbl

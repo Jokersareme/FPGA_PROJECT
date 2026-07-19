@@ -1,7 +1,7 @@
 -------------------------------------
 | Tool Version : Vivado v.2024.2
-| Date         : Fri Jul 17 14:20:16 2026
-| Host         : DESKTOP-I9E0661
+| Date         : Sun Jul 19 18:19:24 2026
+| Host         : DESKTOP-NDKL8NS
 | Design       : design_1
 | Device       : xcvu9p-flga2104-2L-E-
 -------------------------------------
@@ -35,10 +35,10 @@ Clock 2: dbg_hub/inst/BSCANID.u_xsdbm_id/itck_i
 	Clock source region: X4Y6
 	initial rect ((4, 6), (4, 7))
 
-Clock 3: u_fracn_div/Fout_BUFGCE
+Clock 3: u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_reg_0_BUFGCE
 	Clock source type: BUFGCE
-	Clock source region: X4Y7
-	initial rect ((4, 7), (4, 7))
+	Clock source region: X4Y6
+	initial rect ((4, 6), (4, 7))
 
 Clock 4: u_mmcm_pll/inst/clk_out1
 	Clock source type: BUFGCE

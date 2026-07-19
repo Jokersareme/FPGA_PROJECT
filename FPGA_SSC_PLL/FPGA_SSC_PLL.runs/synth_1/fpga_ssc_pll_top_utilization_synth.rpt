@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
-| Date         : Fri Jul 17 14:18:46 2026
-| Host         : DESKTOP-I9E0661 running 64-bit major release  (build 9200)
+| Date         : Sun Jul 19 18:18:08 2026
+| Host         : DESKTOP-NDKL8NS running 64-bit major release  (build 9200)
 | Command      : report_utilization -file fpga_ssc_pll_top_utilization_synth.rpt -pb fpga_ssc_pll_top_utilization_synth.pb
 | Design       : fpga_ssc_pll_top
 | Device       : xcvu9p-flga2104-2L-e
@@ -35,14 +35,14 @@ Table of Contents
 +-------------------------+------+-------+------------+-----------+-------+
 |        Site Type        | Used | Fixed | Prohibited | Available | Util% |
 +-------------------------+------+-------+------------+-----------+-------+
-| CLB LUTs*               | 3404 |     0 |          0 |   1182240 |  0.29 |
-|   LUT as Logic          | 3404 |     0 |          0 |   1182240 |  0.29 |
+| CLB LUTs*               | 3378 |     0 |          0 |   1182240 |  0.29 |
+|   LUT as Logic          | 3378 |     0 |          0 |   1182240 |  0.29 |
 |   LUT as Memory         |    0 |     0 |          0 |    591840 |  0.00 |
-| CLB Registers           |  125 |     0 |          0 |   2364480 | <0.01 |
-|   Register as Flip Flop |  109 |     0 |          0 |   2364480 | <0.01 |
+| CLB Registers           |  127 |     0 |          0 |   2364480 | <0.01 |
+|   Register as Flip Flop |  111 |     0 |          0 |   2364480 | <0.01 |
 |   Register as Latch     |   16 |     0 |          0 |   2364480 | <0.01 |
-| CARRY8                  |  331 |     0 |          0 |    147780 |  0.22 |
-| F7 Muxes                |  343 |     0 |          0 |    591120 |  0.06 |
+| CARRY8                  |  328 |     0 |          0 |    147780 |  0.22 |
+| F7 Muxes                |  340 |     0 |          0 |    591120 |  0.06 |
 | F8 Muxes                |  162 |     0 |          0 |    295560 |  0.05 |
 | F9 Muxes                |    0 |     0 |          0 |    147780 |  0.00 |
 +-------------------------+------+-------+------------+-----------+-------+
@@ -63,10 +63,10 @@ Warning! For any ECO changes, please run place_design if there are unplaced inst
 | 0     |            _ |         Set |            - |
 | 0     |            _ |       Reset |            - |
 | 0     |          Yes |           - |            - |
-| 1     |          Yes |           - |          Set |
-| 73    |          Yes |           - |        Reset |
+| 0     |          Yes |           - |          Set |
+| 78    |          Yes |           - |        Reset |
 | 0     |          Yes |         Set |            - |
-| 3     |          Yes |       Reset |            - |
+| 1     |          Yes |       Reset |            - |
 +-------+--------------+-------------+--------------+
 
 
@@ -161,23 +161,23 @@ Warning! For any ECO changes, please run place_design if there are unplaced inst
 |  Ref Name | Used | Functional Category |
 +-----------+------+---------------------+
 | LUT1      | 2580 |                 CLB |
-| LUT6      |  711 |                 CLB |
-| MUXF7     |  343 |                 CLB |
-| CARRY8    |  331 |                 CLB |
+| LUT6      |  694 |                 CLB |
+| MUXF7     |  340 |                 CLB |
+| CARRY8    |  328 |                 CLB |
 | MUXF8     |  162 |                 CLB |
-| FDCE      |   89 |            Register |
-| LUT2      |   73 |                 CLB |
-| LUT3      |   42 |                 CLB |
-| LUT4      |   37 |                 CLB |
-| FDPE      |   17 |            Register |
+| FDCE      |   94 |            Register |
+| LUT2      |   59 |                 CLB |
+| LUT3      |   46 |                 CLB |
+| LUT4      |   33 |                 CLB |
 | LDCE      |   16 |            Register |
-| LUT5      |   11 |                 CLB |
+| FDPE      |   16 |            Register |
+| LUT5      |    8 |                 CLB |
 | BUFGCTRL  |    6 |               Clock |
 | BUFGCE    |    4 |               Clock |
-| FDRE      |    3 |            Register |
 | IBUFCTRL  |    2 |              Others |
 | OBUFDS    |    1 |                 I/O |
 | INBUF     |    1 |                 I/O |
+| FDRE      |    1 |            Register |
 | DSP48E2   |    1 |          Arithmetic |
 | DIFFINBUF |    1 |                 I/O |
 +-----------+------+---------------------+
