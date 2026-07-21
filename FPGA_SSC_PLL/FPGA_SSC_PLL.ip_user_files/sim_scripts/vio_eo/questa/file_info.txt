@@ -1,0 +1,5 @@
+xpm_cdc.sv,systemverilog,xpm,D:/Xilinx/Vivado/2024.2/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv,incdir="../../../../FPGA_SSC_PLL.gen/sources_1/ip/vio_eo/hdl/verilog"incdir="../../../../FPGA_SSC_PLL.gen/sources_1/ip/vio_eo/hdl"
+xpm_memory.sv,systemverilog,xpm,D:/Xilinx/Vivado/2024.2/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv,incdir="../../../../FPGA_SSC_PLL.gen/sources_1/ip/vio_eo/hdl/verilog"incdir="../../../../FPGA_SSC_PLL.gen/sources_1/ip/vio_eo/hdl"
+xpm_VCOMP.vhd,vhdl,xpm,D:/Xilinx/Vivado/2024.2/data/ip/xpm/xpm_VCOMP.vhd,incdir="../../../../FPGA_SSC_PLL.gen/sources_1/ip/vio_eo/hdl/verilog"incdir="../../../../FPGA_SSC_PLL.gen/sources_1/ip/vio_eo/hdl"
+vio_eo.v,verilog,xil_defaultlib,../../../../FPGA_SSC_PLL.gen/sources_1/ip/vio_eo/sim/vio_eo.v,incdir="../../../../FPGA_SSC_PLL.gen/sources_1/ip/vio_eo/hdl/verilog"incdir="../../../../FPGA_SSC_PLL.gen/sources_1/ip/vio_eo/hdl"
+glbl.v,Verilog,xil_defaultlib,glbl.v

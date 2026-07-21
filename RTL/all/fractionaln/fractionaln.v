@@ -25,17 +25,48 @@ module fractionaln #(
     wire [P_WIDTH-1:0] Pi;
     //reg Fout_reg;
     wire [FRAC_WIDTH-1:0] Eo_raw;
-	wire [FRAC_WIDTH-1:0] Eo_d1;
+	reg [FRAC_WIDTH-1:0] Eo_d1;
+	reg [FRAC_WIDTH-1:0] Eo_d2;
+	reg [FRAC_WIDTH-1:0] Eo_d3;
 
     assign clk_delta_sigma = Fout;
+	reg delta_sigma_d1;
+	
+	wire [1:0] eo_dly_sel;
+	
+	    always @(posedge Fout or negedge rst_n) begin
+        if (!rst_n) begin
+            Eo <= 'd0;
+        end else begin
+        	Eo <= (eo_dly_sel==2'b00) ? Eo_raw :
+	            (eo_dly_sel==2'b01) ? Eo_d1 :
+	            (eo_dly_sel==2'b10) ? Eo_d2 : Eo_d3;
+        end 
+    end
+
+	
 	
     always @(negedge Fout or negedge rst_n) begin
         if (!rst_n) begin
-            Eo       <= 10'd0;
+            delta_sigma_d1 <= 0;
+            Eo_d1 <= 'd0;
+            Eo_d2 <= 'd0;
+            Eo_d3 <= 'd0;
+            
         end else begin
-            Eo       <= Eo_d1;
+            Eo_d1    <= Eo_raw;
+            Eo_d2    <= Eo_d1;
+            Eo_d3    <= Eo_d2;
+            delta_sigma_d1 <= delta_sigma;
         end 
     end
+    
+    vio_eo u_vio_eo (
+        .clk (Sys_clk),
+        
+        .probe_out0 (eo_dly_sel)
+        );
+        
     
     //assign Fout = Fout_reg;
     
@@ -73,11 +104,11 @@ module fractionaln #(
         .clk                     ( ~clk_delta_sigma ),
         .rst_n                   ( rst_n_sync      ),
         .Integer                 ( Integer         ),
-        .delta_sigma             ( delta_sigma     ),
+        .delta_sigma             ( delta_sigma_d1     ),
 		.Ei						 ( Eo_raw		   ),
         .Si                      ( Si              ),
         .Pi                      ( Pi              ),
-		.Eo						 ( Eo_d1   		   )
+		.Eo						 (    		   )
     );
     
     // P/S 双模分频器

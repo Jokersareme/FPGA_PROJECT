@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
-| Date         : Fri Jul 17 14:45:54 2026
+| Date         : Mon Jul 20 13:52:25 2026
 | Host         : DESKTOP-I9E0661 running 64-bit major release  (build 9200)
 | Command      : report_utilization -file vio_0_utilization_synth.rpt -pb vio_0_utilization_synth.pb
 | Design       : vio_0
@@ -38,8 +38,8 @@ Table of Contents
 | CLB LUTs*               |  146 |     0 |          0 |   1182240 |  0.01 |
 |   LUT as Logic          |  146 |     0 |          0 |   1182240 |  0.01 |
 |   LUT as Memory         |    0 |     0 |          0 |    591840 |  0.00 |
-| CLB Registers           |  370 |     0 |          0 |   2364480 |  0.02 |
-|   Register as Flip Flop |  370 |     0 |          0 |   2364480 |  0.02 |
+| CLB Registers           |  373 |     0 |          0 |   2364480 |  0.02 |
+|   Register as Flip Flop |  373 |     0 |          0 |   2364480 |  0.02 |
 |   Register as Latch     |    0 |     0 |          0 |   2364480 |  0.00 |
 | CARRY8                  |    0 |     0 |          0 |    147780 |  0.00 |
 | F7 Muxes                |    1 |     0 |          0 |    591120 | <0.01 |
@@ -66,7 +66,7 @@ Warning! For any ECO changes, please run place_design if there are unplaced inst
 | 0     |          Yes |           - |          Set |
 | 0     |          Yes |           - |        Reset |
 | 4     |          Yes |         Set |            - |
-| 366   |          Yes |       Reset |            - |
+| 369   |          Yes |       Reset |            - |
 +-------+--------------+-------------+--------------+
 
 
@@ -159,14 +159,14 @@ Warning! For any ECO changes, please run place_design if there are unplaced inst
 +----------+------+---------------------+
 | Ref Name | Used | Functional Category |
 +----------+------+---------------------+
-| FDRE     |  366 |            Register |
-| LUT6     |   88 |                 CLB |
+| FDRE     |  369 |            Register |
+| LUT6     |   89 |                 CLB |
 | LUT3     |   24 |                 CLB |
-| LUT5     |   23 |                 CLB |
-| LUT4     |   15 |                 CLB |
-| LUT2     |   13 |                 CLB |
+| LUT5     |   22 |                 CLB |
+| LUT4     |   16 |                 CLB |
+| LUT2     |   12 |                 CLB |
 | FDSE     |    4 |            Register |
-| LUT1     |    3 |                 CLB |
+| LUT1     |    2 |                 CLB |
 | MUXF7    |    1 |                 CLB |
 +----------+------+---------------------+
 

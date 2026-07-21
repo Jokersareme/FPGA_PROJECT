@@ -12,6 +12,10 @@
 #    output wire sma_dtc_p,      // 补偿通道（有 DTC）
 #    output wire sma_dtc_n
 
+
+set_property -dict {PACKAGE_PIN AV14 IOSTANDARD LVDS} [get_ports sma_ref_p]
+set_property -dict {PACKAGE_PIN AV13 IOSTANDARD LVDS} [get_ports sma_ref_n]
+
 set_property -dict {PACKAGE_PIN R32 IOSTANDARD LVDS} [get_ports sma_dtc_p]
 set_property -dict {PACKAGE_PIN P32 IOSTANDARD LVDS} [get_ports sma_dtc_n]
 
@@ -31,6 +35,7 @@ set_property -dict {PACKAGE_PIN L19 IOSTANDARD LVCMOS12} [get_ports sys_rst]
 # ============================================================================
 #get_pins -hierarchical *cic_clkdiv*
 create_clock -period 8.000 -name sys_clk_p -waveform {0.000 4.000} [get_ports sys_clk_p]
+create_clock -period 1.600 -name clk_out_pll [get_nets clk_out_pll]
 #create_clock -period 8.000 -name sys_clk_n -waveform {0.000 4.000} [get_ports sys_clk_n]
 #create_clock -period 3.33  -name clk_300m_plk -waveform {0.000 1.660} [get_ports clk_300m_p]
 #create_clock -period 3.33  -name clk_300m_n -waveform {0.000 1.660} [get_ports clk_300m_n]
@@ -41,6 +46,13 @@ create_clock -period 20    -name dtc_code [get_nets dtc_code[*]]
 #ignore mmcm bufg conne33ction error
 #set_property CLOCK_DEDICATED_ROUTE BACKBONE [get_nets u_pll_mps_top/u_cleaner/clk_out1]
 
+## 强制 CARRY8 分散，增加布线延迟
+#set carry_cells [get_cells -hierarchical -filter {REF_NAME == CARRY8}]
+#set y_offset 0
+#foreach cell $carry_cells {
+#    set_property LOC SLICE_X0Y$y_offset $cell
+#    incr y_offset 8
+#}
 
 
 #ADC
@@ -51,3 +63,4 @@ set adc_clk_half_period [expr {$adc_clk_period / 2.0}]
 # delay 8ns for hold fix, 2UI, not care DATA_N or DATA_N+2
 set hold_fix_time [expr {$adc_clk_half_period * 1}]
 
+set_false_path -through [get_cells -hierarchical -filter {REF_NAME == CARRY8 && NAME =~ *lut_dtc*}]

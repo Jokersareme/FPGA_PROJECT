@@ -56,7 +56,7 @@ probe_out1
 input clk;
 
 output reg [0 : 0] probe_out0 = 'h0 ;
-output reg [8 : 0] probe_out1 = 'h000 ;
+output reg [9 : 0] probe_out1 = 'h000 ;
 
 
 endmodule

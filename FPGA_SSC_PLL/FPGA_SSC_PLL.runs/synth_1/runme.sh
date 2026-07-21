@@ -12,9 +12,9 @@ echo "Please update the PATH and LD_LIBRARY_PATH variables below, before executi
 exit
 
 if [ -z "$PATH" ]; then
-  PATH=D:/Vivado/Vitis/2024.2/bin:D:/Vivado/Vivado/2024.2/bin
+  PATH=D:/Xilinx/Vitis/2024.2/bin;D:/Xilinx/Vivado/2024.2/ids_lite/ISE/bin/nt64;D:/Xilinx/Vivado/2024.2/ids_lite/ISE/lib/nt64:D:/Xilinx/Vivado/2024.2/bin
 else
-  PATH=D:/Vivado/Vitis/2024.2/bin:D:/Vivado/Vivado/2024.2/bin:$PATH
+  PATH=D:/Xilinx/Vitis/2024.2/bin;D:/Xilinx/Vivado/2024.2/ids_lite/ISE/bin/nt64;D:/Xilinx/Vivado/2024.2/ids_lite/ISE/lib/nt64:D:/Xilinx/Vivado/2024.2/bin:$PATH
 fi
 export PATH
 
@@ -25,7 +25,7 @@ else
 fi
 export LD_LIBRARY_PATH
 
-HD_PWD='C:/Users/Administrator/Desktop/GS/FPGA_PROJECT/FPGA_PROJECT/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1'
+HD_PWD='C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1'
 cd "$HD_PWD"
 
 HD_LOG=runme.log

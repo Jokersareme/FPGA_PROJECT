@@ -60,7 +60,7 @@ vio_0 your_instance_name (
   .probe_in1(probe_in1),    // input wire [0 : 0] probe_in1
   .probe_out0(probe_out0),  // output wire [7 : 0] probe_out0
   .probe_out1(probe_out1),  // output wire [9 : 0] probe_out1
-  .probe_out2(probe_out2),  // output wire [7 : 0] probe_out2
+  .probe_out2(probe_out2),  // output wire [9 : 0] probe_out2
   .probe_out3(probe_out3),  // output wire [2 : 0] probe_out3
   .probe_out4(probe_out4),  // output wire [9 : 0] probe_out4
   .probe_out5(probe_out5),  // output wire [8 : 0] probe_out5

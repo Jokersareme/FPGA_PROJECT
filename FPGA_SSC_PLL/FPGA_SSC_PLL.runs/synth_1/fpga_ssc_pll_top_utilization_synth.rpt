@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
-| Date         : Sun Jul 19 18:18:08 2026
-| Host         : DESKTOP-NDKL8NS running 64-bit major release  (build 9200)
+| Date         : Tue Jul 21 13:17:29 2026
+| Host         : DESKTOP-I9E0661 running 64-bit major release  (build 9200)
 | Command      : report_utilization -file fpga_ssc_pll_top_utilization_synth.rpt -pb fpga_ssc_pll_top_utilization_synth.pb
 | Design       : fpga_ssc_pll_top
 | Device       : xcvu9p-flga2104-2L-e
@@ -35,15 +35,15 @@ Table of Contents
 +-------------------------+------+-------+------------+-----------+-------+
 |        Site Type        | Used | Fixed | Prohibited | Available | Util% |
 +-------------------------+------+-------+------------+-----------+-------+
-| CLB LUTs*               | 3378 |     0 |          0 |   1182240 |  0.29 |
-|   LUT as Logic          | 3378 |     0 |          0 |   1182240 |  0.29 |
+| CLB LUTs*               | 2871 |     0 |          0 |   1182240 |  0.24 |
+|   LUT as Logic          | 2871 |     0 |          0 |   1182240 |  0.24 |
 |   LUT as Memory         |    0 |     0 |          0 |    591840 |  0.00 |
-| CLB Registers           |  127 |     0 |          0 |   2364480 | <0.01 |
-|   Register as Flip Flop |  111 |     0 |          0 |   2364480 | <0.01 |
-|   Register as Latch     |   16 |     0 |          0 |   2364480 | <0.01 |
-| CARRY8                  |  328 |     0 |          0 |    147780 |  0.22 |
-| F7 Muxes                |  340 |     0 |          0 |    591120 |  0.06 |
-| F8 Muxes                |  162 |     0 |          0 |    295560 |  0.05 |
+| CLB Registers           |  241 |     0 |          0 |   2364480 |  0.01 |
+|   Register as Flip Flop |  207 |     0 |          0 |   2364480 | <0.01 |
+|   Register as Latch     |   34 |     0 |          0 |   2364480 | <0.01 |
+| CARRY8                  | 1178 |     0 |          0 |    147780 |  0.80 |
+| F7 Muxes                | 1227 |     0 |          0 |    591120 |  0.21 |
+| F8 Muxes                |  576 |     0 |          0 |    295560 |  0.19 |
 | F9 Muxes                |    0 |     0 |          0 |    147780 |  0.00 |
 +-------------------------+------+-------+------------+-----------+-------+
 * Warning! The Final LUT count, after physical optimizations and full implementation, is typically lower. Run opt_design after synthesis, if not already completed, for a more realistic count.
@@ -57,14 +57,14 @@ Warning! For any ECO changes, please run place_design if there are unplaced inst
 +-------+--------------+-------------+--------------+
 | Total | Clock Enable | Synchronous | Asynchronous |
 +-------+--------------+-------------+--------------+
-| 48    |            _ |           - |            - |
+| 102   |            _ |           - |            - |
 | 0     |            _ |           - |          Set |
 | 0     |            _ |           - |        Reset |
 | 0     |            _ |         Set |            - |
 | 0     |            _ |       Reset |            - |
 | 0     |          Yes |           - |            - |
 | 0     |          Yes |           - |          Set |
-| 78    |          Yes |           - |        Reset |
+| 138   |          Yes |           - |        Reset |
 | 0     |          Yes |         Set |            - |
 | 1     |          Yes |       Reset |            - |
 +-------+--------------+-------------+--------------+
@@ -101,7 +101,7 @@ Warning! For any ECO changes, please run place_design if there are unplaced inst
 +------------+------+-------+------------+-----------+-------+
 |  Site Type | Used | Fixed | Prohibited | Available | Util% |
 +------------+------+-------+------------+-----------+-------+
-| Bonded IOB |    5 |     0 |          0 |       832 |  0.60 |
+| Bonded IOB |    7 |     0 |          0 |       832 |  0.84 |
 +------------+------+-------+------------+-----------+-------+
 
 
@@ -160,22 +160,22 @@ Warning! For any ECO changes, please run place_design if there are unplaced inst
 +-----------+------+---------------------+
 |  Ref Name | Used | Functional Category |
 +-----------+------+---------------------+
-| LUT1      | 2580 |                 CLB |
-| LUT6      |  694 |                 CLB |
-| MUXF7     |  340 |                 CLB |
-| CARRY8    |  328 |                 CLB |
-| MUXF8     |  162 |                 CLB |
-| FDCE      |   94 |            Register |
-| LUT2      |   59 |                 CLB |
-| LUT3      |   46 |                 CLB |
-| LUT4      |   33 |                 CLB |
-| LDCE      |   16 |            Register |
-| FDPE      |   16 |            Register |
-| LUT5      |    8 |                 CLB |
+| LUT6      | 2536 |                 CLB |
+| MUXF7     | 1227 |                 CLB |
+| CARRY8    | 1178 |                 CLB |
+| MUXF8     |  576 |                 CLB |
+| FDCE      |  172 |            Register |
+| LUT2      |  147 |                 CLB |
+| LUT3      |  113 |                 CLB |
+| LUT4      |   89 |                 CLB |
+| LUT5      |   50 |                 CLB |
+| LDCE      |   34 |            Register |
+| FDPE      |   34 |            Register |
+| LUT1      |   31 |                 CLB |
 | BUFGCTRL  |    6 |               Clock |
 | BUFGCE    |    4 |               Clock |
+| OBUFDS    |    2 |                 I/O |
 | IBUFCTRL  |    2 |              Others |
-| OBUFDS    |    1 |                 I/O |
 | INBUF     |    1 |                 I/O |
 | FDRE      |    1 |            Register |
 | DSP48E2   |    1 |          Arithmetic |
@@ -190,6 +190,7 @@ Warning! For any ECO changes, please run place_design if there are unplaced inst
 |   Ref Name  | Used |
 +-------------+------+
 | vio_rst     |    1 |
+| vio_eo      |    1 |
 | vio_1       |    1 |
 | vio_0       |    1 |
 | test_clk    |    1 |

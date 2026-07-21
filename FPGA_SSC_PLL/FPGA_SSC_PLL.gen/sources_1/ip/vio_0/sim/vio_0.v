@@ -64,7 +64,7 @@ input [0 : 0] probe_in1;
 
 output reg [7 : 0] probe_out0 = 'h50 ;
 output reg [9 : 0] probe_out1 = 'h000 ;
-output reg [7 : 0] probe_out2 = 'h00 ;
+output reg [9 : 0] probe_out2 = 'h000 ;
 output reg [2 : 0] probe_out3 = 'h0 ;
 output reg [9 : 0] probe_out4 = 'h000 ;
 output reg [8 : 0] probe_out5 = 'h000 ;

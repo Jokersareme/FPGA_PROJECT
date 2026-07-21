@@ -55,7 +55,7 @@ COMPONENT vio_1
   PORT (
     clk : IN STD_LOGIC;
     probe_out0 : OUT STD_LOGIC_VECTOR(0 DOWNTO 0);
-    probe_out1 : OUT STD_LOGIC_VECTOR(8 DOWNTO 0) 
+    probe_out1 : OUT STD_LOGIC_VECTOR(9 DOWNTO 0) 
   );
 END COMPONENT;
 -- COMP_TAG_END ------ End COMPONENT Declaration ------------

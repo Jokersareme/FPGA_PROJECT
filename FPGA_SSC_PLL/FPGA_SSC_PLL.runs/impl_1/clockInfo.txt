@@ -1,7 +1,7 @@
 -------------------------------------
 | Tool Version : Vivado v.2024.2
-| Date         : Sun Jul 19 18:19:24 2026
-| Host         : DESKTOP-NDKL8NS
+| Date         : Tue Jul 21 13:18:45 2026
+| Host         : DESKTOP-I9E0661
 | Design       : design_1
 | Device       : xcvu9p-flga2104-2L-E-
 -------------------------------------
@@ -28,41 +28,41 @@ Clock Net Route Info (CRP Input)
 Clock 1: sys_clk_g
 	Clock source type: BUFGCE
 	Clock source region: X4Y5
-	initial rect ((4, 5), (4, 7))
+	initial rect ((2, 5), (4, 7))
 
 Clock 2: dbg_hub/inst/BSCANID.u_xsdbm_id/itck_i
 	Clock source type: BUFGCE
 	Clock source region: X4Y6
-	initial rect ((4, 6), (4, 7))
+	initial rect ((3, 6), (4, 6))
 
 Clock 3: u_fracn_div/u_dual_div/u_p_counter/u_ld_dff/Q_reg_0_BUFGCE
 	Clock source type: BUFGCE
 	Clock source region: X4Y6
-	initial rect ((4, 6), (4, 7))
+	initial rect ((3, 6), (4, 6))
 
-Clock 4: u_mmcm_pll/inst/clk_out1
+Clock 4: div_out_raw_g
+	Clock source type: BUFGCE
+	Clock source region: X2Y6
+	Clock regions with locked loads: X4Y5 
+	initial rect ((2, 5), (4, 7))
+
+Clock 5: u_mmcm_pll/inst/clk_out1
 	Clock source type: BUFGCE
 	Clock source region: X4Y5
 	Clock regions with locked loads: X4Y5 
-	initial rect ((4, 5), (4, 7))
-
-Clock 5: div_out_raw_g
-	Clock source type: BUFGCE
-	Clock source region: X4Y6
-	Clock regions with locked loads: X4Y5 
-	initial rect ((2, 5), (4, 7))
+	initial rect ((2, 5), (4, 6))
 
 Clock 6: div_out_dtc_g
 	Clock source type: BUFGCE
 	Clock source region: X4Y5
-	Clock regions with locked loads: X4Y5 
-	initial rect ((4, 5), (4, 6))
+	Clock regions with locked loads: X4Y5 X4Y8 
+	initial rect ((3, 5), (4, 8))
 
 Clock 7: clk_ref_pll
 	Clock source type: BUFGCE
 	Clock source region: X4Y5
 	Clock regions with locked loads: X4Y5 
-	initial rect ((4, 5), (4, 6))
+	initial rect ((3, 5), (4, 6))
 
 Clock 8: clk_fb_pll
 	Clock source type: BUFG_CTRL

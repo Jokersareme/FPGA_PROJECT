@@ -1,0 +1,2 @@
+vio_eo.v,verilog,xil_defaultlib,../../../../FPGA_SSC_PLL.gen/sources_1/ip/vio_eo/sim/vio_eo.v,incdir="../../../../FPGA_SSC_PLL.gen/sources_1/ip/vio_eo/hdl/verilog"incdir="../../../../FPGA_SSC_PLL.gen/sources_1/ip/vio_eo/hdl"
+glbl.v,Verilog,xil_defaultlib,glbl.v

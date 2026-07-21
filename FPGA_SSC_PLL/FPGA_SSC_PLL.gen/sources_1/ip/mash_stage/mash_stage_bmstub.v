@@ -7,7 +7,8 @@
 (* BLOCK_STUB = "true" *)
 module mash_stage (
   clk,
-  probe_out0
+  probe_out0,
+  probe_out1
 );
 
   (* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 signal_clock CLK" *)
@@ -16,6 +17,8 @@ module mash_stage (
   input clk;
   (* X_INTERFACE_IGNORE = "true" *)
   output [1:0]probe_out0;
+  (* X_INTERFACE_IGNORE = "true" *)
+  output [0:0]probe_out1;
 
   // stub module has no contents
 

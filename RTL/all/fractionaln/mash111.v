@@ -9,7 +9,7 @@ module mash111 #(
     input rst_n,           // 复位信号，低有效
 
     input [WIDTH-1:0] x_i, // Sigma-Delta 调制器的输入，即分频中小数的输入
-    output [3:0] y_o,      // 量化输出
+    output reg [3:0] y_o,      // 量化输出
     output [WIDTH-1:0] e_o // 最后一级 EFM 的误差输出，实际上用不到，不用管
 );
 
@@ -23,7 +23,6 @@ module mash111 #(
     wire [WIDTH-1:0] e_o_3;
     wire y_o_3;
     
-    wire clk_ila;
     
     reg y2_d;
     reg y3_d;
@@ -35,8 +34,8 @@ module mash111 #(
     reg signed [2:0] c1_reg; 
 
     wire [1:0] stage_sel;
+    wire  mash_eo_mode;
     reg [WIDTH-1:0] eo_d1;
-    reg y_o;
 
         
     // 前一级 efm 的误差输出作为后一级 efm 的输入
@@ -50,7 +49,7 @@ module mash111 #(
 
 //    assign y_o = c2;
 
-    assign e_o = eo_d1;
+    assign e_o = (mash_eo_mode == 1'b0) ? eo_d1 : eo_d1; // TODO for high stage mash
 
     // 延迟
     always @(posedge clk or negedge rst_n) begin
@@ -121,7 +120,8 @@ module mash111 #(
 //    assign stage_sel = 2'b01;
     mash_stage u_mash_stage (
         .clk (clk),
-        .probe_out0 (stage_sel)
+        .probe_out0 (stage_sel),
+        .probe_out1 (mash_eo_mode)
     );
     
         ila_1 u_ila (

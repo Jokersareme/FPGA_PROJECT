@@ -6,8 +6,8 @@ module fpga_ssc_pll_top (
     input  wire sys_rst,
 //    input  wire clk_300m_p,       // 300MHz，给 IDELAYCTRL，必须来自 MMCM/BUFG
 //    input  wire clk_300m_n,       // 300MHz，给 IDELAYCTRL，必须来自 MMCM/BUFG
-//    output wire sma_ref_p,      // 参考通道（无补偿）
-//    output wire sma_ref_n,
+    output wire sma_ref_p,      // 参考通道
+    output wire sma_ref_n,
     output wire sma_dtc_p,      // 补偿通道（有 DTC）
     output wire sma_dtc_n
 );
@@ -23,6 +23,7 @@ module fpga_ssc_pll_top (
     wire clk_ref_pll;
     wire clk_fb_pll_raw;
     wire [8:0] dtc_code;
+    reg  [8:0] dtc_code_d1;
     wire       dtc_load;
     wire div_out_dtc;
     wire idelay_rdy;  
@@ -30,8 +31,10 @@ module fpga_ssc_pll_top (
     wire clk_300m;
 //    wire clk_300m_g;
     wire [7:0]  int_div            ;
+    wire [7:0]  ssc_int_div        ;
     wire [9:0]  frac               ;
-    wire [7:0]  dtc_gain           ;
+    wire [9:0]  ssc_frac           ;
+    wire [9:0]  dtc_gain           ;
     wire        dtc_en             ;
     wire [8:0]  dtc_offset         ;
     wire [2:0]  clk_sel_0          ; //debug_1 clk out sel [2] for change to clk_sel_1 debug
@@ -59,6 +62,7 @@ module fpga_ssc_pll_top (
     wire and_rst_n_dtc;
     
     wire dtc_sel;
+    wire ssc_bp;
     
     assign and_rst_n_fracn =   1'b1   &&   sys_rst_n;
     assign and_rst_n_mmcm =    1'b1   &&   sys_rst_n;
@@ -127,7 +131,7 @@ module fpga_ssc_pll_top (
     vio_rst u_vio_rst (
       .clk(sys_clk_g),                // input wire clk
       .probe_out0(rst_n_fracn),  // output wire [0 : 0] probe_out0
-      .probe_out1(rst_n_mmcm),  // output wire [0 : 0] probe_out1
+      .probe_out1(ssc_bp),  // output wire [0 : 0] probe_out1
       .probe_out2(rst_n_dtc),  // output wire [0 : 0] probe_out2
       .probe_out3(dtc_sel)  // output wire [0 : 0] probe_out3
     );
@@ -142,17 +146,30 @@ module fpga_ssc_pll_top (
 
     BUFG u_sys_bufg_fracn_out (.I (div_out_raw), .O (div_out_raw_g));
     // -------------------------------------------------------------------------
-    // 2. MASH111 + 小数分频
+    // 2. MASH111 + 小数分频 + SSC
     // -------------------------------------------------------------------------
 
+    ssc_controller u_ssc_ctrl (
+    .clk        (div_out_raw_g),     
+    .rst_n      (and_rst_n_fracn),   
+    .bypass     (ssc_bp),  
+            
+    .Integer    (int_div), 
+    .Fraction   (frac),
+          
+    .ssc_int    (ssc_int_div), 
+    .ssc_frac   (ssc_frac),
+    .ssc_en     ()
+    
+    );
 
 
     fractionaln  u_fracn_div (
         .Fin         (clk_out_pll  ),
         .Sys_clk     (sys_clk_g  ),
         .rst_n       (and_rst_n_fracn  ),
-        .Integer     (int_div    ),
-        .Fraction    (frac       ),
+        .Integer     (ssc_int_div    ),
+        .Fraction    (ssc_frac       ),
         .Eo          (mash_e1    ),
         .Fout        (div_out_raw)
                   
@@ -234,94 +251,45 @@ BUFG u_sys_bufg_4 (.I (div_out_dtc), .O (div_out_dtc_g));
         .probe6 (cal_valid)  // 3-bit 扩展为 4-bit 匹配 ILA 宽度，或按实际 ILA 配置调整
     );
 
-    // -------------------------------------------------------------------------
-    // 6. SMA 差分输出（直接驱动顶层端口，无内部 assign）
-    // -------------------------------------------------------------------------
-//    OBUFDS #(
-//        .IOSTANDARD("LVDS"),
-//        .SLEW("FAST")
-//    ) u_obuf_ref (
-//        .O  (sma_ref_p),
-//        .OB (sma_ref_n),
-//        .I  (bgmux_out2)
-//    );
+//     -------------------------------------------------------------------------
+//     6. SMA 差分输出（直接驱动顶层端口，无内部 assign） 
+//      TO ADI PLL
+//     -------------------------------------------------------------------------
+    OBUFDS #(
+        .IOSTANDARD("LVDS"),
+        .SLEW("FAST")
+    ) u_obuf_ref (
+        .O  (sma_ref_p),
+        .OB (sma_ref_n),
+        .I  (div_out_dtc_g)
+    );
     
 
+    
 
-    lut_dtc #(
+    always @(posedge ~div_out_dtc_g or negedge rst_n_dtc) begin
+        if (!rst_n_dtc)
+            dtc_code_d1 <= 1'b0;
+        else 
+            dtc_code_d1 <= dtc_code;
+    end
+    
+    lut_dtc_top #(
     .N_TAP (512),
     .CODE_WIDTH (9)
-) u_lut_dtc_0 (
+) u_lut_dtc_top (
              .sys_clk       (sys_clk_g),
              .rst_n         (rst_n_dtc),
              .din           (div_out_raw_g),
-             .code          (dtc_code),
+             .code          (dtc_code_d1),
              .cal_mode      (cal_mode),
              .dtc_sel       (dtc_sel),
-             .dout          (div_out_dtc_0),
-             .cal_result    (cal_result),
-             .cal_valid     (cal_valid)
-    );
-
-    lut_dtc #(
-    .N_TAP (512),
-    .CODE_WIDTH (9)
-) u_lut_dtc_1 (
-             .sys_clk       (sys_clk_g),
-             .rst_n         (rst_n_dtc),
-             .din           (div_out_dtc_0),
-             .code          (dtc_code),
-             .cal_mode      (cal_mode),
-             .dtc_sel       (dtc_sel),
-             .dout          (div_out_dtc_1),
-             .cal_result    (cal_result),
-             .cal_valid     (cal_valid)
-    );
-    
-    lut_dtc #(
-.N_TAP (512),
-    .CODE_WIDTH (9)
-) u_lut_dtc_2 (
-             .sys_clk       (sys_clk_g),
-             .rst_n         (rst_n_dtc),
-             .din           (div_out_dtc_1),
-             .code          (dtc_code),
-             .cal_mode      (cal_mode),
-             .dtc_sel       (dtc_sel),
-             .dout          (div_out_dtc_2),
-             .cal_result    (cal_result),
-             .cal_valid     (cal_valid)
-    );
-    
-lut_dtc #(
-    .N_TAP (512),
-    .CODE_WIDTH (9)
-) u_lut_dtc_3 (
-             .sys_clk       (sys_clk_g),
-             .rst_n         (rst_n_dtc),
-             .din           (div_out_dtc_2),
-             .code          (dtc_code),
-             .cal_mode      (cal_mode),
-             .dtc_sel       (dtc_sel),
-             .dout          (div_out_dtc_3),
-             .cal_result    (cal_result),
-             .cal_valid     (cal_valid)
-    );
-
-lut_dtc #(
-    .N_TAP (512),
-    .CODE_WIDTH (9)
-) u_lut_dtc_4 (
-             .sys_clk       (sys_clk_g),
-             .rst_n         (rst_n_dtc),
-             .din           (div_out_dtc_3),
-             .code          (dtc_code),
-             .cal_mode      (cal_mode),
-             .dtc_sel       (dtc_sel),
+             .vco_clk       (clk_out_pll),
              .dout          (div_out_dtc),
              .cal_result    (cal_result),
              .cal_valid     (cal_valid)
     );
+
     
     
     //PLL

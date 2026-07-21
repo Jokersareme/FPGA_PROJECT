@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
-| Date         : Sun Jul 19 18:19:02 2026
-| Host         : DESKTOP-NDKL8NS running 64-bit major release  (build 9200)
+| Date         : Tue Jul 21 13:18:26 2026
+| Host         : DESKTOP-I9E0661 running 64-bit major release  (build 9200)
 | Command      : report_drc -file fpga_ssc_pll_top_drc_opted.rpt -pb fpga_ssc_pll_top_drc_opted.pb -rpx fpga_ssc_pll_top_drc_opted.rpx
 | Design       : fpga_ssc_pll_top
 | Device       : xcvu9p-flga2104-2L-e
@@ -24,14 +24,14 @@ Table of Contents
       Design limits: <entire design considered>
            Ruledeck: default
              Max checks: <unlimited>
-             Checks found: 11
+             Checks found: 12
 +-------------+----------+-------------------------------------------------------------+--------+
 | Rule        | Severity | Description                                                 | Checks |
 +-------------+----------+-------------------------------------------------------------+--------+
 | DPIP-2      | Warning  | Input pipelining                                            | 2      |
 | DPOP-3      | Warning  | PREG Output pipelining                                      | 1      |
 | DPOP-4      | Warning  | MREG Output pipelining                                      | 1      |
-| PLHOLDVIO-2 | Warning  | Non-Optimal connections which could lead to hold violations | 7      |
+| PLHOLDVIO-2 | Warning  | Non-Optimal connections which could lead to hold violations | 8      |
 +-------------+----------+-------------------------------------------------------------+--------+
 
 2. REPORT DETAILS
@@ -58,6 +58,14 @@ Related violations: <none>
 
 PLHOLDVIO-2#1 Warning
 Non-Optimal connections which could lead to hold violations  
+A LUT dtc_code_d1_reg[8]_i_1 is driving clock pin of 9 cells. This could lead to large hold time violations. Involved cells are:
+dtc_code_d1_reg[0], dtc_code_d1_reg[1], dtc_code_d1_reg[2],
+dtc_code_d1_reg[3], dtc_code_d1_reg[4], dtc_code_d1_reg[5],
+dtc_code_d1_reg[6], dtc_code_d1_reg[7], dtc_code_d1_reg[8]
+Related violations: <none>
+
+PLHOLDVIO-2#2 Warning
+Non-Optimal connections which could lead to hold violations  
 A LUT u_fracn_div/u_dual_div/u_div_45/u3_reg_sync/Qn is driving clock pin of 6 cells. This could lead to large hold time violations. Involved cells are:
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg/F1 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg macro),
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg/F2 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg macro),
@@ -67,42 +75,42 @@ u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg/F2 (in u_fracn_div/u_du
 u_fracn_div/u_dual_div/u_s_counter/u_mc_dff/Q_reg
 Related violations: <none>
 
-PLHOLDVIO-2#2 Warning
+PLHOLDVIO-2#3 Warning
 Non-Optimal connections which could lead to hold violations  
 A LUT u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg macro) is driving clock pin of 2 cells. This could lead to large hold time violations. Involved cells are:
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg/F1 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg macro)
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg/F2 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg macro)
 Related violations: <none>
 
-PLHOLDVIO-2#3 Warning
+PLHOLDVIO-2#4 Warning
 Non-Optimal connections which could lead to hold violations  
 A LUT u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg macro) is driving clock pin of 2 cells. This could lead to large hold time violations. Involved cells are:
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg/F1 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg macro)
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg/F2 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg macro)
 Related violations: <none>
 
-PLHOLDVIO-2#4 Warning
+PLHOLDVIO-2#5 Warning
 Non-Optimal connections which could lead to hold violations  
 A LUT u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg macro) is driving clock pin of 2 cells. This could lead to large hold time violations. Involved cells are:
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg/F1 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg macro)
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg/F2 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg macro)
 Related violations: <none>
 
-PLHOLDVIO-2#5 Warning
+PLHOLDVIO-2#6 Warning
 Non-Optimal connections which could lead to hold violations  
 A LUT u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg macro) is driving clock pin of 2 cells. This could lead to large hold time violations. Involved cells are:
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg/F1 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg macro)
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg/F2 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg macro)
 Related violations: <none>
 
-PLHOLDVIO-2#6 Warning
+PLHOLDVIO-2#7 Warning
 Non-Optimal connections which could lead to hold violations  
 A LUT u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg macro) is driving clock pin of 2 cells. This could lead to large hold time violations. Involved cells are:
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg/F1 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg macro)
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg/F2 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg macro)
 Related violations: <none>
 
-PLHOLDVIO-2#7 Warning
+PLHOLDVIO-2#8 Warning
 Non-Optimal connections which could lead to hold violations  
 A LUT u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg macro) is driving clock pin of 2 cells. This could lead to large hold time violations. Involved cells are:
 u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_reg/F1 (in u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_reg macro)

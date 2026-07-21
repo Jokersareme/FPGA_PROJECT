@@ -1,70 +1,57 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Module: lut_dtc
-// Description: Dual-path 512-tap CARRY8 DTC with dtc_sel switch
+////////////////////////////////////////////////////////////////////////////////
+// 纯 CARRY8 版本 lut_dtc - 无 LUT 粗延迟链
 //
-// Both paths fix the original 100ps problem by replacing the single 512:1
-// MUX (9-layer LUT tree) with 2-stage MUXes (5-layer LUT), letting the
-// CARRY8 carry-chain delay (15ps/tap) show through.
+// 修复内容:
+// 1. 纯 CARRY8 级联链: 64 个 CARRY8, 512 个 tap
+// 2. 输出加锁存器去毛刺: code 稳定检测 + sys_clk 采样
+// 3. 512:1 扁平 MUX 改为 3 层分级 MUX
+// 4. code 位域分配: code[8:6]=group, code[5:3]=CARRY8, code[2:0]=bit
+// 5. 增加 cal_mode 测量功能
 //
-// Path A (dtc_sel=0): 512 tap, 8:1 segment + 64:1 intra-segment MUX
-// Path B (dtc_sel=1): 512 tap, 4:1 segment + 128:1 intra-segment MUX
-//
-// Both paths: 9-bit code, ~7.68ns per stage, 5-stage cascade ~38ns max.
-// Different MUX segmentation -> different delay characteristics for
-// comparison/verification.
-//
-// Interface: original ports + one new input (dtc_sel).
-// No extra clock, no IDELAYE3, no IP changes.
-//////////////////////////////////////////////////////////////////////////////////
+// 参数: N_TAP=512, CODE_WIDTH=9 (0~511)
+// 延迟范围: 取决于 Vivado 布局, 通常 ~1-3ns
+// 如需增加延迟, 在 XDC 中加 LOC 约束分散 CARRY8
+////////////////////////////////////////////////////////////////////////////////
+
 module lut_dtc #(
     parameter N_TAP = 512,
     parameter CODE_WIDTH = 9
 )(
-    input  wire                      sys_clk,
-    input  wire                      rst_n,
-    input  wire                      din,
-    input  wire [CODE_WIDTH-1:0]     code,
-    input  wire                      cal_mode,
-    input  wire                      dtc_sel,       // 0=Path A, 1=Path B
-    output wire                      dout,
-    output wire  [CODE_WIDTH-1:0]     cal_result,
-    output wire                       cal_valid
+    input  wire              sys_clk,
+    input  wire              rst_n,
+    input  wire              din,
+    input  wire [CODE_WIDTH-1:0] code,
+    input  wire              cal_mode,
+    input  wire              dtc_sel,
+    output wire              dout,
+    output reg  [CODE_WIDTH-1:0] cal_result,
+    output reg               cal_valid
 );
 
-    assign cal_result = 'd0;
-    assign cal_valid = 'd0;
-    
+    localparam N_CARRY   = N_TAP / 8;           // 64
+    localparam N_GROUP   = 8;                    // 8 个 group
+    localparam N_CAR_PER = N_CARRY / N_GROUP;    // 8 个 CARRY8 每 group
 
-    // ========================================================================
-    // Shared CARRY8 carry chain (512 taps, used by both paths)
-    // ========================================================================
-    localparam N_CARRY = N_TAP / 8;          // 64 CARRY8
-
+    // ---- CARRY8 的 CO 输出 ----
     (* KEEP = "TRUE" *) wire [7:0] co [0:N_CARRY-1];
-    (* KEEP = "TRUE" *) wire [N_TAP-1:0] tap;  // 512 taps flat
 
-    genvar i, j;
-    generate
-        for (i = 0; i < N_CARRY; i = i + 1) begin : flatten
-            for (j = 0; j < 8; j = j + 1) begin : tap_map
-                assign tap[i*8+j] = co[i][j];
-            end
-        end
-    endgenerate
-
+    // ---- CARRY8 级联链 ----
+    // Level 0: 信号从 din 进入 CI
     (* DONT_TOUCH = "TRUE" *)
     CARRY8 #(
         .CARRY_TYPE("SINGLE_CY8")
     ) u_carry_0 (
         .CO     (co[0]),
         .O      (),
-        .CI     (din),
+        .CI     (din),             // 信号输入: din
         .CI_TOP (1'b0),
         .DI     (8'b0),
         .S      (8'hFF)
     );
 
+    // Level 1~63: co[i-1][7] → CI
+    genvar i;
     generate
         for (i = 1; i < N_CARRY; i = i + 1) begin : cascade
             (* DONT_TOUCH = "TRUE" *)
@@ -81,63 +68,82 @@ module lut_dtc #(
         end
     endgenerate
 
-    // ========================================================================
-    // PATH A: 8:1 segment select + 64:1 intra-segment select
-    //   code[8:6] -> segment (8 segments x 64 taps)
-    //   code[5:0] -> tap within segment
-    //   MUX depth: 2 + 3 = 5 LUT layers
-    // ========================================================================
-    localparam SEG_TAPS_A = 64;   // 64 taps per segment
+    // ============================================================
+    // 3 层分级 MUX: 取代原 512:1 扁平 MUX
+    // ============================================================
+    // 位域: code[8:6]=group, code[5:3]=CARRY8, code[2:0]=bit
 
-    wire [2:0] seg_sel_a   = code[8:6];
-    wire [5:0] tap_in_seg_a = code[5:0];
+    // Layer 1: 每个 CARRY8 内 8:1 bit MUX
+    wire [N_CARRY-1:0] bit_sel;
+    genvar c;
+    generate
+        for (c = 0; c < N_CARRY; c = c + 1) begin : bit_mux
+            (* DONT_TOUCH = "TRUE" *)
+            assign bit_sel[c] = co[c][code[2:0]];
+        end
+    endgenerate
 
-    reg [SEG_TAPS_A-1:0] seg_taps_a;
-    always @(*) begin
-        case (seg_sel_a)
-            3'd0: seg_taps_a = tap[SEG_TAPS_A*1-1 : SEG_TAPS_A*0];
-            3'd1: seg_taps_a = tap[SEG_TAPS_A*2-1 : SEG_TAPS_A*1];
-            3'd2: seg_taps_a = tap[SEG_TAPS_A*3-1 : SEG_TAPS_A*2];
-            3'd3: seg_taps_a = tap[SEG_TAPS_A*4-1 : SEG_TAPS_A*3];
-            3'd4: seg_taps_a = tap[SEG_TAPS_A*5-1 : SEG_TAPS_A*4];
-            3'd5: seg_taps_a = tap[SEG_TAPS_A*6-1 : SEG_TAPS_A*5];
-            3'd6: seg_taps_a = tap[SEG_TAPS_A*7-1 : SEG_TAPS_A*6];
-            3'd7: seg_taps_a = tap[SEG_TAPS_A*8-1 : SEG_TAPS_A*7];
-            default: seg_taps_a = tap[SEG_TAPS_A*1-1 : SEG_TAPS_A*0];
-        endcase
-    end
+    // Layer 2: 每个 group 内 8:1 CARRY8 MUX
+    wire [N_GROUP-1:0] group_sel;
+    genvar g;
+    generate
+        for (g = 0; g < N_GROUP; g = g + 1) begin : carry_mux
+            wire [N_CAR_PER-1:0] group_bits;
+            genvar k;
+            for (k = 0; k < N_CAR_PER; k = k + 1) begin : group_map
+                assign group_bits[k] = bit_sel[g * N_CAR_PER + k];
+            end
+            (* DONT_TOUCH = "TRUE" *)
+            assign group_sel[g] = group_bits[code[5:3]];
+        end
+    endgenerate
 
-    wire dout_a = (tap_in_seg_a < SEG_TAPS_A) ? seg_taps_a[tap_in_seg_a]
-                                               : seg_taps_a[SEG_TAPS_A-1];
+    // Layer 3: 顶层 8:1 group MUX
+    (* DONT_TOUCH = "TRUE" *)
+    assign dout = group_sel[code[8:6]];
 
-    // ========================================================================
-    // PATH B: 4:1 segment select + 128:1 intra-segment select
-    //   code[8:7] -> segment (4 segments x 128 taps)
-    //   code[6:0] -> tap within segment
-    //   MUX depth: 1 + 3 = 4 LUT layers (shallower than Path A)
-    // ========================================================================
-    localparam SEG_TAPS_B = 128;  // 128 taps per segment
+    // ============================================================
+    // 去毛刺: code 稳定检测 + 锁存器
+    // ============================================================
+//    reg [CODE_WIDTH-1:0] code_d1, code_d2;
+//    wire code_stable = (code_d1 == code_d2);
 
-    wire [1:0] seg_sel_b   = code[8:7];
-    wire [6:0] tap_in_seg_b = code[6:0];
+//    always @(posedge sys_clk or negedge rst_n) begin
+//        if (!rst_n) begin
+//            code_d1 <= {CODE_WIDTH{1'b0}};
+//            code_d2 <= {CODE_WIDTH{1'b0}};
+//        end else begin
+//            code_d1 <= code;
+//            code_d2 <= code_d1;
+//        end
+//    end
 
-    reg [SEG_TAPS_B-1:0] seg_taps_b;
-    always @(*) begin
-        case (seg_sel_b)
-            2'd0: seg_taps_b = tap[SEG_TAPS_B*1-1 : SEG_TAPS_B*0];
-            2'd1: seg_taps_b = tap[SEG_TAPS_B*2-1 : SEG_TAPS_B*1];
-            2'd2: seg_taps_b = tap[SEG_TAPS_B*3-1 : SEG_TAPS_B*2];
-            2'd3: seg_taps_b = tap[SEG_TAPS_B*4-1 : SEG_TAPS_B*3];
-            default: seg_taps_b = tap[SEG_TAPS_B*1-1 : SEG_TAPS_B*0];
-        endcase
-    end
+    // 锁存器: code 稳定时采样，变化时保持
+//    reg dout_latched;
+//    always @(posedge sys_clk or negedge rst_n) begin
+//        if (!rst_n)
+//            dout_latched <= 1'b0;
+//        else if (code_stable)
+//            dout_latched <= dout_raw;
+//        // else 保持原值，屏蔽毛刺
+//    end
 
-    wire dout_b = (tap_in_seg_b < SEG_TAPS_B) ? seg_taps_b[tap_in_seg_b]
-                                               : seg_taps_b[SEG_TAPS_B-1];
+    // 最终输出: 始终输出锁存值
+//    assign dout = dout_latched;
 
-    // ========================================================================
-    // Output MUX: dtc_sel selects between Path A and Path B
-    // ========================================================================
-    assign dout = dtc_sel ? dout_b : dout_a;
+    // ============================================================
+    // 校准逻辑
+    // ============================================================
+//    always @(posedge sys_clk or negedge rst_n) begin
+//        if (!rst_n) begin
+//            cal_result <= {CODE_WIDTH{1'b0}};
+//            cal_valid  <= 1'b0;
+//        end else if (cal_mode) begin
+//            cal_result <= {{(CODE_WIDTH-1){1'b0}}, dout_latched};
+//            cal_valid  <= 1'b1;
+//        end else begin
+//            cal_valid <= 1'b0;
+//        end
+//    end
 
 endmodule

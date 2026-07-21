@@ -18,7 +18,7 @@ module vio_1 (
   (* X_INTERFACE_IGNORE = "true" *)
   output [0:0]probe_out0;
   (* X_INTERFACE_IGNORE = "true" *)
-  output [8:0]probe_out1;
+  output [9:0]probe_out1;
 
   // stub module has no contents
 

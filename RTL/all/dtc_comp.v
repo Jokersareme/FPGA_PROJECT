@@ -7,7 +7,7 @@ module dtc_comp #(
     input  wire              clk,
     input  wire              rst_n,
     input  wire [WIDTH-1:0]  e1,
-    input  wire [7:0]        dtc_gain,
+    input  wire [9:0]        dtc_gain,
     //input  wire [1:0]        dtc_offset_sel,  // 00=256, 01=300, 10=350, 11=400
     input  wire              dtc_en,
 	input  wire [DTC_WIDTH-1:0] dtc_offset,
@@ -16,7 +16,7 @@ module dtc_comp #(
 );
 
     wire dtc_code_man_en;
-    wire [8:0] dtc_code_man;
+    wire [9:0] dtc_code_man;
     // 偏移量查找表（根据校准结果后续修改）
     //wire [DTC_WIDTH-1:0] dtc_offset;
     //assign dtc_offset = (dtc_offset_sel == 2'b00) ? 9'd000 :
@@ -25,14 +25,14 @@ module dtc_comp #(
 
     // 有符号乘法：e1(8bit) * gain(8bit) = 16bit
     // e1 范围 0~255，实际作为无符号量处理（只补偿幅度，方向由 carry 处理）
-    wire [18:0] mult = e1 * 2'd2 * dtc_gain;
+    wire [19:0] mult = e1 * dtc_gain;
 
     // 取高 9 位 + 偏移，并做饱和
-    wire [DTC_WIDTH-1:0] code_raw = mult[18:10] + dtc_offset;
+    wire [DTC_WIDTH-1:0] code_raw = mult[19:11] + dtc_offset;
     wire [DTC_WIDTH-1:0] code_sat = (code_raw > 9'd511) ? 9'd511 : code_raw;
     
     
-    assign dtc_code = dtc_code_man_en ? dtc_code_man : code_sat;
+    assign dtc_code = dtc_en ? (dtc_code_man_en ? dtc_code_man : code_sat) : 'd0;
     
 //    always @(posedge clk or negedge rst_n) begin
 //        if (!rst_n) begin

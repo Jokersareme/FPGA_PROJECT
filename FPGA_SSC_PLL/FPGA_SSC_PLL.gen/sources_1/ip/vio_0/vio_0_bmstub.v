@@ -31,7 +31,7 @@ module vio_0 (
   (* X_INTERFACE_IGNORE = "true" *)
   output [9:0]probe_out1;
   (* X_INTERFACE_IGNORE = "true" *)
-  output [7:0]probe_out2;
+  output [9:0]probe_out2;
   (* X_INTERFACE_IGNORE = "true" *)
   output [2:0]probe_out3;
   (* X_INTERFACE_IGNORE = "true" *)
