@@ -12,18 +12,35 @@ module tb_top;
     initial begin sys_rst = 0; #1 sys_rst = 1; #100 sys_rst = 0; end
 
     initial begin
-        $dumpfile("tb_top_auto.vcd");
-        $dumpvars(1, tb_top.u_dut.div_out_dtc_g);
-        $dumpvars(1, tb_top.u_dut.dtc_code_d1);
-        $dumpvars(1, tb_top.u_dut.dtc_gain_muxed);
-        $dumpvars(1, tb_top.u_dut.cal_done);
-        $dumpvars(1, tb_top.u_dut.u_cal.state);
-        $dumpvars(1, tb_top.u_dut.u_cal.tdc_min);
-        $dumpvars(1, tb_top.u_dut.u_cal.tdc_max);
-        $dumpvars(1, tb_top.u_dut.u_cal.dtc_gain_cal);
-        $dumpvars(1, tb_top.u_dut.u_cal.cal_mode);
-        $dumpvars(1, tb_top.u_dut.sys_clk_g);
-        $dumpvars(1, tb_top.dtc_dly);
+        $dumpfile("tb_top_auto_full.vcd");
+        $dumpvars(0, tb_top.u_dut.div_out_dtc_g);
+        $dumpvars(0, tb_top.u_dut.div_out_raw_g);
+        $dumpvars(0, tb_top.u_dut.dtc_code_d1);
+        $dumpvars(0, tb_top.u_dut.dtc_gain_muxed);
+        $dumpvars(0, tb_top.u_dut.cal_auto_en);
+        $dumpvars(0, tb_top.u_dut.cal_done);
+        $dumpvars(0, tb_top.u_dut.cal_start);
+        $dumpvars(0, tb_top.u_dut.sys_clk_g);
+        $dumpvars(0, tb_top.u_dut.clk_ref_pll);
+        $dumpvars(0, tb_top.u_dut.u_cal.state);
+        $dumpvars(0, tb_top.u_dut.u_cal.next);
+        $dumpvars(0, tb_top.u_dut.u_cal.tdc_min);
+        $dumpvars(0, tb_top.u_dut.u_cal.tdc_max);
+        $dumpvars(0, tb_top.u_dut.u_cal.cal_mode);
+        $dumpvars(0, tb_top.u_dut.u_cal.cal_valid);
+        $dumpvars(0, tb_top.u_dut.u_cal.cal_result);
+        $dumpvars(0, tb_top.u_dut.u_cal.dtc_code_cal);
+        $dumpvars(0, tb_top.u_dut.u_cal.dtc_gain_cal);
+        $dumpvars(0, tb_top.u_dut.u_cal.wait_cnt);
+        $dumpvars(0, tb_top.u_dut.u_cal.div_busy);
+        $dumpvars(0, tb_top.u_dut.u_cal.dividend);
+        $dumpvars(0, tb_top.u_dut.u_cal.divisor);
+        $dumpvars(0, tb_top.u_dut.u_cal.quotient);
+        $dumpvars(0, tb_top.u_dut.u_cal.div_cnt);
+        $dumpvars(0, tb_top.u_dut.u_fracn_div.mash_e1);
+        $dumpvars(0, tb_top.u_dut.u_fracn_div.mash_e2);
+        $dumpvars(0, tb_top.u_dut.u_fracn_div.mash_e3);
+        $dumpvars(0, tb_top.dtc_dly);
     end
 
     initial begin #1;
@@ -63,6 +80,6 @@ module tb_top;
     initial begin
         #25000 $display("T=%0t: cal gain=%0d min=%0d max=%0d",
             $time, u_dut.dtc_gain_cal, u_dut.u_cal.tdc_min, u_dut.u_cal.tdc_max);
-        #25000 $finish;
+        #175000 $finish;
     end
 endmodule
