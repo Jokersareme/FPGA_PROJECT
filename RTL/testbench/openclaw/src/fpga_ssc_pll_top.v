@@ -1,14 +1,14 @@
 `timescale 1ns / 1ps
 
 module fpga_ssc_pll_top (
-    input  wire sys_clk_p,      // 125MHz，必须来自 MMCM/BUFG
-    input  wire sys_clk_n,      // 125MHz，必须来自 MMCM/BUFG
+    input  wire sys_clk_p,      // 125MHz????? MMCM/BUFG
+    input  wire sys_clk_n,      // 125MHz????? MMCM/BUFG
     input  wire sys_rst,
-//    input  wire clk_300m_p,       // 300MHz，给 IDELAYCTRL，必须来自 MMCM/BUFG
-//    input  wire clk_300m_n,       // 300MHz，给 IDELAYCTRL，必须来自 MMCM/BUFG
-    output wire sma_ref_p,      // 参考通道
+//    input  wire clk_300m_p,       // 300MHz?? IDELAYCTRL????? MMCM/BUFG
+//    input  wire clk_300m_n,       // 300MHz?? IDELAYCTRL????? MMCM/BUFG
+    output wire sma_ref_p,      // ????
     output wire sma_ref_n,
-    output wire sma_dtc_p,      // 补偿通道（有 DTC）
+    output wire sma_dtc_p,      // ?????? DTC?
     output wire sma_dtc_n
 );
     wire sys_rst_n;
@@ -23,7 +23,7 @@ module fpga_ssc_pll_top (
     wire clk_ref_pll;
     wire clk_fb_pll_raw;
     wire [8:0] dtc_code;
-    reg  [8:0] dtc_code_d1;
+    reg [8:0] dtc_code_d1 = 0;
     wire       dtc_load;
     wire div_out_dtc;
     wire idelay_rdy;  
@@ -40,7 +40,7 @@ module fpga_ssc_pll_top (
     wire [2:0]  clk_sel_0          ; //debug_1 clk out sel [2] for change to clk_sel_1 debug
     wire [2:0]  clk_sel_1          ; //[2] for sel pll ref, [1,0] for sel debug_2 out
     wire [9:0]        mash_e1;
-    wire [12:0]       mash_e_combined;   // 3 阶组合误差 (13-bit signed)
+    wire [12:0]       mash_e_combined;   // 3 ????? (13-bit signed)
     wire              div_out_raw;
     wire clk_mux_01;
     wire clk_mux_02;
@@ -54,15 +54,15 @@ module fpga_ssc_pll_top (
     wire cal_mode;
     wire [8:0] cal_result;
     wire cal_valid;
-    wire [8:0] dtc_code_cal;       // 校准器输出的 dtc_code
-    wire [9:0] dtc_gain_cal;       // 校准器计算的增益
-    wire       cal_done;            // 校准完成
-    wire       cal_start;           // 校准触发
-    wire       cal_auto_en;         // 0=手动, 1=自动校准
-    wire       order_sel;           // 0=1阶补偿, 1=3阶补偿
-    wire [12:0] mash_e_dtc;          // 经 MUX 选通的误差 (送 dtc_comp)
-    wire       cal_mode_int;        // 校准器内部 cal_mode
-    wire [9:0] dtc_gain_muxed;      // 自动/手动增益选择
+    wire [8:0] dtc_code_cal;       // ?????? dtc_code
+    wire [9:0] dtc_gain_cal;       // ????????
+    wire       cal_done;            // ????
+    wire       cal_start;           // ????
+    wire       cal_auto_en;         // 0=??, 1=????
+    wire       order_sel;           // 0=1???, 1=3???
+    wire [12:0] mash_e_dtc;          // ? MUX ????? (? dtc_comp)
+    wire       cal_mode_int;        // ????? cal_mode
+    wire [9:0] dtc_gain_muxed;      // ??/??????
     
     wire rst_n_fracn;
     wire rst_n_mmcm;
@@ -78,7 +78,7 @@ module fpga_ssc_pll_top (
     wire       idelay_clk;             // IDELAYE3 clock
     wire       idelay_load;            // IDELAYE3 LOAD
     assign idelay_clk = sys_clk_g;
-    assign idelay_en  = 1'b0;           // 默认 CARRY8（可通过 VIO 控制）
+    assign idelay_en  = 1'b0;           // ?? CARRY8???? VIO ???
     
     assign and_rst_n_fracn =   1'b1   &&   sys_rst_n;
     assign and_rst_n_mmcm =    1'b1   &&   sys_rst_n;
@@ -123,16 +123,16 @@ module fpga_ssc_pll_top (
     BUFG u_sys_bufg_2 (.I (clk_div10), .O (clk_ref_pll));
     
     // -------------------------------------------------------------------------
-    // 1. VIO 控制信号
+    // 1. VIO ????
     // -------------------------------------------------------------------------
 
-    // 解析 VIO 输出
+    // ?? VIO ??
 
 
     vio_0 u_vio (
         .clk        (sys_clk_g),
-        .probe_in0  (idelay_rdy),      // 接 IDELAYCTRL 就绪状态
-        .probe_in1  (locked_pll),      // 接 pll_locked 就绪状态
+        .probe_in0  (idelay_rdy),      // ? IDELAYCTRL ????
+        .probe_in1  (locked_pll),      // ? pll_locked ????
         .probe_out0 (int_div),     // 8-bit
         .probe_out1 (frac),     // 10-bit
         .probe_out2 (dtc_gain),      // 8-bit
@@ -144,15 +144,15 @@ module fpga_ssc_pll_top (
     );
 
     // -------------------------------------------------------------------------
-    // 1b. VIO 校准控制 (新增)
+    // 1b. VIO ???? (??)
     // -------------------------------------------------------------------------
     vio_cal u_vio_cal (
         .clk        (sys_clk_g),
-        .probe_out0 (cal_start),        // 上升沿触发校准
-        .probe_out1 (cal_auto_en),      // 0=手动, 1=自动
-        .probe_out2 (order_sel),        // 0=1阶补偿, 1=3阶补偿
-        .probe_in0  (dtc_gain_cal),     // 校准结果: 修正增益
-        .probe_in1  (cal_done)          // 校准完成标志
+        .probe_out0 (cal_start),        // ???????
+        .probe_out1 (cal_auto_en),      // 0=??, 1=??
+        .probe_out2 (order_sel),        // 0=1???, 1=3???
+        .probe_in0  (dtc_gain_cal),     // ????: ????
+        .probe_in1  (cal_done)          // ??????
     );
 
     
@@ -174,7 +174,7 @@ module fpga_ssc_pll_top (
 
     BUFG u_sys_bufg_fracn_out (.I (div_out_raw), .O (div_out_raw_g));
     // -------------------------------------------------------------------------
-    // 2. MASH111 + 小数分频 + SSC
+    // 2. MASH111 + ???? + SSC
     // -------------------------------------------------------------------------
 
     ssc_controller u_ssc_ctrl (
@@ -206,17 +206,17 @@ module fpga_ssc_pll_top (
     );
 
     // -------------------------------------------------------------------------
-    // 3. DTC 补偿控制
+    // 3. DTC ????
     // -------------------------------------------------------------------------
 
     // -------------------------------------------------------------------------
-    // 3a. 校准器 (新增)
+    // 3a. ??? (??)
     // -------------------------------------------------------------------------
-    // dtc_sel = order_sel: 1阶→1级链(~2ns), 3阶→4级链(~8ns)
-    // VIO 的 dtc_sel 不再使用, 由 order_sel 直接控制
+    // dtc_sel = order_sel: 1??1??(~2ns), 3??4??(~8ns)
+    // VIO ? dtc_sel ????, ? order_sel ????
     dtc_calibrator #(.SHIFT(11)) u_cal (
         .clk            (sys_clk_g),
-        .order_sel      (order_sel),    // 自动切换 K 常数
+        .order_sel      (order_sel),    // ???? K ??
         .rst_n          (rst_n_dtc),
         .cal_mode_ext   (cal_start),
         .cal_mode       (cal_mode_int),
@@ -230,25 +230,25 @@ module fpga_ssc_pll_top (
     );
 
     // -------------------------------------------------------------------------
-    // 3b. 模式选择 MUX
+    // 3b. ???? MUX
     // -------------------------------------------------------------------------
-    // cal_auto_en = 0: 手动模式
-    //   cal_mode 由 vio_0 控制, dtc_code 由 dtc_comp 控制
-    // cal_auto_en = 1: 自动校准模式
-    //   cal_mode 由校准器控制, dtc_code 由校准器控制
+    // cal_auto_en = 0: ????
+    //   cal_mode ? vio_0 ??, dtc_code ? dtc_comp ??
+    // cal_auto_en = 1: ??????
+    //   cal_mode ??????, dtc_code ??????
     wire cal_mode_sel;
     wire [8:0] dtc_code_muxed;
 
     assign cal_mode_sel = cal_auto_en ? cal_mode_int : cal_mode;
-    // 校准中: 走校准器 (cal_auto_en=1 且 cal_done=0)
-    // 校准完成: 自动切回 dtc_comp (cal_done=1)
+    // ???: ???? (cal_auto_en=1 ? cal_done=0)
+    // ????: ???? dtc_comp (cal_done=1)
     assign dtc_code_muxed = (cal_auto_en && !cal_done) ? dtc_code_cal : dtc_code;
 
-    // dtc_code_pipe: 在 Fout 域打一拍, 避免 dtc_comp 组合输出直接进 dtc_code_d1
-    //   posedge Fout 捕获: 1阶的 Eo(posedge更新) 采到旧值(正确)
-    //                       3阶的 E_combined(negedge更新) 已传播半个周期(稳定)
-    //   再经 dtc_code_d1(negedge div_out_dtc_g) 捕获, 隔半个Fout周期, 安全
-    reg [8:0] dtc_code_pipe;
+    // dtc_code_pipe: ? Fout ????, ?? dtc_comp ??????? dtc_code_d1
+    //   posedge Fout ??: 1?? Eo(posedge??) ????(??)
+    //                       3?? E_combined(negedge??) ???????(??)
+    //   ?? dtc_code_d1(negedge div_out_dtc_g) ??, ???Fout??, ??
+    reg [8:0] dtc_code_pipe = 0;
     always @(posedge div_out_raw_g or negedge rst_n_dtc) begin
         if (!rst_n_dtc)
             dtc_code_pipe <= 9'd0;
@@ -257,18 +257,18 @@ module fpga_ssc_pll_top (
     end
 
     // -------------------------------------------------------------------------
-    // 3c. DTC 补偿阶数选择
+    // 3c. DTC ??????
     // -------------------------------------------------------------------------
-    // order_sel = 0: 1 阶补偿 (Eo = e1[n-1], 10-bit unsigned → 零扩展)
-    // order_sel = 1: 3 阶补偿 (E_combined, 13-bit signed)
+    // order_sel = 0: 1 ??? (Eo = e1[n-1], 10-bit unsigned ? ???)
+    // order_sel = 1: 3 ??? (E_combined, 13-bit signed)
     assign mash_e_dtc = order_sel ? $signed(mash_e_combined) : $signed({3'b0, mash_e1});
 
-    // 增益 MUX: 自动模式走校准器, 手动模式走 VIO
+    // ?? MUX: ????????, ????? VIO
     assign dtc_gain_muxed = cal_auto_en ? dtc_gain_cal : dtc_gain;
 
-    // SHIFT=11: 必须与 dtc_calibrator 的 SHIFT 一致
-    //   (SHIFT=12 时 K_BASE=32704, 1635 装不进 10-bit gain)
-    // offset 自动居中: 3阶加 256, 1阶不加 (由 dtc_comp 内部处理)
+    // SHIFT=11: ??? dtc_calibrator ? SHIFT ??
+    //   (SHIFT=12 ? K_BASE=32704, 1635 ??? 10-bit gain)
+    // offset ????: 3?? 256, 1??? (? dtc_comp ????)
     dtc_comp #(.WIDTH(13), .SHIFT(11), .DTC_WIDTH(9)) u_dtc_ctrl (
         .clk             (sys_clk_g),
         .rst_n           (rst_n_dtc),
@@ -288,7 +288,7 @@ module fpga_ssc_pll_top (
 BUFG u_sys_bufg_4 (.I (div_out_dtc), .O (div_out_dtc_g));
 //BUFG u_sys_bufg_5 (.I (div_out_raw), .O (div_out_raw_g));
     // -------------------------------------------------------------------------
-    // 5. ILA 观测
+    // 5. ILA ??
     // -------------------------------------------------------------------------
     ila_0 u_ila (
         .clk    (sys_clk_g),
@@ -302,7 +302,7 @@ BUFG u_sys_bufg_4 (.I (div_out_dtc), .O (div_out_dtc_g));
     );
 
 //     -------------------------------------------------------------------------
-//     6. SMA 差分输出（直接驱动顶层端口，无内部 assign） 
+//     6. SMA ????????????????? assign? 
 //      TO ADI PLL
 //     -------------------------------------------------------------------------
     OBUFDS #(
@@ -360,63 +360,63 @@ BUFG u_sys_bufg_4 (.I (div_out_dtc), .O (div_out_dtc_g));
     
         
     BUFGMUX #(
-        .CLK_SEL_TYPE("SYNC")   // 同步切换，毛刺更小
+        .CLK_SEL_TYPE("SYNC")   // ?????????
     ) u_mux_pll_ref (
         .O  (clk_fb_pll),
-        .I0 (clk_fb_pll_raw),            // 必须来自 BUFG 输出
-        .I1 (div_out_dtc_g),            // 必须来自 BUFG 输出
+        .I0 (clk_fb_pll_raw),            // ???? BUFG ??
+        .I1 (div_out_dtc_g),            // ???? BUFG ??
         .S  (clk_sel_1[2])        // 0=clk0, 1=clk1
     );
     
     
-    // 输入时钟必须都来自全局网络（BUFG/MMCM/PLL 输出）
+    // ??????????????BUFG/MMCM/PLL ???
     // PLL REF SEL
     BUFGMUX #(
-        .CLK_SEL_TYPE("SYNC")   // 同步切换，毛刺更小
+        .CLK_SEL_TYPE("SYNC")   // ?????????
     ) u_mux_pll_01 (
         .O  (bgmux_out2),
-        .I0 (clk_fb_pll_raw),            // 必须来自 BUFG 输出
-        .I1 (clk_out_pll),            // 必须来自 BUFG 输出
+        .I0 (clk_fb_pll_raw),            // ???? BUFG ??
+        .I1 (clk_out_pll),            // ???? BUFG ??
         .S  (clk_sel_1[0])        // 0=clk0, 1=clk1
     );
     
     BUFGMUX #(
-        .CLK_SEL_TYPE("SYNC")   // 同步切换，毛刺更小
+        .CLK_SEL_TYPE("SYNC")   // ?????????
     ) u_mux_pll_02 (
         .O  (bgmux_out3),
-        .I0 (bgmux_out2),            // 必须来自 BUFG 输出
-        .I1 (div_out_dtc_g),            // 必须来自 BUFG 输出
+        .I0 (bgmux_out2),            // ???? BUFG ??
+        .I1 (div_out_dtc_g),            // ???? BUFG ??
         .S  (clk_sel_1[1])        // 0=clk0, 1=clk1
     );
     
-    // 第一级：clk0 vs clk1
+    // ????clk0 vs clk1
     BUFGMUX #(
-        .CLK_SEL_TYPE("SYNC")   // 同步切换，毛刺更小
+        .CLK_SEL_TYPE("SYNC")   // ?????????
     ) u_mux_01 (
         .O  (clk_mux_01),
-        .I0 (clk_ref_pll),            // 必须来自 BUFG 输出
-        .I1 (clk_fb_pll),            // 必须来自 BUFG 输出
+        .I0 (clk_ref_pll),            // ???? BUFG ??
+        .I1 (clk_fb_pll),            // ???? BUFG ??
         .S  (clk_sel_0[0])        // 0=clk0, 1=clk1
     );
     
-    // 第二级：前级输出 vs clk2
+    // ???????? vs clk2
     BUFGMUX #(
         .CLK_SEL_TYPE("SYNC")
     ) u_mux_02 (
         .O  (clk_mux_02),
-        .I0 (clk_mux_01),       // 前级结果
-        .I1 (div_out_raw_g),            // 必须来自 BUFG 输出
-        .S  (clk_sel_0[1])        // 0=前级结果, 1=clk2
+        .I0 (clk_mux_01),       // ????
+        .I1 (div_out_raw_g),            // ???? BUFG ??
+        .S  (clk_sel_0[1])        // 0=????, 1=clk2
     );
 
-    // 第二级：前级输出 vs clk2
+    // ???????? vs clk2
     BUFGMUX #(
         .CLK_SEL_TYPE("SYNC")
     ) u_mux_out (
         .O  (test_clk_out),
-        .I0 (clk_mux_02),       // 前级结果
-        .I1 (bgmux_out3),            // 必须来自 BUFG 输出
-        .S  (clk_sel_0[2])        // 0=前级结果, 1=clk2
+        .I0 (clk_mux_02),       // ????
+        .I1 (bgmux_out3),            // ???? BUFG ??
+        .S  (clk_sel_0[2])        // 0=????, 1=clk2
     );
     
     
