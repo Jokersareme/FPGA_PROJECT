@@ -13,7 +13,7 @@ module BUFGMUX #(parameter CLK_SEL_TYPE="SYNC") (output O, input I0, input I1, i
 endmodule
 // VIO stubs
 module vio_0 (input clk, input [0:0] probe_in0, input [0:0] probe_in1, output [7:0] probe_out0, output [9:0] probe_out1, output [9:0] probe_out2, output [2:0] probe_out3, output [9:0] probe_out4, output [8:0] probe_out5, output [0:0] probe_out6);
-    assign probe_out0 = 8'd71; assign probe_out1 = 10'd213; assign probe_out2 = 10'd200;
+    assign probe_out0 = 8'd71; assign probe_out1 = 10'd213; assign probe_out2 = 10'd160;
     assign probe_out3 = 3'd1; assign probe_out4 = 10'd12; assign probe_out5 = 9'd0; assign probe_out6 = 1'd0;
 endmodule
 // vio_cal moved to vio_override.v (order_sel=0 for 1st-order cal)

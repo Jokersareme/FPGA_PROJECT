@@ -138,8 +138,10 @@ module tb_auto_full;
 
     // 打印抖动结果
     initial begin
-        #250000;
+        wait(u_dut.u_cal.cal_done);  // 等校准完成
+        #70000;  // 等采集足够周期
         if (dtc_period_cnt > 1) begin
+            $display("");
             $display("=== DTC Output Clock Jitter (post-calibration) ===");
             $display("  Samples: %0d", dtc_period_cnt);
             $display("  Avg period: %0d ps", dtc_period_sum / dtc_period_cnt);

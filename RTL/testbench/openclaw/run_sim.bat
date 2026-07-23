@@ -12,6 +12,7 @@ set MOD=models
 iverilog -g2012 -o main.vvp ^
     %MOD%\carry8_model.v ^
     xilinx_sim.v ^
+    vio_override.v ^
     %SRC%\dtc\lut_dtc.v ^
     %SRC%\dtc\lut_dtc_top.v ^
     %SRC%\dtc\dtc_comp.v ^

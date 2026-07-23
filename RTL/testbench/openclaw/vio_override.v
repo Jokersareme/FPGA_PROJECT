@@ -12,10 +12,10 @@ module vio_cal (
     reg [15:0] cnt = 0;
     reg cal_start_r = 0;
 
-    // cal_auto_en=1 (自动校准)
+    // cal_auto_en=0 (手动模式)
     // order_sel=0 (1阶补偿)
     assign probe_out0 = cal_start_r;
-    assign probe_out1 = 1'b1;
+    assign probe_out1 = 1'b0;
     assign probe_out2 = 1'b0;
 
     // 系统复位后约 1us 触发校准上升沿
