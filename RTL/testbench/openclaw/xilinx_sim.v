@@ -16,15 +16,7 @@ module vio_0 (input clk, input [0:0] probe_in0, input [0:0] probe_in1, output [7
     assign probe_out0 = 8'd71; assign probe_out1 = 10'd213; assign probe_out2 = 10'd200;
     assign probe_out3 = 3'd1; assign probe_out4 = 10'd12; assign probe_out5 = 9'd0; assign probe_out6 = 1'd0;
 endmodule
-module vio_cal (input clk, output probe_out0, output probe_out1, output probe_out2, input [9:0] probe_in0, input [0:0] probe_in1);
-    reg [9:0] cnt = 0; reg cal_start_r = 0;
-    assign probe_out0 = cal_start_r; assign probe_out1 = 1'b1; assign probe_out2 = 1'b1;
-    always @(posedge clk) begin
-        if (cnt < 8'd100) cnt <= cnt + 1;
-        else if (cnt == 8'd100) begin cal_start_r <= 1'b1; cnt <= cnt + 1; end
-        else if (cnt == 10'd501) begin cal_start_r <= 1'b0; cnt <= cnt + 1; end
-    end
-endmodule
+// vio_cal moved to vio_override.v (order_sel=0 for 1st-order cal)
 module vio_rst (input clk, output [0:0] probe_out0, output [0:0] probe_out1, output [0:0] probe_out2, output [0:0] probe_out3);
     reg rst_out = 0;
     assign probe_out0 = 1'b1; assign probe_out1 = 1'b1; assign probe_out3 = 1'b1;

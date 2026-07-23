@@ -1,0 +1,44 @@
+[*]
+*state_names.tff
+[tree]
+*use_translate_filter_state_names
+[dumpfile] tb_top_auto_full.vcd
+[timestart] 0
+[timeend] 200000000
+[signals_width] 24
+[sigs_grouped] 1
+[current_time] 25000000
+[sig_waveform_ref_name] 00
+[sigs]
+# 校准过程
+tb_top.u_dut.u_cal.state
+tb_top.u_dut.u_cal.next
+tb_top.u_dut.u_cal.cal_mode
+tb_top.u_dut.u_cal.cal_valid
+tb_top.u_dut.u_cal.cal_result
+tb_top.u_dut.u_cal.dtc_code_cal
+tb_top.u_dut.u_cal.tdc_min
+tb_top.u_dut.u_cal.tdc_max
+tb_top.u_dut.u_cal.dtc_gain_cal
+tb_top.u_dut.cal_done
+tb_top.u_dut.cal_start
+# 除法器
+tb_top.u_dut.u_cal.wait_cnt
+tb_top.u_dut.u_cal.div_busy
+tb_top.u_dut.u_cal.dividend
+tb_top.u_dut.u_cal.divisor
+tb_top.u_dut.u_cal.quotient
+tb_top.u_dut.u_cal.div_cnt
+# DTC输出
+tb_top.u_dut.div_out_dtc_g
+tb_top.dtc_dly
+tb_top.u_dut.dtc_code_d1
+tb_top.u_dut.dtc_gain_muxed
+tb_top.u_dut.cal_auto_en
+# 时钟
+tb_top.u_dut.sys_clk_g
+tb_top.u_dut.clk_ref_pll
+# MASH
+tb_top.u_dut.u_fracn_div.mash_e1
+tb_top.u_dut.u_fracn_div.mash_e2
+tb_top.u_dut.u_fracn_div.mash_e3

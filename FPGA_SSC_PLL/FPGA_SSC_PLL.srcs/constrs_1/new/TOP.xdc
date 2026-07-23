@@ -46,13 +46,36 @@ create_clock -period 20    -name dtc_code [get_nets dtc_code[*]]
 #ignore mmcm bufg conne33ction error
 #set_property CLOCK_DEDICATED_ROUTE BACKBONE [get_nets u_pll_mps_top/u_cleaner/clk_out1]
 
-## 强制 CARRY8 分散，增加布线延迟
-#set carry_cells [get_cells -hierarchical -filter {REF_NAME == CARRY8}]
-#set y_offset 0
-#foreach cell $carry_cells {
-#    set_property LOC SLICE_X0Y$y_offset $cell
-#    incr y_offset 8
-#}
+# ============================================================================
+# DTC (CARRY8 delay chain) 时序约束
+# CARRY8 作为可编程延迟链使用, CI→CO 是组合路径, 
+# 设 false_path 避免 Vivado 将其作为关键路径处理.
+# 精确到具体 cell hierarchy, 避免误伤其他 CARRY8.
+# ============================================================================
+
+# DTC 主路径 1 (u_lut_dtc_dly)
+set_false_path -through [get_cells -hierarchical -filter {NAME =~ *lut_dtc_top/u_lut_dtc_dly/u_carry*}]
+# DTC 主路径 2 (u_lut_dtc_dly2)
+set_false_path -through [get_cells -hierarchical -filter {NAME =~ *lut_dtc_top/u_lut_dtc_dly2/u_carry*}]
+# DTC 校准路径 (16 级 cascade)
+set_false_path -through [get_cells -hierarchical -filter {NAME =~ *lut_dtc_top/cascade*/u_lut_dtc/u_carry*}]
+
+# 保持 carry 链的 DONT_TOUFF 属性不被综合器优化
+set_property BLOCK_SYNTH.COLLAPSE_ALL NONE [get_cells -hierarchical -filter {NAME =~ *lut_dtc_top*}]
+
+# ============================================================================
+# Pblock: 将所有 DTC CARRY8 约束在相邻 SLICE 区域
+# 确保各 CARRY8 链之间物理靠近, 延迟特性一致.
+#
+# ⚠️ 请将 X0Ymin~X0Ymax 替换为目标芯片的实际坐标.
+#    XCVU9P-FLGA2104-2L-E 参考:
+#    - 一个 CLOCK_REGION 约 60 SLICEs 高
+#    - 512-tap CARRY8 链需要 64 SLICEs (8 per CARRY8 × 64 CARRY8s)
+#    - 建议预留至少 80 SLICEs 高度, 选在芯片中部 CLOCK_REGION
+# ============================================================================
+#create_pblock pblock_dtc
+#add_cells_to_pblock pblock_dtc [get_cells -hierarchical -filter {NAME =~ *lut_dtc_top*}]
+#resize_pblock pblock_dtc -add SLICE_X0Y100:SLICE_X0Y180
 
 
 #ADC
@@ -62,5 +85,3 @@ set adc_clk_half_period [expr {$adc_clk_period / 2.0}]
 
 # delay 8ns for hold fix, 2UI, not care DATA_N or DATA_N+2
 set hold_fix_time [expr {$adc_clk_half_period * 1}]
-
-set_false_path -through [get_cells -hierarchical -filter {REF_NAME == CARRY8 && NAME =~ *lut_dtc*}]

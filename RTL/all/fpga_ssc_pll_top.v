@@ -230,19 +230,14 @@ module fpga_ssc_pll_top (
     );
 
     // -------------------------------------------------------------------------
-    // 3b. 模式选择 MUX
+    // 3b. 模式选择 & 校准路径分离
     // -------------------------------------------------------------------------
-    // cal_auto_en = 0: 手动模式
-    //   cal_mode 由 vio_0 控制, dtc_code 由 dtc_comp 控制
-    // cal_auto_en = 1: 自动校准模式
-    //   cal_mode 由校准器控制, dtc_code 由校准器控制
+    // cal_mode: 自动模式走校准器, 手动模式走 VIO
+    // dtc_code: 主延迟链始终走 dtc_comp 的输出
+    // dtc_code_cal: 校准延迟链走校准器的 code（与主路径独立）
     wire cal_mode_sel;
-    wire [8:0] dtc_code_muxed;
 
     assign cal_mode_sel = cal_auto_en ? cal_mode_int : cal_mode;
-    // 校准中: 走校准器 (cal_auto_en=1 且 cal_done=0)
-    // 校准完成: 自动切回 dtc_comp (cal_done=1)
-    assign dtc_code_muxed = (cal_auto_en && !cal_done) ? dtc_code_cal : dtc_code;
 
     // dtc_code_pipe: 在 Fout 域打一拍, 避免 dtc_comp 组合输出直接进 dtc_code_d1
     //   posedge Fout 捕获: 1阶的 Eo(posedge更新) 采到旧值(正确)
@@ -253,7 +248,7 @@ module fpga_ssc_pll_top (
         if (!rst_n_dtc)
             dtc_code_pipe <= 9'd0;
         else
-            dtc_code_pipe <= dtc_code_muxed;
+            dtc_code_pipe <= dtc_code;
     end
 
     // -------------------------------------------------------------------------
@@ -332,6 +327,7 @@ BUFG u_sys_bufg_4 (.I (div_out_dtc), .O (div_out_dtc_g));
              .rst_n         (rst_n_dtc),
              .din           (div_out_raw_g),
              .code          (dtc_code_d1),
+             .cal_code      (dtc_code_cal),
              .cal_mode      (cal_mode_sel),
              .dtc_sel       (order_sel),
              .vco_clk       (clk_out_pll),

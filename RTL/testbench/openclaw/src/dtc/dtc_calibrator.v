@@ -36,7 +36,7 @@ module dtc_calibrator #(
 );
 
     localparam K_BASE = ((1 << SHIFT) * 16 * MAX_CODE) >> FRAC_WIDTH;  // 15-bit max
-    wire [14:0] K_CONST = order_sel ? (K_BASE >> 2) : K_BASE;
+    wire [14:0] K_CONST = K_BASE;
 
     localparam [3:0]
         S_IDLE        = 4'd0,
@@ -78,6 +78,10 @@ module dtc_calibrator #(
     // ====================================================================
     always @(*) begin
         next = state;
+        // cal_mode_ext=0 ???���´?״̬???? (�κ�ʱ����ֹУ׼)
+        if (state != S_IDLE && !cal_mode_ext) begin
+            next = S_IDLE;
+        end else begin
         case (state)
             S_IDLE:         if (cal_mode_ext && !ce_d1) next = SM_MIN_CODE;
             SM_MIN_CODE:    next = SM_MIN_DISCARD;
@@ -101,6 +105,7 @@ module dtc_calibrator #(
             SM_SATURATE:    next = SM_DONE;
             SM_DONE:        next = S_IDLE;
         endcase
+        end
     end
 
     // ====================================================================
@@ -157,9 +162,10 @@ module dtc_calibrator #(
                         quotient  <= 0; remainder <= 0;
                         div_cnt   <= 0; div_busy <= 1'b1;
                     end else if (div_cnt < 4'd10) begin
-                        if (remainder[13:0] >= divisor) begin
+                        // 用 15-bit 完整移位后余数比较和减法
+                        if ({remainder[13:0], dividend[14]} >= {5'b0, divisor}) begin
                             quotient[9 - div_cnt] <= 1'b1;
-                            remainder <= {remainder[13:0] - divisor, dividend[14]};
+                            remainder <= {remainder[13:0], dividend[14]} - {5'b0, divisor};
                         end else begin
                             quotient[9 - div_cnt] <= 1'b0;
                             remainder <= {remainder[13:0], dividend[14]};

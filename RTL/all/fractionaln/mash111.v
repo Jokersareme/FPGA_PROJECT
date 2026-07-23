@@ -10,7 +10,10 @@ module mash111 #(
 
     input [WIDTH-1:0] x_i, // Sigma-Delta 调制器的输入，即分频中小数的输入
     output reg [3:0] y_o,      // 量化输出
-    output [WIDTH-1:0] e_o // 最后一级 EFM 的误差输出，实际上用不到，不用管
+    output [WIDTH-1:0] e_o, // 最后一级 EFM 的误差输出
+    output [WIDTH-1:0] e1_o, // 第1级 EFM 原始误差 (用于 3 阶 DTC 补偿)
+    output [WIDTH-1:0] e2_o, // 第2级 EFM 原始误差
+    output [WIDTH-1:0] e3_o  // 第3级 EFM 原始误差
 );
 
     wire [WIDTH-1:0] x_i_1;
@@ -49,7 +52,12 @@ module mash111 #(
 
 //    assign y_o = c2;
 
-    assign e_o = (mash_eo_mode == 1'b0) ? eo_d1 : eo_d1; // TODO for high stage mash
+    // 暴露三级 EFM 原始误差给外部 combiner
+    assign e1_o = e_o_1;
+    assign e2_o = e_o_2;
+    assign e3_o = e_o_3;
+    // 为兼容旧接口, 保留 e_o (输出 e1 带 1 拍延迟)
+    assign e_o = eo_d1;
 
     // 延迟
     always @(posedge clk or negedge rst_n) begin

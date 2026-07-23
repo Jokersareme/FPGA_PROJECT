@@ -29,6 +29,7 @@ module lut_dtc_top #(
     input  wire              din,
     input  wire [CODE_WIDTH-1:0] code,
     input  wire              cal_mode,
+    input  wire [CODE_WIDTH-1:0] cal_code,
     input  wire              dtc_sel,
     input  wire              vco_clk,
     input  wire              idelay_en,       // 0=CARRY8?, 1=IDELAYE3
@@ -134,7 +135,7 @@ assign dout = carry_dout;
                      .sys_clk       (sys_clk),
                      .rst_n         (rst_n),
                      .din           (cal_dtc_i[i-1]),
-                     .code          (dtc_code),
+                     .code          (cal_code),
                      .cal_mode      (1'b0),
                      .dtc_sel       (1'b0),
                      .dout          (cal_dtc_i[i]),

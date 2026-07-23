@@ -230,19 +230,14 @@ module fpga_ssc_pll_top (
     );
 
     // -------------------------------------------------------------------------
-    // 3b. ???? MUX
+    // 3b. ???? & ???????
     // -------------------------------------------------------------------------
-    // cal_auto_en = 0: ????
-    //   cal_mode ? vio_0 ??, dtc_code ? dtc_comp ??
-    // cal_auto_en = 1: ??????
-    //   cal_mode ??????, dtc_code ??????
+    // cal_mode: ????????, ????? VIO
+    // dtc_code: ???????? dtc_comp ??
+    // dtc_code_cal: ????????? code????????
     wire cal_mode_sel;
-    wire [8:0] dtc_code_muxed;
 
     assign cal_mode_sel = cal_auto_en ? cal_mode_int : cal_mode;
-    // ???: ???? (cal_auto_en=1 ? cal_done=0)
-    // ????: ???? dtc_comp (cal_done=1)
-    assign dtc_code_muxed = (cal_auto_en && !cal_done) ? dtc_code_cal : dtc_code;
 
     // dtc_code_pipe: ? Fout ????, ?? dtc_comp ??????? dtc_code_d1
     //   posedge Fout ??: 1?? Eo(posedge??) ????(??)
@@ -253,7 +248,7 @@ module fpga_ssc_pll_top (
         if (!rst_n_dtc)
             dtc_code_pipe <= 9'd0;
         else
-            dtc_code_pipe <= dtc_code_muxed;
+            dtc_code_pipe <= dtc_code;
     end
 
     // -------------------------------------------------------------------------
@@ -332,6 +327,7 @@ BUFG u_sys_bufg_4 (.I (div_out_dtc), .O (div_out_dtc_g));
              .rst_n         (rst_n_dtc),
              .din           (div_out_raw_g),
              .code          (dtc_code_d1),
+             .cal_code      (dtc_code_cal),
              .cal_mode      (cal_mode_sel),
              .dtc_sel       (order_sel),
              .vco_clk       (clk_out_pll),

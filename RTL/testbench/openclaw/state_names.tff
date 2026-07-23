@@ -1,0 +1,27 @@
+# GTKWave Translate Filter
+# 将 u_cal.state 数值转换为状态名
+%LOAD
+$scope module tb_top $end
+$scope module u_dut $end
+$scope module u_cal $end
+$var wire 4 state $end
+$upscope $end
+$upscope $end
+$upscope $end
+%LOAD
+%ADD tb_top.u_dut.u_cal.state
+%TRANSLATE 0 S_IDLE
+%TRANSLATE 1 SM_MIN_CODE
+%TRANSLATE 2 SM_MIN_DISCARD
+%TRANSLATE 3 SM_MIN_FLUSH
+%TRANSLATE 4 SM_MIN_MEAS
+%TRANSLATE 5 SM_MIN_STORE
+%TRANSLATE 6 SM_MAX_CODE
+%TRANSLATE 7 SM_MAX_DISCARD
+%TRANSLATE 8 SM_MAX_FLUSH
+%TRANSLATE 9 SM_MAX_MEAS
+%TRANSLATE 10 SM_MAX_STORE
+%TRANSLATE 11 SM_DIVIDE
+%TRANSLATE 12 SM_SATURATE
+%TRANSLATE 13 SM_DONE
+%END
