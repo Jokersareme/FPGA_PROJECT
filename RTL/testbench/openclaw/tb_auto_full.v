@@ -50,11 +50,12 @@ module tb_auto_full;
     reg [31:0] dtc_code_cnt = 0;
     reg dtc_code_start = 0;
 
-    // 校准完成后开始采集 dtc_code
+    // 校准完成后开始采集 dtc_code（cal_done 单周期脉冲，用 flag 展宽）
+    always @(posedge u_dut.sys_clk_g) begin
+        if (u_dut.cal_done) dtc_code_start <= 1;
+    end
+
     always @(posedge u_dut.div_out_raw_g) begin
-        if (u_dut.cal_done) begin
-            dtc_code_start <= 1;
-        end
         if (dtc_code_start) begin
             dtc_code_cnt <= dtc_code_cnt + 1;
             dtc_code_sum <= dtc_code_sum + u_dut.dtc_code;
