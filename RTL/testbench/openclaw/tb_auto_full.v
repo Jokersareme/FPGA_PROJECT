@@ -80,7 +80,7 @@ module tb_auto_full;
             u_dut.u_cal.tdc_min, u_dut.u_cal.tdc_max);
         $display("  K_CONST = %0d", u_dut.u_cal.K_CONST);
 
-        // 等 dtc_code 采集 200 个样本
+        // 等 dtc_code 采集
         #50000;
 
         $display("@%0t: Post-calibration dtc_code stats (samples=%0d):", $time, dtc_code_cnt);
@@ -88,16 +88,65 @@ module tb_auto_full;
             dtc_code_min, dtc_code_max,
             dtc_code_cnt ? (dtc_code_sum / dtc_code_cnt) : 0);
         $display("  range = %0d", dtc_code_max - dtc_code_min);
-
-        // 显示最后的增益和 code
-        $display("@%0t: dtc_gain_muxed = %0d, dtc_offset = %0d, dtc_en = %0b",
-            $time, u_dut.dtc_gain_muxed, u_dut.dtc_offset, u_dut.dtc_en);
-        $display("@%0t: cal_mode = %0b, cal_auto_en = %0b",
-            $time, u_dut.cal_mode_sel, u_dut.cal_auto_en);
+        $display("");
+        $display("  dtc_gain_muxed = %0d, dtc_offset = %0d, dtc_en = %0b",
+            u_dut.dtc_gain_muxed, u_dut.dtc_offset, u_dut.dtc_en);
+        $display("  cal_mode = %0b, cal_auto_en = %0b",
+            u_dut.cal_mode_sel, u_dut.cal_auto_en);
+        $display("");
 
         #70000;
         $display("@%0t: === Simulation Complete ===", $time);
         $finish;
+    end
+
+    // ================================================================
+    // DTC 输出时钟周期测量 → p-p 抖动
+    // ================================================================
+    reg [31:0] dtc_edge_last = 0;
+    reg [31:0] dtc_period = 0;
+    reg [31:0] dtc_period_min = 32'h7FFFFFFF;
+    reg [31:0] dtc_period_max = 0;
+    reg [31:0] dtc_period_sum = 0;
+    reg [31:0] dtc_period_cnt = 0;
+    reg        dtc_period_start = 0;
+
+    always @(posedge u_dut.sys_clk_g) begin
+        if (u_dut.cal_done) dtc_period_start <= 1;
+    end
+
+    // 用 $realtime 获取 ps 级精度
+    // timescale 1ns/1ps, $realtime 返回 ns 实数
+    real dtc_re_last, dtc_re_period;
+
+    always @(posedge u_dut.div_out_dtc_g) begin
+        if (dtc_period_start) begin
+            dtc_re_period = ($realtime - dtc_re_last) * 1000;  // 转 ps
+            dtc_re_last = $realtime;
+
+            if (dtc_period_cnt > 0) begin  // 跳过第1个（无上一周期）
+                dtc_period_cnt <= dtc_period_cnt + 1;
+                dtc_period_sum <= dtc_period_sum + dtc_re_period;
+                if (dtc_re_period > dtc_period_max) dtc_period_max <= dtc_re_period;
+                if (dtc_re_period < dtc_period_min) dtc_period_min <= dtc_re_period;
+            end else begin
+                dtc_period_cnt <= 1;
+            end
+        end
+        dtc_edge_last <= $time;
+    end
+
+    // 打印抖动结果
+    initial begin
+        #250000;
+        if (dtc_period_cnt > 1) begin
+            $display("=== DTC Output Clock Jitter (post-calibration) ===");
+            $display("  Samples: %0d", dtc_period_cnt);
+            $display("  Avg period: %0d ps", dtc_period_sum / dtc_period_cnt);
+            $display("  Min period: %0d ps", dtc_period_min);
+            $display("  Max period: %0d ps", dtc_period_max);
+            $display("  Pk-Pk jitter: %0d ps", dtc_period_max - dtc_period_min);
+        end
     end
 
 endmodule
