@@ -36,7 +36,7 @@ module dtc_calibrator #(
 );
 
     localparam K_BASE = ((1 << SHIFT) * 16 * MAX_CODE) >> FRAC_WIDTH;  // 15-bit max
-    wire [14:0] K_CONST = K_BASE;
+    wire [14:0] K_CONST = order_sel ? K_BASE >> 2  : K_BASE;
 
     localparam [3:0]
         S_IDLE        = 4'd0,
