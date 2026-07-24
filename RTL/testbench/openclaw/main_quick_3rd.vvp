@@ -1,0 +1,193 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1539-g2693dd32b)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "D:\PROGRA~1\iverilog\lib\ivl\system.vpi";
+:vpi_module "D:\PROGRA~1\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "D:\PROGRA~1\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "D:\PROGRA~1\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "D:\PROGRA~1\iverilog\lib\ivl\va_math.vpi";
+:vpi_module "D:\PROGRA~1\iverilog\lib\ivl\v2009.vpi";
+S_0000023105946890 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0000023105946a20 .scope module, "CARRY8" "CARRY8" 3 6;
+ .timescale -9 -12;
+    .port_info 0 /OUTPUT 8 "CO";
+    .port_info 1 /OUTPUT 8 "O";
+    .port_info 2 /INPUT 8 "CI_TOP";
+    .port_info 3 /INPUT 8 "DI";
+    .port_info 4 /INPUT 8 "S";
+    .port_info 5 /INPUT 1 "CI";
+P_0000023105984ee0 .param/str "CARRY_TYPE" 0 3 6, "SINGLE_CY8";
+o000002310599afd8 .functor BUFZ 1, C4<z>; HiZ drive
+v00000231059882a0_0 .net "CI", 0 0, o000002310599afd8;  0 drivers
+o000002310599b008 .functor BUFZ 8, C4<zzzzzzzz>; HiZ drive
+v0000023105988340_0 .net "CI_TOP", 7 0, o000002310599b008;  0 drivers
+v00000231059880c0_0 .var "CO", 7 0;
+o000002310599b068 .functor BUFZ 8, C4<zzzzzzzz>; HiZ drive
+v00000231059885c0_0 .net "DI", 7 0, o000002310599b068;  0 drivers
+L_00000231059e3c68 .functor BUFT 1, C4<00000000>, C4<0>, C4<0>, C4<0>;
+v0000023105988160_0 .net "O", 7 0, L_00000231059e3c68;  1 drivers
+o000002310599b0c8 .functor BUFZ 8, C4<zzzzzzzz>; HiZ drive
+v0000023105988a20_0 .net "S", 7 0, o000002310599b0c8;  0 drivers
+E_00000231059859e0 .event anyedge, v0000023105988a20_0, v00000231059882a0_0, v00000231059885c0_0, v00000231059880c0_0;
+    .scope S_0000023105946a20;
+T_0 ;
+    %pushi/vec4 0, 0, 8;
+    %store/vec4 v00000231059880c0_0, 0, 8;
+    %end;
+    .thread T_0;
+    .scope S_0000023105946a20;
+T_1 ;
+    %wait E_00000231059859e0;
+    %load/vec4 v0000023105988a20_0;
+    %parti/s 1, 0, 2;
+    %flag_set/vec4 8;
+    %jmp/0 T_1.0, 8;
+    %load/vec4 v00000231059882a0_0;
+    %jmp/1 T_1.1, 8;
+T_1.0 ; End of true expr.
+    %load/vec4 v00000231059885c0_0;
+    %parti/s 1, 0, 2;
+    %jmp/0 T_1.1, 8;
+ ; End of false expr.
+    %blend;
+T_1.1;
+    %ix/load 4, 0, 0;
+    %ix/load 5, 20, 0;
+    %flag_set/imm 4, 0;
+    %assign/vec4/off/d v00000231059880c0_0, 4, 5;
+    %load/vec4 v0000023105988a20_0;
+    %parti/s 1, 1, 2;
+    %flag_set/vec4 8;
+    %jmp/0 T_1.2, 8;
+    %load/vec4 v00000231059880c0_0;
+    %parti/s 1, 0, 2;
+    %jmp/1 T_1.3, 8;
+T_1.2 ; End of true expr.
+    %load/vec4 v00000231059885c0_0;
+    %parti/s 1, 1, 2;
+    %jmp/0 T_1.3, 8;
+ ; End of false expr.
+    %blend;
+T_1.3;
+    %ix/load 4, 1, 0;
+    %ix/load 5, 20, 0;
+    %flag_set/imm 4, 0;
+    %assign/vec4/off/d v00000231059880c0_0, 4, 5;
+    %load/vec4 v0000023105988a20_0;
+    %parti/s 1, 2, 3;
+    %flag_set/vec4 8;
+    %jmp/0 T_1.4, 8;
+    %load/vec4 v00000231059880c0_0;
+    %parti/s 1, 1, 2;
+    %jmp/1 T_1.5, 8;
+T_1.4 ; End of true expr.
+    %load/vec4 v00000231059885c0_0;
+    %parti/s 1, 2, 3;
+    %jmp/0 T_1.5, 8;
+ ; End of false expr.
+    %blend;
+T_1.5;
+    %ix/load 4, 2, 0;
+    %ix/load 5, 20, 0;
+    %flag_set/imm 4, 0;
+    %assign/vec4/off/d v00000231059880c0_0, 4, 5;
+    %load/vec4 v0000023105988a20_0;
+    %parti/s 1, 3, 3;
+    %flag_set/vec4 8;
+    %jmp/0 T_1.6, 8;
+    %load/vec4 v00000231059880c0_0;
+    %parti/s 1, 2, 3;
+    %jmp/1 T_1.7, 8;
+T_1.6 ; End of true expr.
+    %load/vec4 v00000231059885c0_0;
+    %parti/s 1, 3, 3;
+    %jmp/0 T_1.7, 8;
+ ; End of false expr.
+    %blend;
+T_1.7;
+    %ix/load 4, 3, 0;
+    %ix/load 5, 20, 0;
+    %flag_set/imm 4, 0;
+    %assign/vec4/off/d v00000231059880c0_0, 4, 5;
+    %load/vec4 v0000023105988a20_0;
+    %parti/s 1, 4, 4;
+    %flag_set/vec4 8;
+    %jmp/0 T_1.8, 8;
+    %load/vec4 v00000231059880c0_0;
+    %parti/s 1, 3, 3;
+    %jmp/1 T_1.9, 8;
+T_1.8 ; End of true expr.
+    %load/vec4 v00000231059885c0_0;
+    %parti/s 1, 4, 4;
+    %jmp/0 T_1.9, 8;
+ ; End of false expr.
+    %blend;
+T_1.9;
+    %ix/load 4, 4, 0;
+    %ix/load 5, 20, 0;
+    %flag_set/imm 4, 0;
+    %assign/vec4/off/d v00000231059880c0_0, 4, 5;
+    %load/vec4 v0000023105988a20_0;
+    %parti/s 1, 5, 4;
+    %flag_set/vec4 8;
+    %jmp/0 T_1.10, 8;
+    %load/vec4 v00000231059880c0_0;
+    %parti/s 1, 4, 4;
+    %jmp/1 T_1.11, 8;
+T_1.10 ; End of true expr.
+    %load/vec4 v00000231059885c0_0;
+    %parti/s 1, 5, 4;
+    %jmp/0 T_1.11, 8;
+ ; End of false expr.
+    %blend;
+T_1.11;
+    %ix/load 4, 5, 0;
+    %ix/load 5, 20, 0;
+    %flag_set/imm 4, 0;
+    %assign/vec4/off/d v00000231059880c0_0, 4, 5;
+    %load/vec4 v0000023105988a20_0;
+    %parti/s 1, 6, 4;
+    %flag_set/vec4 8;
+    %jmp/0 T_1.12, 8;
+    %load/vec4 v00000231059880c0_0;
+    %parti/s 1, 5, 4;
+    %jmp/1 T_1.13, 8;
+T_1.12 ; End of true expr.
+    %load/vec4 v00000231059885c0_0;
+    %parti/s 1, 6, 4;
+    %jmp/0 T_1.13, 8;
+ ; End of false expr.
+    %blend;
+T_1.13;
+    %ix/load 4, 6, 0;
+    %ix/load 5, 20, 0;
+    %flag_set/imm 4, 0;
+    %assign/vec4/off/d v00000231059880c0_0, 4, 5;
+    %load/vec4 v0000023105988a20_0;
+    %parti/s 1, 7, 4;
+    %flag_set/vec4 8;
+    %jmp/0 T_1.14, 8;
+    %load/vec4 v00000231059880c0_0;
+    %parti/s 1, 6, 4;
+    %jmp/1 T_1.15, 8;
+T_1.14 ; End of true expr.
+    %load/vec4 v00000231059885c0_0;
+    %parti/s 1, 7, 4;
+    %jmp/0 T_1.15, 8;
+ ; End of false expr.
+    %blend;
+T_1.15;
+    %ix/load 4, 7, 0;
+    %ix/load 5, 20, 0;
+    %flag_set/imm 4, 0;
+    %assign/vec4/off/d v00000231059880c0_0, 4, 5;
+    %jmp T_1;
+    .thread T_1, $push;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "-";
+    "models/carry8_model.v";

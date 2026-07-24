@@ -32,9 +32,6 @@ module lut_dtc_top #(
     input  wire [CODE_WIDTH-1:0] cal_code,
     input  wire              dtc_sel,
     input  wire              vco_clk,
-    input  wire              idelay_en,       // 0=CARRY8链, 1=IDELAYE3
-    input  wire              idelay_clk,      // IDELAYE3 时钟
-    output wire              idelay_load,     // IDELAYE3 LOAD 脉冲
     output wire              dout,
     output wire  [CODE_WIDTH-1:0] cal_result,
     output wire               cal_valid
@@ -50,12 +47,9 @@ wire carry_dout;
 assign carry_dout = (dtc_sel == 0) ? div_out_dtc_i[1] : div_out_dtc_i[4];
 assign dtc_code = code;
 
-// IDELAYE3 输出
-wire idelay_dout;
-assign idelay_load = 1'b1;  // 持续使能 LOAD (VAR_LOAD 模式)
 
 // 输出选择
-assign dout = idelay_en ? idelay_dout : carry_dout;
+assign dout = carry_dout;
 
             (* DONT_TOUCH = "TRUE" *)
             lut_dtc #(
@@ -91,38 +85,6 @@ assign dout = idelay_en ? idelay_dout : carry_dout;
                 .sys_clk(sys_clk), .rst_n(rst_n),
                 .din(div_out_dtc_i[3]), .code(dtc_code), .cal_mode(1'b0), .dtc_sel(1'b0),
                 .dout(div_out_dtc_i[4]), .cal_result(), .cal_valid());
-
-    // ============================================================
-    // IDELAYE3 延迟路径 (替代 CARRY8 链)
-    // idelay_en=1 时使用, 需要 IDELAYCTRL 提供参考时钟
-    // ============================================================
-    IDELAYE3 #(
-        .CASCADE          ("NONE"),
-        .DELAY_FORMAT     ("TIME"),
-        .DELAY_SRC        ("DATAIN"),
-        .DELAY_TYPE       ("VAR_LOAD"),
-        .DELAY_VALUE      (0),
-        .IS_CLK_INVERTED  (1'b0),
-        .IS_RST_INVERTED  (1'b0),
-        .REFCLK_FREQUENCY (300.0),
-        .SIM_DEVICE       ("ULTRASCALE_PLUS"),
-        .UPDATE_MODE      ("ASYNC")
-    ) u_idelaye3 (
-        .CLK         (idelay_clk),
-        .CE          (1'b0),
-        .CASC_IN     (1'b0),
-        .CASC_RETURN (1'b0),
-        .IDATAIN     (1'b0),
-        .DATAIN      (din),
-        .INC         (1'b0),
-        .LOAD        (idelay_load),
-        .CNTVALUEIN  ({{(9-CODE_WIDTH){1'b0}}, code}),
-        .CNTVALUEOUT (),
-        .DATAOUT     (idelay_dout),
-        .CASC_OUT    (),
-        .EN_VTC      (1'b1),
-        .RST         (~rst_n)
-    );
 
     genvar i;
     generate

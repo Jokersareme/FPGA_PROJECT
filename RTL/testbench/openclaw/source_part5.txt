@@ -1,0 +1,420 @@
+FPGA DTC PLL - 完整设计源码合集
+============================================================
+
+===== src/dtc/lut_dtc_top.v =====
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 2026/07/20 11:41:52
+// Design Name: 
+// Module Name: lut_dtc_top
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module lut_dtc_top #(
+    parameter N_TAP = 512,
+    parameter CODE_WIDTH = 9
+) (
+    input  wire              sys_clk,
+    input  wire              rst_n,
+    input  wire              din,
+    input  wire [CODE_WIDTH-1:0] code,
+    input  wire              cal_mode,
+    input  wire [CODE_WIDTH-1:0] cal_code,
+    input  wire              dtc_sel,
+    input  wire              vco_clk,
+    output wire              dout,
+    output wire  [CODE_WIDTH-1:0] cal_result,
+    output wire               cal_valid
+);
+
+wire [4:0] div_out_dtc_i;
+wire [19:0] cal_dtc_i;
+wire [CODE_WIDTH-1:0] dtc_code;
+
+assign div_out_dtc_i[0] = din;
+// CARRY8 链输出
+wire carry_dout;
+assign carry_dout = (dtc_sel == 0) ? div_out_dtc_i[1] : div_out_dtc_i[4];
+assign dtc_code = code;
+
+
+// 输出选择
+assign dout = carry_dout;
+
+            (* DONT_TOUCH = "TRUE" *)
+            lut_dtc #(
+            .N_TAP (512),
+            .CODE_WIDTH (9)
+        ) u_lut_dtc_dly (
+                     .sys_clk       (sys_clk),
+                     .rst_n         (rst_n),
+                     .din           (div_out_dtc_i[0]),
+                     .code          (dtc_code),
+                     .cal_mode      (1'b0),
+                     .dtc_sel       (1'b0),
+                     .dout          (div_out_dtc_i[1]),
+                     .cal_result    (),
+                     .cal_valid     ()
+            );
+
+            // 级 2~4 (3阶用, 4级链合计 ~8ns)
+            (* DONT_TOUCH = "TRUE" *)
+            lut_dtc #(.N_TAP(512), .CODE_WIDTH(9)) u_lut_dtc_dly2 (
+                .sys_clk(sys_clk), .rst_n(rst_n),
+                .din(div_out_dtc_i[1]), .code(dtc_code), .cal_mode(1'b0), .dtc_sel(1'b0),
+                .dout(div_out_dtc_i[2]), .cal_result(), .cal_valid());
+
+            (* DONT_TOUCH = "TRUE" *)
+            lut_dtc #(.N_TAP(512), .CODE_WIDTH(9)) u_lut_dtc_dly3 (
+                .sys_clk(sys_clk), .rst_n(rst_n),
+                .din(div_out_dtc_i[2]), .code(dtc_code), .cal_mode(1'b0), .dtc_sel(1'b0),
+                .dout(div_out_dtc_i[3]), .cal_result(), .cal_valid());
+
+            (* DONT_TOUCH = "TRUE" *)
+            lut_dtc #(.N_TAP(512), .CODE_WIDTH(9)) u_lut_dtc_dly4 (
+                .sys_clk(sys_clk), .rst_n(rst_n),
+                .din(div_out_dtc_i[3]), .code(dtc_code), .cal_mode(1'b0), .dtc_sel(1'b0),
+                .dout(div_out_dtc_i[4]), .cal_result(), .cal_valid());
+
+    genvar i;
+    generate
+        for (i = 1; i < 17; i = i + 1) begin : cascade
+            (* DONT_TOUCH = "TRUE" *)
+            lut_dtc #(
+            .N_TAP (512),
+            .CODE_WIDTH (9)
+        ) u_lut_dtc (
+                     .sys_clk       (sys_clk),
+                     .rst_n         (rst_n),
+                     .din           (cal_dtc_i[i-1]),
+                     .code          (cal_code),
+                     .cal_mode      (1'b0),
+                     .dtc_sel       (1'b0),
+                     .dout          (cal_dtc_i[i]),
+                     .cal_result    (),
+                     .cal_valid     ()
+            );
+        end
+    endgenerate
+
+
+// ============================================================
+    // TDC 延迟测量模块 (vco_clk domain, 无 CDC 偏差)
+    // 测量 din 上升沿到 16 级 lut_dtc 延迟链输出上升沿的 vco_clk 周期数
+    //
+    // CDC fix: cal_dtc_i[0] 不再直接接 din(sys_clk域),
+    // 而是接 din_d2 (2级同步到 vco_clk 域后的输出).
+    // 这样校准链的起止都在同一时钟域, 消除 0~2 vco_clk 的测量偏差.
+    // ============================================================
+    localparam TDC_WIDTH   = 9;
+     
+    reg din_d1, din_d2;                // din 同步寄存器 (vco_clk 域)
+    reg [TDC_WIDTH-1:0] tdc_counter;   // 计数器
+    reg [TDC_WIDTH-1:0] tdc_count;     // 锁存结果
+    reg tdc_measuring;                  // 测量中标志
+    reg tdc_valid;                      // 结果有效
+
+    // cal_mode CDC: sys_clk → vco_clk 域 (2-flop synchronizer)
+    reg cal_mode_m1, cal_mode_m2;
+    
+    // 校准链输入取自同步后的 din_d2 (即 vco_clk 域)
+    assign cal_dtc_i[0] = din_d2;
+    
+    // 16 级 lut_dtc 延迟后的输出 (组合逻辑, 但传播需 ~122ns)
+    wire din_delayed = cal_dtc_i[16];
+
+    // 边沿检测 (vco_clk 域, 无跨时钟域问题)
+    wire din_rise = din_d1 && !din_d2;
+
+    always @(posedge vco_clk or negedge rst_n) begin
+        if (!rst_n) begin
+            din_d1 <= 1'b0;
+            din_d2 <= 1'b0;
+            tdc_counter <= {TDC_WIDTH{1'b0}};
+            tdc_measuring <= 1'b0;
+            tdc_count <= {TDC_WIDTH{1'b0}};
+            tdc_valid <= 1'b0;
+            cal_mode_m1 <= 1'b0;
+            cal_mode_m2 <= 1'b0;
+        end else begin
+            // 将 din (sys_clk 域) 同步到 vco_clk 域
+            din_d1 <= din;
+            din_d2 <= din_d1;
+
+            // cal_mode CDC: sys_clk → vco_clk
+            cal_mode_m1 <= cal_mode;
+            cal_mode_m2 <= cal_mode_m1;
+
+            // 测量逻辑 (使用同步后的 cal_mode_vco)
+            if (cal_mode_m2 && tdc_valid) begin
+                // 保持上次校准结果不变
+                tdc_valid <= tdc_valid;
+                tdc_count <= tdc_count;
+            
+            end else if (cal_mode_m2) begin
+                if (din_rise) begin
+                    // din 上升沿: 开始计数 (从1开始, 因为本条边沿不算)
+                    tdc_counter <= {{(TDC_WIDTH-1){1'b0}}, 1'b1};
+                    tdc_measuring <= 1'b1;
+                    tdc_valid <= 1'b0;
+                end else if (tdc_measuring) begin
+                    // 直接采样延迟链输出 (均在 vco_clk 域, 无 CDC)
+                    if (din_delayed) begin
+                        tdc_count <= tdc_counter;
+                        tdc_valid <= 1'b1;
+                        tdc_measuring <= 1'b0;
+                    end else begin
+                        tdc_counter <= tdc_counter + 1'b1;
+                        tdc_valid <= 1'b0;
+                    end
+                end else begin
+                    tdc_valid <= 1'b0;
+                end
+            end else begin
+                // 非测量模式
+                tdc_measuring <= 1'b0;
+                tdc_counter <= {TDC_WIDTH{1'b0}};
+                tdc_valid <= 1'b0;
+            end
+        end
+    end
+
+    assign cal_result = tdc_count;
+    assign cal_valid  = tdc_valid;
+    
+
+endmodule
+
+
+
+===== src/dtc/lut_dtc.v =====
+`timescale 1ns / 1ps
+// 零延迟 DTC 模型（事件安全，适合仿真）
+module lut_dtc #(parameter N_TAP=512, parameter CODE_WIDTH=9)(
+    input wire sys_clk, input wire rst_n, input wire din,
+    input wire [CODE_WIDTH-1:0] code, input wire cal_mode,
+    input wire dtc_sel, output wire dout,
+    output reg [CODE_WIDTH-1:0] cal_result, output reg cal_valid);
+    assign dout = din;
+
+    // 简化 TDC 模型
+    reg [8:0] tdc_cnt = 0;
+    reg [8:0] tdc_code = 0;
+    reg tdc_busy = 0;
+
+    always @(posedge sys_clk or negedge rst_n) begin
+        if (!rst_n) begin
+            cal_valid <= 1'b0; cal_result <= 0;
+            tdc_cnt <= 0; tdc_code <= 0; tdc_busy <= 0;
+        end else if (cal_mode && !tdc_busy) begin
+            tdc_code <= code;
+            tdc_cnt <= code / 10;
+            tdc_busy <= 1;
+            cal_valid <= 1'b0;
+        end else if (tdc_busy) begin
+            if (tdc_cnt == 0) begin
+                tdc_busy <= 0;
+                cal_valid <= 1'b1;
+                cal_result <= tdc_code / 10;
+            end else begin
+                tdc_cnt <= tdc_cnt - 1;
+                cal_valid <= 1'b0;
+            end
+        end else begin
+            cal_valid <= 1'b0;
+        end
+    end
+endmodule
+
+
+===== src/fractionaln/fractionaln.v =====
+`timescale  1ns / 1ps
+
+// ??????????????? mash111-Sigma-Delta ?????????
+module fractionaln #(
+    parameter P_WIDTH = 6,                  // P ??????
+    parameter S_WIDTH = 2,                  // S ??????
+    parameter INT_WIDTH = 8,                // ???????
+    parameter FRAC_WIDTH = 10               // ???????
+) (
+    input wire Fin,                         // ????????
+    input wire Sys_clk,                         // ????????
+    input wire rst_n,                       // ????????
+
+    input wire [INT_WIDTH-1:0] Integer,     // ??????
+    input wire [FRAC_WIDTH-1:0] Fraction,   // ??????
+    
+    output reg [FRAC_WIDTH-1:0] Eo,          // 1 ??? (???)
+    output reg [FRAC_WIDTH+2:0] E_combined,  // 3 ????? (?? 3 ? DTC ??)
+    output wire Fout                         // ????
+);
+
+	wire rst_n_sync;
+    wire [3:0] delta_sigma;
+    wire clk_delta_sigma;
+    wire [S_WIDTH-1:0] Si;
+    wire [P_WIDTH-1:0] Pi;
+    //reg Fout_reg;
+    wire [FRAC_WIDTH-1:0] Eo_raw;
+    wire [FRAC_WIDTH-1:0] mash_e1, mash_e2, mash_e3;  // ?? EFM ????
+	reg [FRAC_WIDTH-1:0] Eo_d1 = 0;
+	reg [FRAC_WIDTH-1:0] Eo_d2 = 0;
+	reg [FRAC_WIDTH-1:0] Eo_d3 = 0;
+
+    // 3 ? combiner: e? + (e? - e?[n-1]) + (e? - 2?e?[n-1] + e?[n-2])
+    // ??: Eo_raw (= e1[n-1]) ?? 1 ???,
+    //       mash_e2/mash_e3 ?????, ??? 1 ???? e1
+    reg [FRAC_WIDTH-1:0] e2_r1 = 0, e2_r2 = 0, e2_r3 = 0;           // e2[n], e2[n-1], e2[n-2]
+    reg [FRAC_WIDTH-1:0] e3_r1 = 0, e3_r2 = 0, e3_r3 = 0, e3_r4 = 0;     // e3[n], e3[n-1], e3[n-2], e3[n-3]
+    wire signed [FRAC_WIDTH+2:0] comp_3rd;
+    reg [FRAC_WIDTH+2:0] Ec_d1 = 0, Ec_d2 = 0, Ec_d3 = 0;            // E_combined ????
+
+    assign clk_delta_sigma = Fout;
+	reg delta_sigma_d1 = 0;
+	
+	wire [1:0] eo_dly_sel;
+	
+	    always @(posedge Fout or negedge rst_n) begin
+        if (!rst_n) begin
+            Eo <= 'd0;
+        end else begin
+        	Eo <= (eo_dly_sel==2'b00) ? Eo_raw :
+	            (eo_dly_sel==2'b01) ? Eo_d1 :
+	            (eo_dly_sel==2'b10) ? Eo_d2 : Eo_d3;
+        end 
+    end
+
+	
+	
+    // 3 阶组合误? (1-z⁻�?²·e3[n-1] = e3[n-1] - 2·e3[n-2] + e3[n-3]
+    assign comp_3rd = $signed({2'b0, e3_r1})        // +e3[n]
+                    - $signed({1'b0, e3_r2, 1'b0})  // -2*e3[n-1]
+                    + $signed({2'b0, e3_r3});        // +e3[n-2]
+
+    always @(negedge Fout or negedge rst_n) begin
+        if (!rst_n) begin
+            delta_sigma_d1 <= 0;
+            Eo_d1 <= 'd0;
+            Eo_d2 <= 'd0;
+            Eo_d3 <= 'd0;
+            e2_r1 <= 'd0;
+            e2_r2 <= 'd0;
+            e2_r3 <= 'd0;
+            e3_r1 <= 'd0;
+            e3_r2 <= 'd0;
+            e3_r3 <= 'd0;
+            e3_r4 <= 'd0;
+            Ec_d1 <= 'd0; Ec_d2 <= 'd0; Ec_d3 <= 'd0;
+            E_combined <= 'd0;
+            
+        end else begin
+            // 1 ????? (?)
+            Eo_d1    <= Eo_raw;
+            Eo_d2    <= Eo_d1;
+            Eo_d3    <= Eo_d2;
+            delta_sigma_d1 <= delta_sigma;
+            
+            // 3 ?????
+            // mash_e2/mash_e3 ????? (??? e2[n], e3[n])
+            e2_r1 <= mash_e2;     // e2[n]
+            e2_r2 <= e2_r1;       // e2[n-1]
+            e2_r3 <= e2_r2;       // e2[n-2]
+            e3_r1 <= mash_e3;     // e3[n]
+            e3_r2 <= e3_r1;       // e3[n-1]
+            e3_r3 <= e3_r2;       // e3[n-2]
+            e3_r4 <= e3_r3;       // e3[n-3]
+
+            Ec_d1 <= comp_3rd[FRAC_WIDTH+2:0];
+            Ec_d2 <= Ec_d1;
+            Ec_d3 <= Ec_d2;
+            // E_combined ???? (?? eo_dly_sel, ? Eo ????? VIO)
+            E_combined <= (eo_dly_sel==2'b00) ? comp_3rd[FRAC_WIDTH+2:0] :
+                          (eo_dly_sel==2'b01) ? Ec_d1 :
+                          (eo_dly_sel==2'b10) ? Ec_d2 : Ec_d3;
+        end 
+    end
+    
+    vio_eo u_vio_eo (
+        .clk (Sys_clk),
+        
+        .probe_out0 (eo_dly_sel)
+        );
+        
+    
+    //assign Fout = Fout_reg;
+    
+	dff  u_sync_rstn_dff (
+        .clk                     ( Fin      ),
+        .LD                      ( 1'b0     ),
+		.rst_n					 ( 1'b1		),
+        .P                       ( 1'b1     ),
+        .D                       ( rst_n    ),
+
+        .Q                       ( rst_n_sync     ),
+        .Qn                      (     )
+    );
+
+    // Sigma-Delta ??? (?????? EFM ????)
+    mash111 #(
+        .WIDTH  ( FRAC_WIDTH ),
+        .A_GAIN ( 1  ))
+    u_mash111 (
+        .clk                     ( clk_delta_sigma ),
+        .clk_ila                 ( Sys_clk         ),
+        .rst_n                   ( rst_n_sync      ),
+        .x_i                     ( Fraction        ),
+
+        .y_o                     ( delta_sigma     ),
+        .e_o                     ( Eo_raw          ),
+        .e3_o                    ( mash_e3         )
+    );
+
+    // ????????? Sigma-Delta ????????????????????? P ???? S ???
+    calculate_ps #(
+        .P_WIDTH   ( P_WIDTH ),
+        .S_WIDTH   ( S_WIDTH ),
+        .INT_WIDTH ( INT_WIDTH ))
+    u_calculate_ps (
+        .clk                     ( ~clk_delta_sigma ),
+        .rst_n                   ( rst_n_sync      ),
+        .Integer                 ( Integer         ),
+        .delta_sigma             ( delta_sigma_d1     ),
+		.Ei						 ( Eo_raw		   ),
+        .Si                      ( Si              ),
+        .Pi                      ( Pi              ),
+		.Eo						 (    		   )
+    );
+    
+    // P/S ?????
+    dual_div #(
+        .P_WIDTH ( P_WIDTH ),
+        .S_WIDTH ( S_WIDTH ))
+    u_dual_div (
+        .clk                     ( Fin        ),
+        .clk_ila                 ( Sys_clk    ),
+        .rst_n                   ( rst_n_sync ),
+        .Si                      ( Si         ),
+        .Pi                      ( Pi         ),
+
+        .Fdiv                    ( Fout       )
+    );    
+    
+endmodule
+
+
+
+

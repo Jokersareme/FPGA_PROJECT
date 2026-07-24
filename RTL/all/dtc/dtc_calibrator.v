@@ -2,11 +2,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Module: dtc_calibrator
 //
-// 校准流程 (每次测量排空1次, 取第2次):
-//   1. cal_mode_ext ↑ 触发
-//   2. dtc_code=0, cal_mode=1 → 等 cal_valid (第1次→丢弃)
-//   3. cal_mode=0→1 (复位TDC) → 等 cal_valid (第2次→存 tdc_min)
-//   4. dtc_code=511, 同上二次测量 → 存 tdc_max
+// 校准流程 (每次测量排空1�? 取第2�?:
+//   1. cal_mode_ext �?触发
+//   2. dtc_code=0, cal_mode=1 �?�?cal_valid (�?次→丢弃)
+//   3. cal_mode=0�? (复位TDC) �?�?cal_valid (�?次→�?tdc_min)
+//   4. dtc_code=511, 同上二次测量 �?�?tdc_max
 //   5. dtc_gain = K / (tdc_max - tdc_min)
 //   K = (2^SHIFT × 16 × MAX_CODE / 2^FRAC_WIDTH) / N_STAGES
 //     order_sel=0: N_STAGES=1, 1级链, K = K_BASE
@@ -19,12 +19,13 @@ module dtc_calibrator #(
     parameter GAIN_WIDTH = 10,
     parameter TDC_WIDTH  = 9,
     parameter MAX_CODE   = 511,
-    parameter SHIFT      = 11
+    parameter SHIFT = 11
 )(
     input  wire                clk,
     input  wire                rst_n,
     input  wire                cal_mode_ext,
-    input  wire                order_sel,      // 0=1阶(K=K_BASE), 1=3阶(K=K_BASE/4)
+    input  wire                order_sel,      // 0=1�?K=K_BASE), 1=3�?K=K_BASE/4)
+    input  wire                cal_bg_en,      // 0=����, 1=��̨����У׼
     output reg                 cal_mode,
     input  wire [TDC_WIDTH-1:0] cal_result,
     input  wire                cal_valid,
@@ -37,6 +38,8 @@ module dtc_calibrator #(
 
     localparam K_BASE = ((1 << SHIFT) * 16 * MAX_CODE) >> FRAC_WIDTH;  // 15-bit max
     wire [14:0] K_CONST = order_sel ? K_BASE >> 2  : K_BASE;
+
+    localparam BG_WAIT_CYCLES = 16'd50000;
 
     localparam [3:0]
         S_IDLE        = 4'd0,
@@ -52,14 +55,15 @@ module dtc_calibrator #(
         SM_MAX_STORE  = 4'd10,
         SM_DIVIDE     = 4'd11,
         SM_SATURATE   = 4'd12,
-        SM_DONE       = 4'd13;
+        SM_DONE       = 4'd13,
+        SM_BG_WAIT    = 4'd14;
 
     reg [3:0] state, next;
     reg ce_d1;
     wire ce_rise;
     reg [15:0] wait_cnt;
 
-    // 除法器 (15-bit ÷ 10-bit = 10-bit)
+    // 除法�?(15-bit ÷ 10-bit = 10-bit)
     reg [14:0] dividend;
     reg [9:0]  divisor;
     reg [14:0] quotient;   // 15-bit 商（15 次迭代）
@@ -78,7 +82,7 @@ module dtc_calibrator #(
     // ====================================================================
     always @(*) begin
         next = state;
-        // cal_mode_ext=0 时强制复位状态机 (任何时候终止校准)
+        // cal_mode_ext=0 时强制复位状态机 (任何时候终止校�?
         if (state != S_IDLE && !cal_mode_ext) begin
             next = S_IDLE;
         end else begin
@@ -96,14 +100,17 @@ module dtc_calibrator #(
             SM_MAX_STORE:
                 if (tdc_max > tdc_min) next = SM_DIVIDE;
                 else                   next = SM_SATURATE;
-            // 注意: action 用 case(next) 驱动
-            // 当 div_cnt>=10 时如果 next=SM_DONE, finish 块不会被触发
-            // 正确时序: div_cnt=10 → 在 SM_DIVIDE 里执行 finish → div_busy=0 → 下一拍进 SM_DONE
+            // 注意: action �?case(next) 驱动
+            // �?div_cnt>=10 时如�?next=SM_DONE, finish 块不会被触发
+            // 正确时序: div_cnt=10 �?�?SM_DIVIDE 里执�?finish �?div_busy=0 �?下一拍进 SM_DONE
             SM_DIVIDE:      if (div_busy && div_cnt >= 4'd10) next = SM_DIVIDE;  // 先留下跑 finish
-                            else if (!div_busy)               next = SM_DONE;    // finish 已完成, 走
-                            else                              next = SM_DIVIDE;
+                            else if (!div_busy)               next = SM_DONE;    // finish 已完�? �?                            else                              next = SM_DIVIDE;
             SM_SATURATE:    next = SM_DONE;
-            SM_DONE:        next = S_IDLE;
+            // 后台模式: SM_DONE �?SM_BG_WAIT �?自动重启
+            SM_DONE:        if (cal_bg_en)   next = SM_BG_WAIT;
+                            else              next = S_IDLE;
+            SM_BG_WAIT:     if (!cal_bg_en)  next = S_IDLE;
+                            else              next = SM_BG_WAIT;
         endcase
         end
     end
@@ -161,8 +168,7 @@ module dtc_calibrator #(
                         divisor   <= {1'b0, tdc_max - tdc_min};  // 10-bit
                         quotient  <= 0; remainder <= 0;
                         div_cnt   <= 0; div_busy <= 1'b1;
-                    end else if (div_cnt < 4'd15) begin   // 15 次迭代
-                        // 用 15-bit 完整移位后余数比较和减法
+                    end else if (div_cnt < 4'd15) begin   // 15 次迭�?                        // �?15-bit 完整移位后余数比较和减法
                         if ({remainder[13:0], dividend[14]} >= {5'b0, divisor}) begin
                             quotient[14 - div_cnt] <= 1'b1;
                             remainder <= {remainder[13:0], dividend[14]} - {5'b0, divisor};
@@ -174,15 +180,22 @@ module dtc_calibrator #(
                         div_cnt  <= div_cnt + 1'b1;
                     end else begin
                         div_busy <= 1'b0;
-                        // 15-bit 商截低 10 bit 给 gain
+                        // 15-bit 商截�?10 bit �?gain
                         dtc_gain_cal <= (quotient[9:0] > 10'd1023) ? 10'd1023 : quotient[9:0];
                     end
                 end
 
                 SM_SATURATE: dtc_gain_cal <= {GAIN_WIDTH{1'b1}};
                 SM_DONE:     cal_done <= 1'b1;
+                SM_BG_WAIT: begin
+                    cal_mode <= 1'b0;
+                    wait_cnt <= wait_cnt + 1'b1;
+                end
             endcase
         end
     end
 
 endmodule
+
+
+

@@ -1,0 +1,212 @@
+FPGA DTC PLL - 完整设计源码合集
+============================================================
+
+===== src/ssc_controller.v =====
+`timescale 1ns / 1ps
+////////////////////////////////////////////////////////////////////////////////
+// SSC (Spread Spectrum Clocking) 扩频时钟控制器
+// 控制 fracn 小数分频比，实现中心扩频或向下扩频
+//
+// 功能:
+//   spread_type=0 (center):  频率在中心值上下 ±spread_ppm 调制
+//   spread_type=1 (down):    频率从中心值向下 spread_ppm 调制
+//
+// 新增手动控制:
+//   spread_ppm: 展频范围 (ppm)，例如 5000 = 0.5%
+//   spread_type: 0=中心展频, 1=向下展频
+////////////////////////////////////////////////////////////////////////////////
+
+module ssc_controller #(
+    parameter MODULATION_FREQ = 30000,      // 调制频率 30kHz
+    parameter FRAC_WIDTH      = 10,         // 小数位宽
+    parameter INT_WIDTH       = 8           // 整数位宽
+)(
+    input  wire                        clk,
+    input  wire                        rst_n,
+    input  wire                        bypass,         // 1: bypass 模式
+    input  wire                        spread_type,    // 0=center, 1=down
+    input  wire [15:0]                 spread_ppm,     // 展频范围 (ppm)
+
+    input  wire [INT_WIDTH-1:0]        Integer,        // 中心分频比整数部分
+    input  wire [FRAC_WIDTH-1:0]       Fraction,       // 中心分频比小数部分
+
+    output reg  [INT_WIDTH-1:0]        ssc_int,
+    output reg  [FRAC_WIDTH-1:0]       ssc_frac,
+    output reg                          ssc_en
+);
+
+    // ============================================================
+    // 参数计算
+    // ============================================================
+    localparam MOD_PERIOD = 12500000 / MODULATION_FREQ;  // 416
+    localparam MOD_CNT_WIDTH = $clog2(MOD_PERIOD);
+
+    // ============================================================
+    // 三角波调制生成器
+    // ============================================================
+    reg [MOD_CNT_WIDTH-1:0] mod_cnt;
+    reg                     mod_dir;
+
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            mod_cnt <= {MOD_CNT_WIDTH{1'b0}};
+            mod_dir <= 1'b0;
+        end else if (!bypass) begin
+            if (mod_dir == 1'b0) begin
+                if (mod_cnt >= MOD_PERIOD - 1) begin
+                    mod_dir <= 1'b1;
+                    mod_cnt <= mod_cnt - 1'b1;
+                end else begin
+                    mod_cnt <= mod_cnt + 1'b1;
+                end
+            end else begin
+                if (mod_cnt == {MOD_CNT_WIDTH{1'b0}}) begin
+                    mod_dir <= 1'b0;
+                    mod_cnt <= mod_cnt + 1'b1;
+                end else begin
+                    mod_cnt <= mod_cnt - 1'b1;
+                end
+            end
+        end else begin
+            mod_cnt <= {MOD_CNT_WIDTH{1'b0}};
+            mod_dir <= 1'b0;
+        end
+    end
+
+    // ============================================================
+    // MAX_OFFSET 计算: spread_ppm * (Integer * 2^FRAC + Fraction) / 1000000
+    // 物理意义: spread_ppm 对应的小数步进值
+    // ============================================================
+    wire [INT_WIDTH+FRAC_WIDTH-1:0] total_ratio = (Integer << FRAC_WIDTH) + Fraction;
+    wire [31:0]                     max_off_prod = spread_ppm * total_ratio;
+    wire [15:0]                     max_offset = max_off_prod / 1000000;
+
+    // ============================================================
+    // 扩频偏移量计算
+    // ============================================================
+    wire [FRAC_WIDTH+MOD_CNT_WIDTH-1:0] offset_mult;
+
+    // 三角波 → frac_offset 映射:
+    //   center:  frac_offset = 2*mod_cnt*max/MOD - max  (-max ~ +max, 有符号)
+    //   down:    frac_offset = mod_cnt*max/MOD              (0 ~ +max)
+    assign offset_mult = mod_cnt * max_offset;
+
+    wire [FRAC_WIDTH-1:0] frac_offset_raw = offset_mult / MOD_PERIOD;
+
+    // Center-spread: 需要有符号偏移
+    // 先计算 2*frac_offset_raw，然后减去 max_offset
+    wire [FRAC_WIDTH:0] offset_2x  = {1'b0, frac_offset_raw} + {1'b0, frac_offset_raw};
+    wire [FRAC_WIDTH:0] offset_neg = offset_2x - max_offset;  // -max ~ +max
+
+    wire [FRAC_WIDTH:0] frac_off_comb = spread_type ? {1'b0, frac_offset_raw} : offset_neg;
+
+    // ============================================================
+    // 分频比合成 (带 bypass)
+    // ============================================================
+    // down:   frac_sum = Fraction + frac_offset_unsigned  (仅正向)
+    // center: frac_sum = Fraction + frac_offset_signed    (正负双向)
+    wire [FRAC_WIDTH:0] frac_sum = {1'b0, Fraction} + frac_off_comb;
+
+    wire                frac_carry = (frac_sum >= (1 << FRAC_WIDTH));
+    wire                frac_borrow = spread_type ? 1'b0 : (frac_sum[FRAC_WIDTH] && !frac_carry);
+
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            ssc_int  <= Integer;
+            ssc_frac <= Fraction;
+            ssc_en   <= 1'b0;
+        end else if (bypass) begin
+            ssc_int  <= Integer;
+            ssc_frac <= Fraction;
+            ssc_en   <= 1'b1;
+        end else begin
+            ssc_en <= 1'b1;
+
+            if (frac_carry) begin
+                // 上溢出: Integer + 1
+                ssc_int  <= Integer + 1'b1;
+                ssc_frac <= frac_sum[FRAC_WIDTH-1:0];
+            end else if (frac_borrow) begin
+                // 下溢出 (center-spread 负半周): Integer - 1
+                ssc_int  <= Integer - 1'b1;
+                ssc_frac <= frac_sum[FRAC_WIDTH-1:0];
+            end else begin
+                ssc_int  <= Integer;
+                ssc_frac <= frac_sum[FRAC_WIDTH-1:0];
+            end
+        end
+    end
+
+endmodule
+
+
+===== src/dtc/dtc_comp.v =====
+`timescale 1ns / 1ps
+
+// 输入位宽: WIDTH 可配; SHIFT 控制乘法结果右移量
+// 限制: dtc_comp 的 SHIFT 必须与 dtc_calibrator 的 SHIFT 一致 (否则多 2^diff 因子)
+// 目前两处都用 SHIFT=11 (SHIFT=12 时 K_BASE=32704, 10-bit gain 装不下)
+// order_sel 仅控制 offset 自动居中: 1阶=0, 3阶=256
+module dtc_comp #(
+    parameter WIDTH = 13,
+    parameter SHIFT = 11,       // 必须与 dtc_calibrator.SHIFT 一致
+    parameter DTC_WIDTH = 9
+)(
+    input  wire              clk,
+    input  wire              rst_n,
+    input  wire [WIDTH-1:0]  e1,
+    input  wire [9:0]        dtc_gain,
+    input  wire              dtc_en,
+    input  wire [DTC_WIDTH-1:0] dtc_offset,   // VIO 微调 offset (0~511)
+    input  wire              order_sel,        // 0=1阶, 1=3阶(加256居中)
+    output wire  [DTC_WIDTH-1:0] dtc_code,
+    output wire               dtc_load         // 仅用于 ILA 观测, 无实际功能
+);
+
+    wire dtc_code_man_en;
+    wire [9:0] dtc_code_man;
+
+    // 3阶自动居中 offset (+256), 1阶不加
+    // VIO 的 dtc_offset 作为微调
+    wire [DTC_WIDTH-1:0] center_offset = order_sel ? (1 << (DTC_WIDTH-1)) : {DTC_WIDTH{1'b0}};
+
+    // 乘法: e1 有符号, dtc_gain 无符号
+    // 位宽: WIDTH+10 = 23-bit signed
+    wire signed [WIDTH+9:0] mult = $signed({{10{e1[WIDTH-1]}}, e1}) * $signed({1'b0, dtc_gain});
+
+    // 从 mult 中提取有效位
+    // 问题: mult[SHIFT +: 10] (只取 10-bit) 在 3 阶误差较大时会溢出
+    //   例如 e=4095, gain=1023: mult=4,189,185, mult[20:11]=2045 > 511
+    //   10-bit signed 只能表示 -512~511, 2045 会截断为 -3 → code 算错
+    // 修复: 提取 12-bit (DTC_WIDTH+3), 足以覆盖最大值 2045
+    //   mult[22:11] = mult >> 11, 12-bit signed, 范围 -2048~2047, 安全
+    wire signed [DTC_WIDTH+2:0] mult_ext = $signed(mult[SHIFT +: DTC_WIDTH+3]);
+
+    // code_signed 用 13-bit (DTC_WIDTH+4) 防加法溢出
+    //   max mult_ext=2045, + center_offset=256, + dtc_offset=511 → 2812 < 4095 ✓
+    wire signed [DTC_WIDTH+3:0] code_signed = $signed(mult_ext)
+                                            + $signed({{4{1'b0}}, center_offset})
+                                            + $signed({{4{1'b0}}, dtc_offset});
+
+    // 饱和到 0~511, 使用 10'sd511 避免 9'sd511=-1 的 bug
+    wire [DTC_WIDTH-1:0] code_sat = (code_signed > 10'sd511) ? {DTC_WIDTH{1'b1}} :
+                                     (code_signed < 0)       ? {DTC_WIDTH{1'b0}} :
+                                     code_signed[DTC_WIDTH-1:0];
+    
+    
+    // dtc_code 组合输出, 经 dtc_code_pipe/Fout 域寄存器后再进 CARRY8
+    assign dtc_code = dtc_en ? (dtc_code_man_en ? dtc_code_man[DTC_WIDTH-1:0] : code_sat) : {DTC_WIDTH{1'b0}};
+
+    // dtc_load: 仅用于 ILA 观测 (IDELAYE3 已取消), 始终为 1
+    assign dtc_load = dtc_en;
+
+    vio_1 u_vio_dtc_comp (
+  .clk(clk),                // input wire clk
+  .probe_out0(dtc_code_man_en),  // output wire [0 : 0] probe_out0
+  .probe_out1(dtc_code_man)  // output wire [8 : 0] probe_out1
+);
+
+
+endmodule
+
+

@@ -1,19 +1,19 @@
-`timescale 1ns / 1ps
+﻿`timescale 1ns / 1ps
 module IBUFDS #(parameter DIFF_TERM="FALSE", parameter IBUF_LOW_PWR="TRUE", parameter IOSTANDARD="DEFAULT") (output O, input I, input IB);
-    assign O = I;
+    assign #0.050 O = I;
 endmodule
 module OBUFDS #(parameter IOSTANDARD="DEFAULT", parameter SLEW="SLOW") (output O, output OB, input I);
     assign O = I; assign OB = ~I;
 endmodule
 module BUFG (output O, input I);
-    assign O = I;
+    assign #0.050 O = I;
 endmodule
 module BUFGMUX #(parameter CLK_SEL_TYPE="SYNC") (output O, input I0, input I1, input S);
-    assign O = S ? I1 : I0;
+    assign #0.050 O = S ? I1 : I0;
 endmodule
 // VIO stubs
 module vio_0 (input clk, input [0:0] probe_in0, input [0:0] probe_in1, output [7:0] probe_out0, output [9:0] probe_out1, output [9:0] probe_out2, output [2:0] probe_out3, output [9:0] probe_out4, output [8:0] probe_out5, output [0:0] probe_out6);
-    assign probe_out0 = 8'd71; assign probe_out1 = 10'd213; assign probe_out2 = 10'd160;
+    assign probe_out0 = 8'd100; assign probe_out1 = 10'd256; assign probe_out2 = 10'd160;
     assign probe_out3 = 3'd1; assign probe_out4 = 10'd12; assign probe_out5 = 9'd0; assign probe_out6 = 1'd0;
 endmodule
 // vio_cal moved to vio_override.v (order_sel=0 for 1st-order cal)
@@ -28,10 +28,16 @@ module vio_1 (input clk, output [0:0] probe_out0, output [9:0] probe_out1);
     assign probe_out0 = 1'b0; assign probe_out1 = 10'd0;
 endmodule
 module vio_eo (input clk, output [1:0] probe_out0);
-    assign probe_out0 = 2'd0;
+    // eo_dly_sel: 0=当前comp_3rd, 1=延迟1拍, 2=延迟2拍, 3=延迟3拍
+    assign probe_out0 = 2'd1;
 endmodule
 module test_clk (input clk, output [2:0] probe_out0, output [2:0] probe_out1);
     assign probe_out0 = 3'd0; assign probe_out1 = 3'd0;
+endmodule
+module vio_ssc (input clk, output probe_out0, output [15:0] probe_out1);
+    // spread_type=1 (down), spread_ppm=5000 (0.5%)
+    assign probe_out0 = 1'b1;
+    assign probe_out1 = 16'd5000;
 endmodule
 module ila_0 (input clk, input [0:0] probe0, input [0:0] probe1, input [9:0] probe2, input [2:0] probe3, input [8:0] probe4, input [8:0] probe5, input [0:0] probe6);
 endmodule
@@ -107,3 +113,5 @@ module IDELAYCTRL #(parameter SIM_DEVICE = "ULTRASCALE")(
     end
     assign RDY = rdy_r;
 endmodule
+
+
