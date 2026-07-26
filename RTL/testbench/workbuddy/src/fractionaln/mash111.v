@@ -9,7 +9,8 @@ module mash111 #(
     input rst_n,           // ????????
 
     input [WIDTH-1:0] x_i, // Sigma-Delta ????????????????
-    output reg [3:0] y_o,      // ????
+    output reg signed [3:0] y_o,      // ????
+    output reg  y2_o,      // ????
     output [WIDTH-1:0] e_o
 );
 
@@ -77,11 +78,13 @@ module mash111 #(
         if (!rst_n) begin
             eo_d1 <= 1'b0;
 			y_o <= 4'b0;
+			y2_o <= 4'b0;
         end else begin
             eo_d1 <= e_o_1;
+			y2_o <= y_o_2;
 			y_o <=  (stage_sel == 2'b00) ? c2 :
 					(stage_sel == 2'b01) ? y_o_1 :
-					(stage_sel == 2'b10) ? y_o_1 + y_o_2 - y2_d : y_o_1 + y_o_2 - y2_d + (y_o_3 - y3_d - y3_d + y3_dd);
+					(stage_sel == 2'b10) ? $signed(y_o_1) + $signed(y_o_2) - $signed(y2_d) : $signed(y_o_1) + $signed(y_o_2) - $signed(y2_d);
         end 
 		end
 

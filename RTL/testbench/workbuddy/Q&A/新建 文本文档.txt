@@ -1,0 +1,112 @@
+我想改成标准差分的做法？应该在现在基础上怎么改呢？
+
+
+我先看一下仿真目录下相关模块的现状，再给你具体的改法。
+
+看完了仿真目录下的 fractionaln.v、mash111.v、hk_efm.v、dtc_comp.v。给你具体的改法。
+
+核心思路：把"递推累加"换成"前馈直算"
+先给一个关键推导（基于你现有代码）。你现在的 sigma 递推：
+
+sigma[n] = sigma[n-1] + Fraction - δ[n]·1024      δ[n] = y1[n] + y2[n] - y2[n-1]
+把 MASH 1-1 的结构展开，可以严格证明一个恒等式：
+
+σ
+[
+n
+]
+=
+a
+c
+c
+1
+[
+n
+]
+⏟
+第一级 EFM 残差
+−
+1024
+⋅
+y
+o
+2
+[
+n
+]
+⏟
+第二级进位
+σ[n]= 
+第一级 EFM 残差
+acc1[n]
+​
+ 
+​
+ −1024⋅ 
+第二级进位
+y 
+o2
+​
+ [n]
+​
+ 
+​
+ 
+
+acc1[n] = mash111 里 e_o_1（hk_efm 的 sum_r[9:0]），就是论文里的当前理想小数相位 φ[n]×1024，锯齿波，范围硬限 [0, 1023]
+y_o_2[n] = 第二级 EFM 的进位输出，就是论文里的 D_MASH[n] 标志
+这就是标准做法：每周期的补偿码由 MASH 当前状态直接算出（前馈），不需要累加器。你的 sigma 只是它的递推等价形式。
+
+具体改动（仿真目录，只动 2 个文件）
+1. src/fractionaln/mash111.v —— 引出两个内部信号
+verilog
+// 端口列表增加：
+    output [WIDTH-1:0] acc1_o,   // 第一级残差 = φ[n]×1024
+    output             y2_o,     // 第二级进位 = D_MASH 标志
+
+// 模块体内增加：
+    assign acc1_o = e_o_1;
+    assign y2_o   = y_o_2;
+2. src/fractionaln/fractionaln.v —— 替换 E_combined 的生成
+verilog
+// 新增信号
+wire [FRAC_WIDTH-1:0] acc1;
+wire                  y_o_2;
+
+// 标准差分形式：E[n] = φ[n]·1024 − D_MASH[n]·1024
+wire signed [FRAC_WIDTH+1:0] e_std =
+        $signed({2'b00, acc1}) - (y_o_2 ? 13'sd1024 : 13'sd0);
+
+// u_mash111 实例化时接上：
+//     .acc1_o (acc1),
+//     .y2_o   (y_o_2),
+
+// negedge Fout 的 always 块里，把 sigma 链路换成 e_std：
+        Ec_d1 <= e_std;
+        Ec_d2 <= Ec_d1;
+        Ec_d3 <= Ec_d2;
+        E_combined <= (eo_dly_sel==2'b00) ? e_std :
+                      (eo_dly_sel==2'b01) ? Ec_d1 :
+                      (eo_dly_sel==2'b10) ? Ec_d2 : Ec_d3;
+sigma / sigma_w 寄存器建议保留，仿真里可以直接对比 e_std == sigma 验证等价性（恒定 Fraction 稳态下应严格相等）。
+
+3. dtc_comp.v 及下游 —— 完全不用动
+E_combined 的语义没变（12-bit signed，1 LSB = Tvco/1024），理论 gain 仍然是 100（Tvco 1.6ns / 0.016ns per code），offset 256 居中逻辑也不变。
+
+改完后的效果对比
+项	现在（sigma 累加）	标准前馈形式
+补偿信号来源	递推累加器	MASH 当前状态直算
+E_combined 范围	理论 [-1024, 1023]，但 SSC 瞬态会越界（你仿真实测到 -1236）	硬限 [-1024, 1023]，永不越界
+补偿延迟范围	±Tvco（offset 256 居中）	相同
+漂移风险	delta_sigma 与 Fraction_d3 一旦错位，误差永久残留在累加器里	无（无记忆）
+dtc_code 范围 (gain=100)	[156, 356]，不饱和	相同
+顺带这就回答了你之前的范围疑问：标准形式下补偿严格在 ±Tvco 以内（[-1.6ns, +1.6ns)），你之前观测到越界（-1236、相邻差 2.88ns）是 sigma 累加器在 SSC 调制下 Fraction_d3 与 Fraction_d1 两拍错位造成的瞬态偏差，前馈形式天然消除了这个问题。
+
+补充：如果你想要论文的 [0, 2Tvco] 无符号形式
+论文是 DTC 放参考路径，补偿码为 (1−φ)·1024 + D_MASH·1024，换算过来就是：
+
+verilog
+E_ref = 1024 - e_std;   // 即 1024 - acc1 + (y_o_2 << 10)，范围 [1, 2048]
+这和你的分频器路径 signed 形式只差一个常数 Tvco（对 PFD 无影响）。你当前架构用 signed 形式即可，不需要为了形式一致去动顶层路径。
+
+要我直接把这处改动应用到 workbuddy 仿真目录，并跑一次对比仿真（同时 dump e_std 和 sigma 验证等价性）吗？
