@@ -83,29 +83,33 @@ module ssc_controller #(
     wire [FRAC_WIDTH+MOD_CNT_WIDTH-1:0] offset_mult;
 
     // 三角波 → frac_offset 映射:
-    //   center:  frac_offset = 2*mod_cnt*max/MOD - max  (-max ~ +max, 有符号)
-    //   down:    frac_offset = mod_cnt*max/MOD              (0 ~ +max)
+    //   center:  frac_offset = 2*mod_cnt*max/MOD - max   (-max ~ +max, 有符号)
+    //   down:    frac_offset = mod_cnt*max/MOD - max      (-max ~ 0,  有符号, 真·下展频)
     assign offset_mult = mod_cnt * max_offset;
 
     wire [FRAC_WIDTH-1:0] frac_offset_raw = offset_mult / MOD_PERIOD;
 
-    // Center-spread: 需要有符号偏移
-    // 先计算 2*frac_offset_raw，然后减去 max_offset
-    wire [FRAC_WIDTH:0] offset_2x  = {1'b0, frac_offset_raw} + {1'b0, frac_offset_raw};
-    wire [FRAC_WIDTH:0] offset_neg = offset_2x - max_offset;  // -max ~ +max
+    // Center-spread: 有符号偏移 -max ~ +max
+    wire signed [FRAC_WIDTH:0] offset_2x  = $signed({1'b0, frac_offset_raw}) + $signed({1'b0, frac_offset_raw});
+    wire signed [FRAC_WIDTH:0] offset_neg = offset_2x - $signed(max_offset);  // -max ~ +max
 
-    wire [FRAC_WIDTH:0] frac_off_comb = spread_type ? {1'b0, frac_offset_raw} : offset_neg;
+    // Down-spread: 反馈分频 f_vco=f_pfd*N_fb, 下展频需 N_fb<=标称 → 负偏移
+    wire signed [FRAC_WIDTH:0] offset_down = $signed({1'b0, frac_offset_raw}) - $signed(max_offset);
+
+    // 全程有符号, 否则负数回绕成大正数触发错误进位
+    wire signed [FRAC_WIDTH:0] frac_off_comb = spread_type ? offset_down : offset_neg;
 
     // ============================================================
-    // 分频比合成 (带 bypass)
+    // 分频比合成 (带 bypass)  -- 全程有符号
     // ============================================================
-    // down:   frac_sum = Fraction + frac_offset_unsigned  (仅正向)
-    // center: frac_sum = Fraction + frac_offset_signed    (正负双向)
-    wire [FRAC_WIDTH:0] frac_sum = {1'b0, Fraction} + frac_off_comb;
+    // down:   frac_sum = Fraction + offset_down  (-max ~ 0,  VCO 向下)
+    // center: frac_sum = Fraction + offset_neg   (-max ~ +max)
+    wire signed [FRAC_WIDTH+1:0] frac_sum = $signed({1'b0, Fraction}) + $signed(frac_off_comb);
 
-    wire                frac_carry = (frac_sum >= (1 << FRAC_WIDTH));
-    wire                frac_borrow = spread_type ? 1'b0 : (frac_sum[FRAC_WIDTH] && !frac_carry);
+    wire                frac_carry  = (frac_sum >= (1 << FRAC_WIDTH));   // 正溢出 → Integer+1 (VCO 升)
+    wire                frac_borrow = (frac_sum < 0);                    // 负溢出 → Integer-1 (VCO 降, 两模式都需要)
 
+    
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             ssc_int  <= Integer;

@@ -37,14 +37,14 @@ module lut_dtc_top #(
     output wire               cal_valid
 );
 
-wire [4:0] div_out_dtc_i;
+wire [2:0] div_out_dtc_i;
 wire [19:0] cal_dtc_i;
 wire [CODE_WIDTH-1:0] dtc_code;
 
 assign div_out_dtc_i[0] = din;
 // CARRY8 链输出
 wire carry_dout;
-assign carry_dout = (dtc_sel == 0) ? div_out_dtc_i[1] : div_out_dtc_i[4];
+assign carry_dout = (dtc_sel == 0) ? div_out_dtc_i[1] : div_out_dtc_i[2];
 assign dtc_code = code;
 
 
@@ -74,17 +74,6 @@ assign dout = carry_dout;
                 .din(div_out_dtc_i[1]), .code(dtc_code), .cal_mode(1'b0), .dtc_sel(1'b0),
                 .dout(div_out_dtc_i[2]), .cal_result(), .cal_valid());
 
-            (* DONT_TOUCH = "TRUE" *)
-            lut_dtc #(.N_TAP(512), .CODE_WIDTH(9)) u_lut_dtc_dly3 (
-                .sys_clk(sys_clk), .rst_n(rst_n),
-                .din(div_out_dtc_i[2]), .code(dtc_code), .cal_mode(1'b0), .dtc_sel(1'b0),
-                .dout(div_out_dtc_i[3]), .cal_result(), .cal_valid());
-
-            (* DONT_TOUCH = "TRUE" *)
-            lut_dtc #(.N_TAP(512), .CODE_WIDTH(9)) u_lut_dtc_dly4 (
-                .sys_clk(sys_clk), .rst_n(rst_n),
-                .din(div_out_dtc_i[3]), .code(dtc_code), .cal_mode(1'b0), .dtc_sel(1'b0),
-                .dout(div_out_dtc_i[4]), .cal_result(), .cal_valid());
 
     genvar i;
     generate

@@ -1,5 +1,5 @@
 namespace eval ::optrace {
-  variable script "C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/impl_1/fpga_ssc_pll_top.tcl"
+  variable script "X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/impl_1/fpga_ssc_pll_top.tcl"
   variable category "vivado_impl"
 }
 
@@ -104,13 +104,11 @@ start_step init_design
 set ACTIVE_STEP init_design
 set rc [catch {
   create_msg_db init_design.pb
-  set_param tcl.collectionResultDisplayLimit 0
   set_param chipscope.maxJobs 6
   set_param power.BramSDPPropagationFix 1
   set_param power.enableUnconnectedCarry8PinPower 1
   set_param power.enableCarry8RouteBelPower 1
   set_param power.enableLutRouteBelPower 1
-  set_param xicom.use_bs_reader 1
   set_param runs.launchOptions { -jobs 8  }
 OPTRACE "create in-memory project" START { }
   create_project -in_memory -part xcvu9p-flga2104-2L-e
@@ -118,26 +116,27 @@ OPTRACE "create in-memory project" START { }
   set_param project.singleFileAddWarning.threshold 0
 OPTRACE "create in-memory project" END { }
 OPTRACE "set parameters" START { }
-  set_property webtalk.parent_dir C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.cache/wt [current_project]
-  set_property parent.project_path C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.xpr [current_project]
-  set_property ip_output_repo C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.cache/ip [current_project]
+  set_property webtalk.parent_dir X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.cache/wt [current_project]
+  set_property parent.project_path X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.xpr [current_project]
+  set_property ip_output_repo X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.cache/ip [current_project]
   set_property ip_cache_permissions {read write} [current_project]
   set_property XPM_LIBRARIES {XPM_CDC XPM_MEMORY} [current_project]
 OPTRACE "set parameters" END { }
 OPTRACE "add files" START { }
-  add_files -quiet C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/fpga_ssc_pll_top.dcp
-  read_ip -quiet C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0.xci
-  read_ip -quiet C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/ip/vio_0/vio_0.xci
-  read_ip -quiet C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/ip/test_clk/test_clk.xci
-  read_ip -quiet C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/ip/ila_0/ila_0.xci
-  read_ip -quiet C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/ip/mash_stage/mash_stage.xci
-  read_ip -quiet C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/ip/ila_1/ila_1.xci
-  read_ip -quiet C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/ip/ila_dualdiv/ila_dualdiv.xci
-  read_ip -quiet C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/ip/vio_1/vio_1.xci
-  read_ip -quiet C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/ip/vio_rst/vio_rst.xci
-  read_ip -quiet C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/ip/vio_eo/vio_eo.xci
+  add_files -quiet X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/fpga_ssc_pll_top.dcp
+  read_ip -quiet X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0.xci
+  read_ip -quiet X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/ip/vio_cal/vio_cal.xci
+  read_ip -quiet X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/ip/ila_0/ila_0.xci
+  read_ip -quiet X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/ip/vio_1/vio_1.xci
+  read_ip -quiet X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/ip/test_clk/test_clk.xci
+  read_ip -quiet X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/ip/ila_dualdiv/ila_dualdiv.xci
+  read_ip -quiet X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/ip/ila_1/ila_1.xci
+  read_ip -quiet X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/ip/vio_0/vio_0.xci
+  read_ip -quiet X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/ip/vio_rst/vio_rst.xci
+  read_ip -quiet x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/ip/vio_ssc/vio_ssc.xci
+  read_ip -quiet x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/ip/ila_cal_top/ila_cal_top.xci
 OPTRACE "read constraints: implementation" START { }
-  read_xdc C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/constrs_1/new/TOP.xdc
+  read_xdc X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/constrs_1/new/TOP.xdc
 OPTRACE "read constraints: implementation" END { }
 OPTRACE "read constraints: implementation_pre" START { }
 OPTRACE "read constraints: implementation_pre" END { }

@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
-| Date         : Tue Jul 21 13:18:26 2026
+| Date         : Tue Jul 28 12:05:25 2026
 | Host         : DESKTOP-I9E0661 running 64-bit major release  (build 9200)
 | Command      : report_drc -file fpga_ssc_pll_top_drc_opted.rpt -pb fpga_ssc_pll_top_drc_opted.pb -rpx fpga_ssc_pll_top_drc_opted.rpx
 | Design       : fpga_ssc_pll_top
@@ -24,14 +24,14 @@ Table of Contents
       Design limits: <entire design considered>
            Ruledeck: default
              Max checks: <unlimited>
-             Checks found: 12
+             Checks found: 21
 +-------------+----------+-------------------------------------------------------------+--------+
 | Rule        | Severity | Description                                                 | Checks |
 +-------------+----------+-------------------------------------------------------------+--------+
-| DPIP-2      | Warning  | Input pipelining                                            | 2      |
-| DPOP-3      | Warning  | PREG Output pipelining                                      | 1      |
-| DPOP-4      | Warning  | MREG Output pipelining                                      | 1      |
-| PLHOLDVIO-2 | Warning  | Non-Optimal connections which could lead to hold violations | 8      |
+| DPIP-2      | Warning  | Input pipelining                                            | 6      |
+| DPOP-3      | Warning  | PREG Output pipelining                                      | 3      |
+| DPOP-4      | Warning  | MREG Output pipelining                                      | 3      |
+| PLHOLDVIO-2 | Warning  | Non-Optimal connections which could lead to hold violations | 9      |
 +-------------+----------+-------------------------------------------------------------+--------+
 
 2. REPORT DETAILS
@@ -46,14 +46,54 @@ Input pipelining
 DSP u_dtc_ctrl/mult input u_dtc_ctrl/mult/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
+DPIP-2#3 Warning
+Input pipelining  
+DSP u_ssc_ctrl/max_off_prod input u_ssc_ctrl/max_off_prod/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-2#4 Warning
+Input pipelining  
+DSP u_ssc_ctrl/max_off_prod input u_ssc_ctrl/max_off_prod/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-2#5 Warning
+Input pipelining  
+DSP u_ssc_ctrl/offset_mult input u_ssc_ctrl/offset_mult/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-2#6 Warning
+Input pipelining  
+DSP u_ssc_ctrl/offset_mult input u_ssc_ctrl/offset_mult/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
 DPOP-3#1 Warning
 PREG Output pipelining  
 DSP u_dtc_ctrl/mult output u_dtc_ctrl/mult/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
 Related violations: <none>
 
+DPOP-3#2 Warning
+PREG Output pipelining  
+DSP u_ssc_ctrl/max_off_prod output u_ssc_ctrl/max_off_prod/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
+Related violations: <none>
+
+DPOP-3#3 Warning
+PREG Output pipelining  
+DSP u_ssc_ctrl/offset_mult output u_ssc_ctrl/offset_mult/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
+Related violations: <none>
+
 DPOP-4#1 Warning
 MREG Output pipelining  
 DSP u_dtc_ctrl/mult multiplier stage u_dtc_ctrl/mult/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.
+Related violations: <none>
+
+DPOP-4#2 Warning
+MREG Output pipelining  
+DSP u_ssc_ctrl/max_off_prod multiplier stage u_ssc_ctrl/max_off_prod/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.
+Related violations: <none>
+
+DPOP-4#3 Warning
+MREG Output pipelining  
+DSP u_ssc_ctrl/offset_mult multiplier stage u_ssc_ctrl/offset_mult/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.
 Related violations: <none>
 
 PLHOLDVIO-2#1 Warning
@@ -66,6 +106,12 @@ Related violations: <none>
 
 PLHOLDVIO-2#2 Warning
 Non-Optimal connections which could lead to hold violations  
+A LUT u_cal_top/u_dtc_cal_dly_ref/dout_INST_0 is driving clock pin of 1 cells. This could lead to large hold time violations. Involved cells are:
+u_cal_top/u_bbpd/fb_sample_reg
+Related violations: <none>
+
+PLHOLDVIO-2#3 Warning
+Non-Optimal connections which could lead to hold violations  
 A LUT u_fracn_div/u_dual_div/u_div_45/u3_reg_sync/Qn is driving clock pin of 6 cells. This could lead to large hold time violations. Involved cells are:
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg/F1 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg macro),
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg/F2 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg macro),
@@ -75,42 +121,42 @@ u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg/F2 (in u_fracn_div/u_du
 u_fracn_div/u_dual_div/u_s_counter/u_mc_dff/Q_reg
 Related violations: <none>
 
-PLHOLDVIO-2#3 Warning
+PLHOLDVIO-2#4 Warning
 Non-Optimal connections which could lead to hold violations  
 A LUT u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg macro) is driving clock pin of 2 cells. This could lead to large hold time violations. Involved cells are:
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg/F1 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg macro)
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg/F2 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg macro)
 Related violations: <none>
 
-PLHOLDVIO-2#4 Warning
+PLHOLDVIO-2#5 Warning
 Non-Optimal connections which could lead to hold violations  
 A LUT u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg macro) is driving clock pin of 2 cells. This could lead to large hold time violations. Involved cells are:
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg/F1 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg macro)
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg/F2 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg macro)
 Related violations: <none>
 
-PLHOLDVIO-2#5 Warning
+PLHOLDVIO-2#6 Warning
 Non-Optimal connections which could lead to hold violations  
 A LUT u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg macro) is driving clock pin of 2 cells. This could lead to large hold time violations. Involved cells are:
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg/F1 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg macro)
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg/F2 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg macro)
 Related violations: <none>
 
-PLHOLDVIO-2#6 Warning
+PLHOLDVIO-2#7 Warning
 Non-Optimal connections which could lead to hold violations  
 A LUT u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg macro) is driving clock pin of 2 cells. This could lead to large hold time violations. Involved cells are:
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg/F1 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg macro)
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg/F2 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg macro)
 Related violations: <none>
 
-PLHOLDVIO-2#7 Warning
+PLHOLDVIO-2#8 Warning
 Non-Optimal connections which could lead to hold violations  
 A LUT u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg macro) is driving clock pin of 2 cells. This could lead to large hold time violations. Involved cells are:
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg/F1 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg macro)
 u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg/F2 (in u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg macro)
 Related violations: <none>
 
-PLHOLDVIO-2#8 Warning
+PLHOLDVIO-2#9 Warning
 Non-Optimal connections which could lead to hold violations  
 A LUT u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg/L3 (in u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg macro) is driving clock pin of 2 cells. This could lead to large hold time violations. Involved cells are:
 u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_reg/F1 (in u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_reg macro)

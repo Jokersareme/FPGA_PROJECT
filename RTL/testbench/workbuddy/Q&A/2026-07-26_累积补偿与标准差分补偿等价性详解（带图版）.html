@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Q&A：为什么累积相位补偿（σ）与标准差分补偿（e_std）改动前后等价？</title>
+<style>
+:root {
+  --font-sans: system-ui, "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+  --font-mono: Consolas, "Cascadia Mono", monospace;
+  --ink: #2C2C2A;
+  --muted: #5F5E5A;
+  --line: #D3D1C7;
+  --accent: #854F0B;
+  --accent-bg: #FAEEDA;
+}
+* { box-sizing: border-box; }
+body {
+  font-family: var(--font-sans);
+  color: var(--ink);
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 40px 28px 64px;
+  line-height: 1.75;
+  font-size: 15px;
+  background: #FFFFFF;
+}
+h1 { font-size: 21px; font-weight: 600; line-height: 1.4; margin: 0 0 6px; }
+.meta { color: var(--muted); font-size: 13px; margin-bottom: 28px; }
+h2 { font-size: 16px; font-weight: 600; margin: 32px 0 10px; padding-left: 10px; border-left: 3px solid var(--accent); }
+p { margin: 10px 0; }
+.question {
+  background: #F5F5F2;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 20px 0 8px;
+}
+.question .tag { font-size: 12px; color: var(--muted); display: block; margin-bottom: 4px; }
+pre {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  background: #F5F5F2;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px 16px;
+  overflow-x: auto;
+  line-height: 1.6;
+}
+figure {
+  margin: 18px 0;
+  padding: 16px 8px 8px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #FDFDFC;
+}
+figcaption { text-align: center; font-size: 12.5px; color: var(--muted); padding-top: 10px; }
+.takeaway {
+  background: var(--accent-bg);
+  border: 1px solid #EF9F27;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-top: 28px;
+}
+ol li { margin: 8px 0; }
+strong { font-weight: 600; }
+</style>
+</head>
+<body>
+
+<h1>Q&A：为什么累积相位补偿（σ）与标准差分补偿（e_std）改动前后等价？</h1>
+<div class="meta">2026-07-26 ｜ FPGA SSC PLL + DTC 项目 ｜ MASH 1-1（stage_sel = 2'b10），M = 1024</div>
+
+<div class="question">
+<span class="tag">问题</span>
+为什么改动前后是等价的呢，可否详细解释一下？
+</div>
+
+<h2>回答</h2>
+
+<p>等价不是巧合——核心原因是：<strong>"积分"这件事，第一级 EFM 的累加器已经替你做过了，没必要再搭第二个积分器</strong>。分三层讲清楚。</p>
+
+<p><strong>第一层：补偿的物理对象是什么。</strong>理想小数分频每周期的分频比应该是 N + x/M，但实际分频器只能按整数 N + y_o[n] 分频。每过一个分频周期，输出边沿就相对理想位置偏差 (y_o[n] − x/M)·Tvco，这个偏差是<strong>逐拍累积</strong>的。DTC 要抵消的正是这个累积相位误差 Φ[n]：</p>
+
+<figure>
+<svg viewBox="0 0 680 456" width="100%" role="img">
+<title>MASH 1-1 结构与相位误差的产生</title>
+<desc>两级 EFM 经 combiner 产生分频比 y_o，分频器输出逐拍累积量化相位误差</desc>
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+<g style="font-family:var(--font-sans)">
+<rect x="40" y="51" width="110" height="44" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="95" y="73" text-anchor="middle" dominant-baseline="central" font-size="13" fill="#0C447C">x = Fraction</text>
+<rect x="170" y="44" width="170" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="255" y="62" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="500" fill="#0C447C">第一级 EFM</text>
+<text x="255" y="80" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#185FA5">残差 e1 = acc1 mod M</text>
+<rect x="390" y="44" width="140" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="460" y="62" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="500" fill="#0C447C">第二级 EFM</text>
+<text x="460" y="80" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#185FA5">进位 y2 ∈ {0,1}</text>
+<path d="M150,73 H170" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M340,73 H390" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="365" y="63" text-anchor="middle" font-size="12" fill="#5F5E5A">e1</text>
+<rect x="175" y="170" width="190" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="270" y="188" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="500" fill="#0C447C">Combiner</text>
+<text x="270" y="206" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#185FA5">y_o = y1 + y2 − y2_d</text>
+<path d="M255,100 V170" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="263" y="135" font-size="12" fill="#5F5E5A">y1</text>
+<path d="M455,100 V210" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow)"/>
+<circle cx="455" cy="150" r="3" fill="#5F5E5A"/>
+<path d="M455,150 H395 V190 H365" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="425" y="141" text-anchor="middle" font-size="12" fill="#5F5E5A">y2 (+)</text>
+<rect x="420" y="210" width="70" height="40" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+<text x="455" y="230" text-anchor="middle" dominant-baseline="central" font-size="13" fill="#444441">z⁻¹</text>
+<path d="M455,250 V272 H320 V226" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="388" y="263" text-anchor="middle" font-size="12" fill="#5F5E5A">− y2_d</text>
+<path d="M270,226 V300" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="281" y="266" font-size="12" fill="#5F5E5A">y_o</text>
+<rect x="160" y="300" width="220" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="270" y="318" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="500" fill="#0C447C">多模分频器</text>
+<text x="270" y="336" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#185FA5">分频比 = N + y_o ∈ {N−1…N+2}</text>
+<path d="M270,356 V380" fill="none" stroke="#B4B2A9" stroke-width="0.5" stroke-dasharray="3 3"/>
+<rect x="70" y="380" width="540" height="56" rx="12" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+<text x="340" y="399" text-anchor="middle" dominant-baseline="central" font-size="13" fill="#633806">分频器输出的量化相位误差 Φ（单位 Tvco）</text>
+<text x="340" y="417" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#854F0B">Φ[n] = Σ ( y_o[k] − x/M )，DTC 产生 −Φ[n]·Tvco 的延迟将其抵消</text>
+</g>
+</svg>
+<figcaption>图 1 ｜ MASH 1-1 结构与相位误差的产生</figcaption>
+</figure>
+
+<p><strong>第二层：裂项相消——为什么积分可以不用自己做。</strong>代码里的 sigma 就是在复算这个累积和（乘上 M=1024 变成整数域）：σ[n] = Σ(x − y_o[k]·M)。把 combiner 的表达式 y_o = y1 + y2[k] − y2[k−1] 代进去，求和会拆成两部分，而<strong>两部分都各自"塌缩"了</strong>：</p>
+
+<figure>
+<svg viewBox="0 0 680 380" width="100%" role="img">
+<title>裂项相消推导</title>
+<desc>sigma 求和拆成两项：第一级残差 e1 与 y2 的裂项相消，最终得到 e_std 加常数</desc>
+<defs>
+<marker id="arrow2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+<g style="font-family:var(--font-sans)">
+<rect x="60" y="40" width="560" height="44" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+<text x="340" y="62" text-anchor="middle" dominant-baseline="central" font-size="13" fill="#2C2C2A">σ[n] = Σ ( x − y_o[k]·M )，代入 y_o = y1 + y2[k] − y2[k−1]</text>
+<path d="M240,84 L190,116" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow2)"/>
+<path d="M440,84 L490,116" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow2)"/>
+<rect x="60" y="116" width="260" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="190" y="134" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="500" fill="#0C447C">A = Σ ( x − y1[k]·M )</text>
+<text x="190" y="152" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#185FA5">第一级 EFM 的累加器正在算它</text>
+<rect x="360" y="116" width="260" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="490" y="134" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="500" fill="#085041">B = Σ ( y2[k] − y2[k−1] )</text>
+<text x="490" y="152" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0F6E56">差分形式 → 裂项相消</text>
+<path d="M190,172 V196" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow2)"/>
+<path d="M490,172 V196" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow2)"/>
+<rect x="60" y="196" width="260" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="190" y="214" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="500" fill="#0C447C">A = e1[n]（第一级残差）</text>
+<text x="190" y="232" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#185FA5">调制器里现成的寄存器，不用另算</text>
+<rect x="360" y="196" width="280" height="88" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="372" y="216" font-size="12" fill="#085041">B = (y2[0]−y2[−1]) + (y2[1]−y2[0]) +</text>
+<text x="372" y="234" font-size="12" fill="#085041">(y2[2]−y2[1]) + ⋯ + (y2[n]−y2[n−1])</text>
+<text x="372" y="258" font-size="13" font-weight="500" fill="#0F6E56">中间项两两抵消 ⇒ B = y2[n]</text>
+<path d="M190,252 V296 H270 V312" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow2)"/>
+<path d="M490,284 V304 H410 V312" fill="none" stroke="#5F5E5A" stroke-width="1.5" marker-end="url(#arrow2)"/>
+<rect x="110" y="312" width="460" height="48" rx="12" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+<text x="340" y="330" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="500" fill="#633806">σ[n] = e1[n] − y2[n]·M + C = e_std[n] + C</text>
+<text x="340" y="348" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#854F0B">零初始化时 C = 0，两者逐拍完全相等；C ≠ 0 时被 PLL 环路吸收</text>
+</g>
+</svg>
+<figcaption>图 2 ｜ 裂项相消推导：σ = e_std + C</figcaption>
+</figure>
+
+<p><strong>第三层：严格证明与常数 C 的处理。</strong>上面的裂项相消可以写成一行严格的递推证明。定义 D[n] = σ[n] − e1[n] + y2[n]·M，则：</p>
+
+<pre>D[n] − D[n−1] = (x − y_o[n]·M) − (x − y1[n]·M) + (y2[n] − y2[n−1])·M
+              = −M·(y_o[n] − y1[n] − y2[n] + y2[n−1])
+              = −M·(y_o[n] − y_o[n]) = 0</pre>
+
+<p>D 是常数，且零初始化时 D = 0，所以 σ[n] 和 e_std[n] <strong>逐拍严格相等</strong>，不只是"近似等价"。即使初值不为零，常数 C 在相域只是一个固定相位偏移——PLL 锁定时 PFD 两输入本来就允许一个静态相位差（靠电荷泵电流的微小失衡维持），环路会把它当作锁定点的一部分吸收掉，对抖动和噪声传递毫无影响。</p>
+
+<p><strong>那为什么说范围不同（±2Tvco vs ±Tvco）？</strong>关键在于这个"界"是怎么来的：σ 的界是<em>涌现</em>的——数学上它确实等于 e_std，但它的寄存器本身没有任何限幅机制，这个等式要靠 x 与 y_o 每拍精确对拍来维持。一旦流水线失配、或 SSC 扫描期间 x 在变化，混入的误差会被积分器<strong>永久累积</strong>，实测摆幅就到了 ±2Tvco。而 e_std 的界是<em>构造性</em>的：e1 是取模残差，天然落在 [0, M)，减去 y2·M（第二级每打一次进位，分频比就多计一个 VCO 周期，正好把残差中心化）后严格落在 (−M, +M)，错一拍也只错一拍，下一拍自动回界内：</p>
+
+<figure>
+<svg viewBox="0 0 680 380" width="100%" role="img">
+<title>有界性对比</title>
+<desc>sigma 积分器失配误差被永久累积实测约正负 2Tvco，e_std 前馈构造上严格正负 Tvco</desc>
+<g style="font-family:var(--font-sans)">
+<text x="185" y="38" text-anchor="middle" font-size="13" font-weight="500" fill="#791F1F">σ（积分器）：失配被逐拍累积</text>
+<rect x="50" y="50" width="270" height="180" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+<path d="M58,108 H312" fill="none" stroke="#B4B2A9" stroke-width="0.5" stroke-dasharray="3 3"/>
+<path d="M58,183 H312" fill="none" stroke="#B4B2A9" stroke-width="0.5" stroke-dasharray="3 3"/>
+<text x="44" y="108" text-anchor="end" dominant-baseline="central" font-size="11" fill="#5F5E5A">+M</text>
+<text x="44" y="145" text-anchor="end" dominant-baseline="central" font-size="11" fill="#5F5E5A">0</text>
+<text x="44" y="183" text-anchor="end" dominant-baseline="central" font-size="11" fill="#5F5E5A">−M</text>
+<text x="44" y="70" text-anchor="end" dominant-baseline="central" font-size="11" fill="#5F5E5A">+2M</text>
+<text x="44" y="220" text-anchor="end" dominant-baseline="central" font-size="11" fill="#5F5E5A">−2M</text>
+<text x="312" y="100" text-anchor="end" dominant-baseline="central" font-size="11" fill="#888780">理论界 ±M</text>
+<polyline points="70,145 84,132 98,148 112,126 126,138 140,104 154,122 168,96 182,118 196,86 210,112 224,92 238,120 252,142 266,176 280,158 294,196 308,172" fill="none" stroke="#A32D2D" stroke-width="1.5"/>
+<text x="505" y="38" text-anchor="middle" font-size="13" font-weight="500" fill="#085041">e_std（前馈）：构造上有界</text>
+<rect x="370" y="50" width="270" height="180" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+<rect x="378" y="108" width="226" height="75" fill="#1D9E75" opacity="0.15"/>
+<path d="M378,108 H632" fill="none" stroke="#B4B2A9" stroke-width="0.5" stroke-dasharray="3 3"/>
+<path d="M378,183 H632" fill="none" stroke="#B4B2A9" stroke-width="0.5" stroke-dasharray="3 3"/>
+<text x="364" y="108" text-anchor="end" dominant-baseline="central" font-size="11" fill="#5F5E5A">+M</text>
+<text x="364" y="145" text-anchor="end" dominant-baseline="central" font-size="11" fill="#5F5E5A">0</text>
+<text x="364" y="183" text-anchor="end" dominant-baseline="central" font-size="11" fill="#5F5E5A">−M</text>
+<text x="505" y="98" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#0F6E56">严格界 ±M（±Tvco），错一拍只错一拍</text>
+<polyline points="386,150 398,124 410,158 422,118 434,166 446,128 458,172 470,134 482,178 494,140 506,168 518,126 530,158 542,136 554,170 566,146 578,162 590,150" fill="none" stroke="#0F6E56" stroke-width="1.5"/>
+<path d="M90,286 H630" fill="none" stroke="#A32D2D" stroke-width="3"/>
+<path d="M90,282 V290 M630,282 V290" fill="none" stroke="#A32D2D" stroke-width="2"/>
+<text x="360" y="272" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#A32D2D">σ 实测摆幅约 ±2Tvco（界靠完美对拍维持）</text>
+<path d="M90,300 H630" fill="none" stroke="#5F5E5A" stroke-width="1"/>
+<path d="M90,296 V304 M225,296 V304 M360,296 V304 M495,296 V304 M630,296 V304" fill="none" stroke="#5F5E5A" stroke-width="1"/>
+<text x="90" y="318" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#5F5E5A">−2Tvco</text>
+<text x="225" y="318" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#5F5E5A">−Tvco</text>
+<text x="360" y="318" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#5F5E5A">0</text>
+<text x="495" y="318" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#5F5E5A">+Tvco</text>
+<text x="630" y="318" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#5F5E5A">+2Tvco</text>
+<path d="M225,338 H495" fill="none" stroke="#0F6E56" stroke-width="3"/>
+<path d="M225,334 V342 M495,334 V342" fill="none" stroke="#0F6E56" stroke-width="2"/>
+<text x="360" y="360" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0F6E56">e_std 严格 ±Tvco（结构保证，与对拍无关）</text>
+</g>
+</svg>
+<figcaption>图 3 ｜ 有界性对比：积分器（左，实测 ±2Tvco） vs 前馈（右，严格 ±Tvco）</figcaption>
+</figure>
+
+<h2>总结</h2>
+
+<ol>
+<li><strong>补偿对象</strong>：分频器输出的累积相位误差 Φ[n] = Σ(y_o[k] − x/M)·Tvco，两种做法都是在整数域（×1024）复算它。</li>
+<li><strong>等价根源</strong>：把 y_o = y1 + y2 − y2_d 代入求和后，第一项的积分恰好就是第一级 EFM 的残差 e1（调制器内部现成的累加器），第二项是差分形式、裂项相消只剩 y2[n]。严格证明 D[n] = σ − e1 + y2·M 为常数，零初始化时两者逐拍完全相等；常数只表现为静态相位差，被 PLL 环路吸收。</li>
+<li><strong>工程差异</strong>：σ 是另搭的积分器，它的界靠完美对拍维持，失配误差被永久积分，实测摆到 ±2Tvco；e_std 是前馈直算，e1 取模天然有界，y2·M 项把残差中心化到严格 ±Tvco，对时序失配鲁棒。</li>
+</ol>
+
+<p>所以改成标准做法<strong>不改变任何补偿效果</strong>（数学上就是同一个量），换来的是 DTC 量程需求减半、INL 影响减半、以及对流水线失配免疫——这就是论文里都用前馈形式的原因。</p>
+
+<div class="takeaway">
+<strong>一句话概括：</strong>σ 是自己再搭一个积分器去复算相位，e_std 是直接读出调制器内部已经积好的残差再加一拍 y2 修正——两者是同一个物理量的两种实现，所以补偿效果相同；差别只在于前馈形式把范围严格限在 ±Tvco，这就是要改过去的原因。
+</div>
+
+</body>
+</html>

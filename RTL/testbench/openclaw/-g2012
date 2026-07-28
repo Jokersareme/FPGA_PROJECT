@@ -1,0 +1,47 @@
+DESIGN TIME PRECISION: 10e-12
+PACKAGES:
+SCOPES:
+CARRY8 module <CARRY8> instance 0 children, 0 classes
+    timescale = 10e-9 / 10e-12
+    parameter netvector_t:bool unsigned[79:0]CARRY_TYPE = "SINGLE_CY8";
+    enum sets {
+    }
+    enum names {
+    }
+    event _ivl_2; nprobe=1 scope=CARRY8 // models\carry8_model.v:10
+    wire: CI unpacked dims=0 pin_count=1 input netvector_t:logic unsigned (eref=1, lref=0) scope=CARRY8 #(0,0,0) vector_width=1 pin_count=1
+        [0]: 0x28344caa230 CARRY8.CI
+    wire: CI_TOP unpacked dims=0 pin_count=1 input netvector_t:logic unsigned[7:0] (eref=0, lref=0) scope=CARRY8 #(0,0,0) vector_width=8 pin_count=1
+    reg: CO unpacked dims=0 pin_count=1 output netvector_t:logic unsigned[7:0] (eref=7, lref=9) scope=CARRY8 #(0,0,0) vector_width=8 pin_count=1
+        [0]: 0x28344caa3e0 CARRY8.CO
+    wire: DI unpacked dims=0 pin_count=1 input netvector_t:logic unsigned[7:0] (eref=8, lref=0) scope=CARRY8 #(0,0,0) vector_width=8 pin_count=1
+        [0]: 0x28344caa3b0 CARRY8.DI
+    wire: O unpacked dims=0 pin_count=1 output netvector_t:logic unsigned[7:0] (eref=0, lref=0) scope=CARRY8 #(0,0,0) vector_width=8 pin_count=1
+        [0]: 0x28344caa110 CARRY8.O
+    wire: S unpacked dims=0 pin_count=1 input netvector_t:logic unsigned[7:0] (eref=8, lref=0) scope=CARRY8 #(0,0,0) vector_width=8 pin_count=1
+        [0]: 0x28344caa1a0 CARRY8.S
+ELABORATED NODES:
+constant 8'd0: _ivl_1 #(.,.,.)
+    0 pin0 O (strong0 strong1): 0x28344caa110 CARRY8.O
+anyedge -> _ivl_2; 
+    0 pin0 I (strong0 strong1): 0x28344caa1a0 CARRY8.S
+    1 pin1 I (strong0 strong1): 0x28344caa230 CARRY8.CI
+    2 pin2 I (strong0 strong1): 0x28344caa3b0 CARRY8.DI
+    3 pin3 I (strong0 strong1): 0x28344caa3e0 CARRY8.CO
+ELABORATED BRANCHES:
+ELABORATED PROCESSES:
+always  /* models\carry8_model.v:10 in CARRY8 */
+  (* _ivl_schedule_push = 'sd1 *)
+  @(_ivl_2)  // models\carry8_model.v:10
+    begin
+        {CO['sd0 +: 1]} <= #(64'b0000000000000000000000000000000000000000000000000000000000010100) (<select=S[7:0]['sd0+:1] expr_type=logic>) ? (CI) : (<select=DI[7:0]['sd0+:1] expr_type=logic>);
+        {CO['sd1 +: 1]} <= #(64'b0000000000000000000000000000000000000000000000000000000000010100) (<select=S[7:0]['sd1+:1] expr_type=logic>) ? (<select=CO[7:0]['sd0+:1] expr_type=logic>) : (<select=DI[7:0]['sd1+:1] expr_type=logic>);
+        {CO['sd2 +: 1]} <= #(64'b0000000000000000000000000000000000000000000000000000000000010100) (<select=S[7:0]['sd2+:1] expr_type=logic>) ? (<select=CO[7:0]['sd1+:1] expr_type=logic>) : (<select=DI[7:0]['sd2+:1] expr_type=logic>);
+        {CO['sd3 +: 1]} <= #(64'b0000000000000000000000000000000000000000000000000000000000010100) (<select=S[7:0]['sd3+:1] expr_type=logic>) ? (<select=CO[7:0]['sd2+:1] expr_type=logic>) : (<select=DI[7:0]['sd3+:1] expr_type=logic>);
+        {CO['sd4 +: 1]} <= #(64'b0000000000000000000000000000000000000000000000000000000000010100) (<select=S[7:0]['sd4+:1] expr_type=logic>) ? (<select=CO[7:0]['sd3+:1] expr_type=logic>) : (<select=DI[7:0]['sd4+:1] expr_type=logic>);
+        {CO['sd5 +: 1]} <= #(64'b0000000000000000000000000000000000000000000000000000000000010100) (<select=S[7:0]['sd5+:1] expr_type=logic>) ? (<select=CO[7:0]['sd4+:1] expr_type=logic>) : (<select=DI[7:0]['sd5+:1] expr_type=logic>);
+        {CO['sd6 +: 1]} <= #(64'b0000000000000000000000000000000000000000000000000000000000010100) (<select=S[7:0]['sd6+:1] expr_type=logic>) ? (<select=CO[7:0]['sd5+:1] expr_type=logic>) : (<select=DI[7:0]['sd6+:1] expr_type=logic>);
+        {CO['sd7 +: 1]} <= #(64'b0000000000000000000000000000000000000000000000000000000000010100) (<select=S[7:0]['sd7+:1] expr_type=logic>) ? (<select=CO[7:0]['sd6+:1] expr_type=logic>) : (<select=DI[7:0]['sd7+:1] expr_type=logic>);
+    end
+initial  /* models\carry8_model.v:9 in CARRY8 */
+  {CO} = 8'sd0;

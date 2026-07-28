@@ -5,7 +5,7 @@
 // 目前两处都用 SHIFT=11 (SHIFT=12 时 K_BASE=32704, 10-bit gain 装不下)
 // order_sel 仅控制 offset 自动居中: 1阶=0, 3阶=256
 module dtc_comp #(
-    parameter WIDTH = 13,
+    parameter WIDTH = 11,
     parameter SHIFT = 11,       // 必须与 dtc_calibrator.SHIFT 一致
     parameter DTC_WIDTH = 9
 )(

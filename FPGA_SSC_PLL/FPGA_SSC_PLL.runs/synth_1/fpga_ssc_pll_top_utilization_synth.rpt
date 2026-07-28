@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
-| Date         : Tue Jul 21 13:17:29 2026
+| Date         : Tue Jul 28 12:03:50 2026
 | Host         : DESKTOP-I9E0661 running 64-bit major release  (build 9200)
 | Command      : report_utilization -file fpga_ssc_pll_top_utilization_synth.rpt -pb fpga_ssc_pll_top_utilization_synth.pb
 | Design       : fpga_ssc_pll_top
@@ -35,15 +35,15 @@ Table of Contents
 +-------------------------+------+-------+------------+-----------+-------+
 |        Site Type        | Used | Fixed | Prohibited | Available | Util% |
 +-------------------------+------+-------+------------+-----------+-------+
-| CLB LUTs*               | 2871 |     0 |          0 |   1182240 |  0.24 |
-|   LUT as Logic          | 2871 |     0 |          0 |   1182240 |  0.24 |
+| CLB LUTs*               | 3445 |     0 |          0 |   1182240 |  0.29 |
+|   LUT as Logic          | 3445 |     0 |          0 |   1182240 |  0.29 |
 |   LUT as Memory         |    0 |     0 |          0 |    591840 |  0.00 |
-| CLB Registers           |  241 |     0 |          0 |   2364480 |  0.01 |
-|   Register as Flip Flop |  207 |     0 |          0 |   2364480 | <0.01 |
-|   Register as Latch     |   34 |     0 |          0 |   2364480 | <0.01 |
-| CARRY8                  | 1178 |     0 |          0 |    147780 |  0.80 |
-| F7 Muxes                | 1227 |     0 |          0 |    591120 |  0.21 |
-| F8 Muxes                |  576 |     0 |          0 |    295560 |  0.19 |
+| CLB Registers           |  326 |     0 |          0 |   2364480 |  0.01 |
+|   Register as Flip Flop |  291 |     0 |          0 |   2364480 |  0.01 |
+|   Register as Latch     |   35 |     0 |          0 |   2364480 | <0.01 |
+| CARRY8                  | 1339 |     0 |          0 |    147780 |  0.91 |
+| F7 Muxes                | 1360 |     0 |          0 |    591120 |  0.23 |
+| F8 Muxes                |  640 |     0 |          0 |    295560 |  0.22 |
 | F9 Muxes                |    0 |     0 |          0 |    147780 |  0.00 |
 +-------------------------+------+-------+------------+-----------+-------+
 * Warning! The Final LUT count, after physical optimizations and full implementation, is typically lower. Run opt_design after synthesis, if not already completed, for a more realistic count.
@@ -57,16 +57,16 @@ Warning! For any ECO changes, please run place_design if there are unplaced inst
 +-------+--------------+-------------+--------------+
 | Total | Clock Enable | Synchronous | Asynchronous |
 +-------+--------------+-------------+--------------+
-| 102   |            _ |           - |            - |
+| 105   |            _ |           - |            - |
 | 0     |            _ |           - |          Set |
 | 0     |            _ |           - |        Reset |
 | 0     |            _ |         Set |            - |
 | 0     |            _ |       Reset |            - |
 | 0     |          Yes |           - |            - |
 | 0     |          Yes |           - |          Set |
-| 138   |          Yes |           - |        Reset |
+| 210   |          Yes |           - |        Reset |
 | 0     |          Yes |         Set |            - |
-| 1     |          Yes |       Reset |            - |
+| 11    |          Yes |       Reset |            - |
 +-------+--------------+-------------+--------------+
 
 
@@ -90,8 +90,8 @@ Warning! For any ECO changes, please run place_design if there are unplaced inst
 +----------------+------+-------+------------+-----------+-------+
 |    Site Type   | Used | Fixed | Prohibited | Available | Util% |
 +----------------+------+-------+------------+-----------+-------+
-| DSPs           |    1 |     0 |          0 |      6840 |  0.01 |
-|   DSP48E2 only |    1 |       |            |           |       |
+| DSPs           |    3 |     0 |          0 |      6840 |  0.04 |
+|   DSP48E2 only |    3 |       |            |           |       |
 +----------------+------+-------+------------+-----------+-------+
 
 
@@ -160,25 +160,25 @@ Warning! For any ECO changes, please run place_design if there are unplaced inst
 +-----------+------+---------------------+
 |  Ref Name | Used | Functional Category |
 +-----------+------+---------------------+
-| LUT6      | 2536 |                 CLB |
-| MUXF7     | 1227 |                 CLB |
-| CARRY8    | 1178 |                 CLB |
-| MUXF8     |  576 |                 CLB |
-| FDCE      |  172 |            Register |
-| LUT2      |  147 |                 CLB |
-| LUT3      |  113 |                 CLB |
-| LUT4      |   89 |                 CLB |
-| LUT5      |   50 |                 CLB |
-| LDCE      |   34 |            Register |
-| FDPE      |   34 |            Register |
-| LUT1      |   31 |                 CLB |
+| LUT6      | 2860 |                 CLB |
+| MUXF7     | 1360 |                 CLB |
+| CARRY8    | 1339 |                 CLB |
+| MUXF8     |  640 |                 CLB |
+| LUT2      |  268 |                 CLB |
+| FDCE      |  245 |            Register |
+| LUT3      |  207 |                 CLB |
+| LUT4      |  142 |                 CLB |
+| LUT5      |   82 |                 CLB |
+| LUT1      |   47 |                 CLB |
+| LDCE      |   35 |            Register |
+| FDPE      |   35 |            Register |
+| FDRE      |   11 |            Register |
 | BUFGCTRL  |    6 |               Clock |
 | BUFGCE    |    4 |               Clock |
+| DSP48E2   |    3 |          Arithmetic |
 | OBUFDS    |    2 |                 I/O |
 | IBUFCTRL  |    2 |              Others |
 | INBUF     |    1 |                 I/O |
-| FDRE      |    1 |            Register |
-| DSP48E2   |    1 |          Arithmetic |
 | DIFFINBUF |    1 |                 I/O |
 +-----------+------+---------------------+
 
@@ -189,13 +189,14 @@ Warning! For any ECO changes, please run place_design if there are unplaced inst
 +-------------+------+
 |   Ref Name  | Used |
 +-------------+------+
+| vio_ssc     |    1 |
 | vio_rst     |    1 |
-| vio_eo      |    1 |
+| vio_cal     |    1 |
 | vio_1       |    1 |
 | vio_0       |    1 |
 | test_clk    |    1 |
-| mash_stage  |    1 |
 | ila_dualdiv |    1 |
+| ila_cal_top |    1 |
 | ila_1       |    1 |
 | ila_0       |    1 |
 | clk_wiz_0   |    1 |

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="impl_1" LaunchPart="xcvu9p-flga2104-2L-e" LaunchTime="1784610994">
+<GenRun Id="impl_1" LaunchPart="xcvu9p-flga2104-2L-e" LaunchTime="1785211331">
   <File Type="PA-TCL" Name="fpga_ssc_pll_top.tcl"/>
   <File Type="REPORTS-TCL" Name="fpga_ssc_pll_top_reports.tcl"/>
   <File Type="INIT-TIMING" Name="fpga_ssc_pll_top_timing_summary_init.rpt"/>
@@ -86,6 +86,20 @@
   <File Type="POSTROUTE-PHYSOPT-RQS-RPT" Name="postroute_physopt_report_qor_suggestions_0.rpt"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
     <Filter Type="Srcs"/>
+    <File Path="$PSRCDIR/sources_1/ip/clk_wiz_0/clk_wiz_0.xci">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../RTL/all/dtc/cal_sign_gen.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <File Path="$PPRDIR/../RTL/all/fractionaln/calculate_ps.v">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
@@ -107,7 +121,21 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PPRDIR/../RTL/all/dtc_comp.v">
+    <File Path="$PSRCDIR/sources_1/new/dtc_cal_top.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../RTL/all/dtc/dtc_comp.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../RTL/all/dtc/dtc_gain_lms_cal.v">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
@@ -135,14 +163,14 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PSRCDIR/sources_1/new/lut_dtc.v">
+    <File Path="$PPRDIR/../RTL/all/dtc/lut_dtc.v">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PSRCDIR/sources_1/new/lut_dtc_top.v">
+    <File Path="$PPRDIR/../RTL/all/dtc/lut_dtc_top.v">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
@@ -163,6 +191,13 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
+    <File Path="$PPRDIR/../RTL/all/dtc/phase_align_cal.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <File Path="$PPRDIR/../RTL/all/fractionaln/reg_sync.v">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
@@ -177,7 +212,7 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PSRCDIR/sources_1/new/ssc_controller.v">
+    <File Path="$PPRDIR/../RTL/all/ssc_controller.v">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
@@ -191,31 +226,7 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PSRCDIR/sources_1/new/en_buf.v">
-      <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PSRCDIR/sources_1/new/debug_clk.v">
-      <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PPRDIR/../RTL/all/fractionaln/dtc_ideal.v">
-      <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PPRDIR/../RTL/all/fractionaln/div_2.v">
+    <File Path="$PPRDIR/../RTL/all/dtc/dtc_calibrator.v">
       <FileInfo>
         <Attr Name="AutoDisabled" Val="1"/>
         <Attr Name="UsedIn" Val="synthesis"/>
@@ -224,6 +235,14 @@
       </FileInfo>
     </File>
     <File Path="$PPRDIR/../RTL/all/fractionaln/div_89.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../RTL/all/fractionaln/div_2.v">
       <FileInfo>
         <Attr Name="AutoDisabled" Val="1"/>
         <Attr Name="UsedIn" Val="synthesis"/>
@@ -290,14 +309,14 @@
     <Step Id="post_route_phys_opt_design"/>
     <Step Id="write_bitstream"/>
   </Strategy>
-  <BlockFileSet Type="BlockSrcs" Name="clk_wiz_0"/>
-  <BlockFileSet Type="BlockSrcs" Name="vio_0"/>
-  <BlockFileSet Type="BlockSrcs" Name="test_clk"/>
+  <BlockFileSet Type="BlockSrcs" Name="vio_cal"/>
   <BlockFileSet Type="BlockSrcs" Name="ila_0"/>
-  <BlockFileSet Type="BlockSrcs" Name="mash_stage"/>
-  <BlockFileSet Type="BlockSrcs" Name="ila_1"/>
-  <BlockFileSet Type="BlockSrcs" Name="ila_dualdiv"/>
   <BlockFileSet Type="BlockSrcs" Name="vio_1"/>
+  <BlockFileSet Type="BlockSrcs" Name="test_clk"/>
+  <BlockFileSet Type="BlockSrcs" Name="ila_dualdiv"/>
+  <BlockFileSet Type="BlockSrcs" Name="ila_1"/>
+  <BlockFileSet Type="BlockSrcs" Name="vio_0"/>
   <BlockFileSet Type="BlockSrcs" Name="vio_rst"/>
-  <BlockFileSet Type="BlockSrcs" Name="vio_eo"/>
+  <BlockFileSet Type="BlockSrcs" Name="vio_ssc"/>
+  <BlockFileSet Type="BlockSrcs" Name="ila_cal_top"/>
 </GenRun>

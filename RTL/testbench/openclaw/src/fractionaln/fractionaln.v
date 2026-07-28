@@ -26,86 +26,53 @@ module fractionaln #(
     wire [P_WIDTH-1:0] Pi;
     //reg Fout_reg;
     wire [FRAC_WIDTH-1:0] Eo_raw;
-    wire [FRAC_WIDTH-1:0] mash_e1, mash_e2, mash_e3;  // ?? EFM ????
-	reg [FRAC_WIDTH-1:0] Eo_d1 = 0;
-	reg [FRAC_WIDTH-1:0] Eo_d2 = 0;
-	reg [FRAC_WIDTH-1:0] Eo_d3 = 0;
 
-    // 3 ? combiner: e? + (e? - e?[n-1]) + (e? - 2?e?[n-1] + e?[n-2])
+	reg [FRAC_WIDTH+1:0] sigma = 0;
+
     // ??: Eo_raw (= e1[n-1]) ?? 1 ???,
     //       mash_e2/mash_e3 ?????, ??? 1 ???? e1
-    reg [FRAC_WIDTH-1:0] e1_r = 0;                           // = e1[n-1]
-    reg [FRAC_WIDTH-1:0] e2_r1 = 0, e2_r2 = 0, e2_r3 = 0;           // e2[n], e2[n-1], e2[n-2]
-    reg [FRAC_WIDTH-1:0] e3_r1 = 0, e3_r2 = 0, e3_r3 = 0, e3_r4 = 0;     // e3[n], e3[n-1], e3[n-2], e3[n-3]
-    wire signed [FRAC_WIDTH+2:0] comp_3rd;
-    reg [FRAC_WIDTH+2:0] Ec_d1 = 0, Ec_d2 = 0, Ec_d3 = 0;            // E_combined ????
+    reg [FRAC_WIDTH-1:0] Fraction_d1 = 0;                           // = e1[n-1]
+    reg [FRAC_WIDTH-1:0] Fraction_d2 = 0;                           // = e1[n-1]
+    reg [FRAC_WIDTH-1:0] Fraction_d3 = 0;                           // = e1[n-1]
+
+    reg signed [FRAC_WIDTH+2:0] Ec_d1 = 0, Ec_d2 = 0, Ec_d3 = 0;            // E_combined ????
 
     assign clk_delta_sigma = Fout;
 	reg delta_sigma_d1 = 0;
 	
 	wire [1:0] eo_dly_sel;
 	
-	    always @(posedge Fout or negedge rst_n) begin
-        if (!rst_n) begin
-            Eo <= 'd0;
-        end else begin
-        	Eo <= (eo_dly_sel==2'b00) ? Eo_raw :
-	            (eo_dly_sel==2'b01) ? Eo_d1 :
-	            (eo_dly_sel==2'b10) ? Eo_d2 : Eo_d3;
-        end 
-    end
 
-	
-	
-    // 3 ????? (????? negedge Fout):
-    //   comp = e1[n-1] + (e2[n-1] - e2[n-2]) + (e3[n-1] - 2?e3[n-2] + e3[n-3])
-    assign comp_3rd = $signed({1'b0, e1_r})
-                    + $signed({1'b0, e2_r2}) - $signed({1'b0, e2_r3})
-                    + $signed({1'b0, e3_r2})
-                    - $signed({{2{1'b0}}, e3_r3}) - $signed({{2{1'b0}}, e3_r3})
-                    + $signed({1'b0, e3_r4});
+
 
     always @(negedge Fout or negedge rst_n) begin
         if (!rst_n) begin
             delta_sigma_d1 <= 0;
-            Eo_d1 <= 'd0;
-            Eo_d2 <= 'd0;
-            Eo_d3 <= 'd0;
-            e1_r  <= 'd0;
-            e2_r1 <= 'd0;
-            e2_r2 <= 'd0;
-            e2_r3 <= 'd0;
-            e3_r1 <= 'd0;
-            e3_r2 <= 'd0;
-            e3_r3 <= 'd0;
-            e3_r4 <= 'd0;
             Ec_d1 <= 'd0; Ec_d2 <= 'd0; Ec_d3 <= 'd0;
             E_combined <= 'd0;
-            
+			sigma <= 'd0;
+            Eo <= 'd0;
+			Fraction_d1 <= 'd0;
+			Fraction_d2 <= 'd0;
+			Fraction_d3 <= 'd0;
         end else begin
-            // 1 ????? (?)
-            Eo_d1    <= Eo_raw;
-            Eo_d2    <= Eo_d1;
-            Eo_d3    <= Eo_d2;
-            delta_sigma_d1 <= delta_sigma;
-            
-            // 3 ?????
-            // mash_e2/mash_e3 ????? (??? e2[n], e3[n])
-            // e2_r1/e3_r1 ?? 1 ???? e1_r (=Eo_raw = e1[n-1])
-            e1_r  <= Eo_raw;      // e1[n-1]
-            e2_r1 <= mash_e2;     // e2[n]
-            e2_r2 <= e2_r1;       // e2[n-1]
-            e2_r3 <= e2_r2;       // e2[n-2]
-            e3_r1 <= mash_e3;     // e3[n]
-            e3_r2 <= e3_r1;       // e3[n-1]
-            e3_r3 <= e3_r2;       // e3[n-2]
-            e3_r4 <= e3_r3;       // e3[n-3]
+		
+			
+			Fraction_d1 <= Fraction;
+			Fraction_d2 <= Fraction_d1;
+			Fraction_d3 <= Fraction_d2;
 
-            Ec_d1 <= comp_3rd[FRAC_WIDTH+2:0];
+            Eo <= sigma;
+            delta_sigma_d1 <= delta_sigma;
+			
+			sigma <= sigma + $signed(Fraction_d3) - {{(INT_WIDTH-4){delta_sigma_d1[3]}}, delta_sigma_d1} * $signed(13'sd1024);
+            
+ 
+            Ec_d1 <= sigma;
             Ec_d2 <= Ec_d1;
             Ec_d3 <= Ec_d2;
             // E_combined ???? (?? eo_dly_sel, ? Eo ????? VIO)
-            E_combined <= (eo_dly_sel==2'b00) ? comp_3rd[FRAC_WIDTH+2:0] :
+            E_combined <= (eo_dly_sel==2'b00) ? sigma :
                           (eo_dly_sel==2'b01) ? Ec_d1 :
                           (eo_dly_sel==2'b10) ? Ec_d2 : Ec_d3;
         end 
@@ -139,13 +106,10 @@ module fractionaln #(
         .clk                     ( clk_delta_sigma ),
         .clk_ila                 ( Sys_clk         ),
         .rst_n                   ( rst_n_sync      ),
-        .x_i                     ( Fraction        ),
+        .x_i                     ( Fraction_d1        ),
 
         .y_o                     ( delta_sigma     ),
-        .e_o                     ( Eo_raw          ),
-        .e1_o                    ( mash_e1         ),
-        .e2_o                    ( mash_e2         ),
-        .e3_o                    ( mash_e3         )
+        .e_o                     ( Eo_raw          )
     );
 
     // ????????? Sigma-Delta ????????????????????? P ???? S ???

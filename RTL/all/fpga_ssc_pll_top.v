@@ -61,8 +61,9 @@ module fpga_ssc_pll_top (
     wire       cal_start;           // 校准触发
     wire       cal_auto_en;         // 0=手动, 1=自动校准
     wire       cal_bg_en;           // 0=单次, 1=后台持续校准
+
     wire       order_sel;           // 0=1阶补�? 1=3阶补�?
-    wire [12:0] mash_e_dtc;          // �?MUX 选通的误差 (�?dtc_comp)
+    wire signed [10:0] mash_e_dtc;          // �?MUX 选通的误差 (�?dtc_comp)
     wire       cal_mode_int;        // 校准器内�?cal_mode
     wire [9:0] dtc_gain_muxed;      // 自动/手动增益选择
     
@@ -79,9 +80,8 @@ module fpga_ssc_pll_top (
     wire [15:0] spread_ppm;
     
     wire       cal_bg_ctrl;            // 0=����У׼, 1=��̨����У׼��ԭ idelay_en��
-
-    assign cal_bg_en = cal_bg_ctrl;    // 复用 IDELAYE3 的控制信号（模块已删�?
     
+    assign cal_bg_en = cal_bg_ctrl;    // 复用 IDELAYE3 的控制信号（模块已删�?
     
 //    assign cal_bg_ctrl  = 1'b0;           // 默认 CARRY8（可通过 VIO 控制�?
     
@@ -189,7 +189,7 @@ module fpga_ssc_pll_top (
     // -------------------------------------------------------------------------
 
     ssc_controller u_ssc_ctrl (
-    .clk            (div_out_raw_g),     
+    .clk            (~div_out_raw_g),     
     .rst_n          (and_rst_n_fracn),   
     .bypass         (ssc_bp),
     .spread_type    (spread_type),
@@ -208,7 +208,8 @@ module fpga_ssc_pll_top (
     fractionaln  u_fracn_div (
         .Fin         (clk_out_pll  ),
         .Sys_clk     (sys_clk_g  ),
-        .rst_n       (and_rst_n_fracn  ),
+        .rst_n       (rst_n_fracn  ),
+        .order_sel       (order_sel  ),
         .Integer     (ssc_int_div    ),
         .Fraction    (ssc_frac       ),
         .Eo              (mash_e1),
@@ -218,30 +219,18 @@ module fpga_ssc_pll_top (
                   
     );
 
-    // -------------------------------------------------------------------------
-    // 3. DTC 补偿控制
-    // -------------------------------------------------------------------------
 
-    // -------------------------------------------------------------------------
-    // 3a. 校准�?(新增)
-    // -------------------------------------------------------------------------
-    // dtc_sel = order_sel: 1阶→1级链(~2ns), 3阶→4级链(~8ns)
-    // VIO �?dtc_sel 不再使用, �?order_sel 直接控制
-    dtc_calibrator #(.SHIFT(11)) u_cal (
-        .clk            (sys_clk_g),
-        .order_sel      (order_sel),    // 自动切换 K 常数
-        .rst_n          (rst_n_dtc),
-        .cal_bg_en      (cal_bg_en),
-        .cal_mode_ext   (cal_start),
-        .cal_mode       (cal_mode_int),
-        .cal_result     (cal_result),
-        .cal_valid      (cal_valid),
-        .dtc_code_cal   (dtc_code_cal),
-        .dtc_gain_cal   (dtc_gain_cal),
-        .cal_done       (cal_done),
-        .tdc_min        (),
-        .tdc_max        ()
-    );
+    assign cal_mode_int = 1'b0;
+    assign cal_done = 1'b0;
+
+    dtc_cal_top u_cal_top (
+        .sys_clk                 (sys_clk_g),        
+        .clk_ref                 (clk_ref_pll),        
+        .clk_fb                  (clk_fb_pll),         
+        .rst_n                   (cal_auto_en && rst_n_dtc),          
+        .dtc_code                (dtc_code_d1),       
+        .dtc_cal_out_gain        (dtc_gain_cal)
+);
 
     // -------------------------------------------------------------------------
     // 3b. 模式选择 & 校准路径分离
@@ -253,7 +242,7 @@ module fpga_ssc_pll_top (
 
     // TDC 校准路径始终由校准器控制（主/校路径已分离，VIO cal_mode 不再参与）
     assign cal_mode_sel = cal_auto_en ? cal_mode_int : cal_mode;
-    assign dtc_code_cal_muxed = cal_auto_en ? dtc_code_cal : dtc_code;
+    assign dtc_code_cal_muxed = dtc_code;
 
     // dtc_code_pipe: �?Fout 域打一�? 避免 dtc_comp 组合输出直接�?dtc_code_d1
     //   posedge Fout 捕获: 1阶的 Eo(posedge更新) 采到旧�?正确)
@@ -271,8 +260,8 @@ module fpga_ssc_pll_top (
     // 3c. DTC 补偿阶数选择
     // -------------------------------------------------------------------------
     // order_sel = 0: 1 阶补�?(Eo = e1[n-1], 10-bit unsigned �?零扩�?
-    // order_sel = 1: 3 阶补�?(E_combined, 13-bit signed)
-    assign mash_e_dtc = order_sel ? $signed(mash_e_combined) : $signed({3'b0, mash_e1});
+    // order_sel = 1: 2 阶补�?(E_combined, 13-bit signed)
+    assign mash_e_dtc = order_sel ? $signed(mash_e_combined) : $signed({1'b0, mash_e1});
 
     // 增益 MUX: 自动模式走校准器, 手动模式�?VIO
     assign dtc_gain_muxed = cal_auto_en ? dtc_gain_cal : dtc_gain;
@@ -303,9 +292,9 @@ BUFG u_sys_bufg_4 (.I (div_out_dtc), .O (div_out_dtc_g));
     // -------------------------------------------------------------------------
     ila_0 u_ila (
         .clk    (sys_clk_g),
-        .probe0 (div_out_raw_g),
+        .probe0 (clk_ref_pll),
         .probe1 (div_out_dtc_g),
-        .probe2 (mash_e1),
+        .probe2 (mash_e_dtc),
         .probe3 ({cal_done, cal_auto_en, dtc_load}),
         .probe4 (dtc_code_pipe),
         .probe5 (cal_result),

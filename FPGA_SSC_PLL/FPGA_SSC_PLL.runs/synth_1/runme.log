@@ -8,14 +8,14 @@
   **** SW Build 5239630 on Fri Nov 08 22:35:27 MST 2024
   **** IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
   **** SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
-  **** Start of session at: Tue Jul 21 13:16:35 2026
+  **** Start of session at: Tue Jul 28 12:02:15 2026
     ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
     ** Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 
 source fpga_ssc_pll_top.tcl -notrace
-create_project: Time (s): cpu = 00:00:03 ; elapsed = 00:00:05 . Memory (MB): peak = 619.441 ; gain = 190.574
-Command: read_checkpoint -auto_incremental -incremental C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/utils_1/imports/synth_1/div_89.dcp
-INFO: [Vivado 12-5825] Read reference checkpoint from C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/utils_1/imports/synth_1/div_89.dcp for incremental synthesis
+create_project: Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 620.371 ; gain = 190.035
+Command: read_checkpoint -auto_incremental -incremental X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/utils_1/imports/synth_1/div_89.dcp
+INFO: [Vivado 12-5825] Read reference checkpoint from X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/utils_1/imports/synth_1/div_89.dcp for incremental synthesis
 INFO: [Vivado 12-7989] Please ensure there are no constraint changes
 Command: synth_design -top fpga_ssc_pll_top -part xcvu9p-flga2104-2L-e
 Starting synth_design
@@ -26,11 +26,11 @@ INFO: [Designutils 20-5440] No compile time benefit to using incremental synthes
 INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 3976
+INFO: [Synth 8-7075] Helper process launched with PID 14104
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2133.176 ; gain = 366.688
+Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 2144.500 ; gain = 368.512
 ---------------------------------------------------------------------------------
-INFO: [Synth 8-6157] synthesizing module 'fpga_ssc_pll_top' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:3]
+INFO: [Synth 8-6157] synthesizing module 'fpga_ssc_pll_top' [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:3]
 INFO: [Synth 8-6157] synthesizing module 'IBUFDS' [D:/Xilinx/Vivado/2024.2/scripts/rt/data/unisim_comp.v:75840]
 	Parameter DIFF_TERM bound to: FALSE - type: string 
 	Parameter IBUF_LOW_PWR bound to: FALSE - type: string 
@@ -38,129 +38,151 @@ INFO: [Synth 8-6157] synthesizing module 'IBUFDS' [D:/Xilinx/Vivado/2024.2/scrip
 INFO: [Synth 8-6155] done synthesizing module 'IBUFDS' (0#1) [D:/Xilinx/Vivado/2024.2/scripts/rt/data/unisim_comp.v:75840]
 INFO: [Synth 8-6157] synthesizing module 'BUFG' [D:/Xilinx/Vivado/2024.2/scripts/rt/data/unisim_comp.v:2676]
 INFO: [Synth 8-6155] done synthesizing module 'BUFG' (0#1) [D:/Xilinx/Vivado/2024.2/scripts/rt/data/unisim_comp.v:2676]
-INFO: [Synth 8-6157] synthesizing module 'vio_0' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-7948-DESKTOP-I9E0661/realtime/vio_0_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'vio_0' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-7948-DESKTOP-I9E0661/realtime/vio_0_stub.v:6]
-WARNING: [Synth 8-689] width (1) of port connection 'probe_out3' does not match port width (3) of module 'vio_0' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:123]
-INFO: [Synth 8-6157] synthesizing module 'vio_rst' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-7948-DESKTOP-I9E0661/realtime/vio_rst_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'vio_rst' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-7948-DESKTOP-I9E0661/realtime/vio_rst_stub.v:6]
-INFO: [Synth 8-6157] synthesizing module 'test_clk' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-7948-DESKTOP-I9E0661/realtime/test_clk_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'test_clk' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-7948-DESKTOP-I9E0661/realtime/test_clk_stub.v:6]
-INFO: [Synth 8-6157] synthesizing module 'ssc_controller' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:13]
-INFO: [Synth 8-6155] done synthesizing module 'ssc_controller' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:13]
-INFO: [Synth 8-6157] synthesizing module 'fractionaln' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/fractionaln.v:4]
-INFO: [Synth 8-6157] synthesizing module 'vio_eo' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-7948-DESKTOP-I9E0661/realtime/vio_eo_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'vio_eo' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-7948-DESKTOP-I9E0661/realtime/vio_eo_stub.v:6]
-INFO: [Synth 8-6157] synthesizing module 'dff' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dff.v:3]
-INFO: [Synth 8-6155] done synthesizing module 'dff' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dff.v:3]
-INFO: [Synth 8-6157] synthesizing module 'mash111' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/mash111.v:3]
+INFO: [Synth 8-6157] synthesizing module 'vio_0' [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-13644-DESKTOP-I9E0661/realtime/vio_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'vio_0' (0#1) [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-13644-DESKTOP-I9E0661/realtime/vio_0_stub.v:6]
+WARNING: [Synth 8-689] width (1) of port connection 'probe_out3' does not match port width (3) of module 'vio_0' [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:144]
+INFO: [Synth 8-6157] synthesizing module 'vio_cal' [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-13644-DESKTOP-I9E0661/realtime/vio_cal_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'vio_cal' (0#1) [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-13644-DESKTOP-I9E0661/realtime/vio_cal_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'vio_rst' [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-13644-DESKTOP-I9E0661/realtime/vio_rst_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'vio_rst' (0#1) [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-13644-DESKTOP-I9E0661/realtime/vio_rst_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'vio_ssc' [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-13644-DESKTOP-I9E0661/realtime/vio_ssc_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'vio_ssc' (0#1) [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-13644-DESKTOP-I9E0661/realtime/vio_ssc_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'test_clk' [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-13644-DESKTOP-I9E0661/realtime/test_clk_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'test_clk' (0#1) [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-13644-DESKTOP-I9E0661/realtime/test_clk_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'ssc_controller' [X:/fpga_pll_mash111_dtc_ssc/RTL/all/ssc_controller.v:15]
+INFO: [Synth 8-6155] done synthesizing module 'ssc_controller' (0#1) [X:/fpga_pll_mash111_dtc_ssc/RTL/all/ssc_controller.v:15]
+INFO: [Synth 8-6157] synthesizing module 'fractionaln' [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/fractionaln.v:4]
+INFO: [Synth 8-6157] synthesizing module 'dff' [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dff.v:3]
+INFO: [Synth 8-6155] done synthesizing module 'dff' (0#1) [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dff.v:3]
+INFO: [Synth 8-6157] synthesizing module 'mash111' [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/mash111.v:3]
 	Parameter WIDTH bound to: 10 - type: integer 
 	Parameter A_GAIN bound to: 1 - type: integer 
-INFO: [Synth 8-6157] synthesizing module 'hk_efm' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/hk_efm.v:3]
+INFO: [Synth 8-6157] synthesizing module 'hk_efm' [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/hk_efm.v:3]
 	Parameter WIDTH bound to: 10 - type: integer 
 	Parameter A_GAIN bound to: 1 - type: integer 
-INFO: [Synth 8-6155] done synthesizing module 'hk_efm' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/hk_efm.v:3]
-INFO: [Synth 8-6157] synthesizing module 'mash_stage' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-7948-DESKTOP-I9E0661/realtime/mash_stage_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'mash_stage' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-7948-DESKTOP-I9E0661/realtime/mash_stage_stub.v:6]
-WARNING: [Synth 8-4446] all outputs are unconnected for this instance and logic may be removed [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/mash111.v:127]
-INFO: [Synth 8-6157] synthesizing module 'ila_1' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-7948-DESKTOP-I9E0661/realtime/ila_1_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'ila_1' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-7948-DESKTOP-I9E0661/realtime/ila_1_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'mash111' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/mash111.v:3]
-INFO: [Synth 8-6157] synthesizing module 'calculate_ps' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/calculate_ps.v:4]
+INFO: [Synth 8-6155] done synthesizing module 'hk_efm' (0#1) [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/hk_efm.v:3]
+WARNING: [Synth 8-4446] all outputs are unconnected for this instance and logic may be removed [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/mash111.v:105]
+INFO: [Synth 8-6157] synthesizing module 'ila_1' [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-13644-DESKTOP-I9E0661/realtime/ila_1_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'ila_1' (0#1) [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-13644-DESKTOP-I9E0661/realtime/ila_1_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'mash111' (0#1) [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/mash111.v:3]
+INFO: [Synth 8-6157] synthesizing module 'calculate_ps' [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/calculate_ps.v:4]
 	Parameter P_WIDTH bound to: 6 - type: integer 
 	Parameter S_WIDTH bound to: 2 - type: integer 
 	Parameter INT_WIDTH bound to: 8 - type: integer 
-INFO: [Synth 8-6155] done synthesizing module 'calculate_ps' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/calculate_ps.v:4]
-WARNING: [Synth 8-689] width (1) of port connection 'delta_sigma' does not match port width (4) of module 'calculate_ps' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/fractionaln.v:107]
-INFO: [Synth 8-6157] synthesizing module 'dual_div' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dual_div.v:7]
+INFO: [Synth 8-6155] done synthesizing module 'calculate_ps' (0#1) [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/calculate_ps.v:4]
+INFO: [Synth 8-6157] synthesizing module 'dual_div' [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dual_div.v:7]
 	Parameter P_WIDTH bound to: 6 - type: integer 
 	Parameter S_WIDTH bound to: 2 - type: integer 
-WARNING: [Synth 8-4446] all outputs are unconnected for this instance and logic may be removed [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dual_div.v:24]
-INFO: [Synth 8-6157] synthesizing module 'ila_dualdiv' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-7948-DESKTOP-I9E0661/realtime/ila_dualdiv_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'ila_dualdiv' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-7948-DESKTOP-I9E0661/realtime/ila_dualdiv_stub.v:6]
-INFO: [Synth 8-6157] synthesizing module 'div_45' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/div_45.v:3]
-INFO: [Synth 8-6157] synthesizing module 'reg_sync' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/reg_sync.v:3]
+WARNING: [Synth 8-4446] all outputs are unconnected for this instance and logic may be removed [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dual_div.v:24]
+INFO: [Synth 8-6157] synthesizing module 'ila_dualdiv' [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-13644-DESKTOP-I9E0661/realtime/ila_dualdiv_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'ila_dualdiv' (0#1) [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-13644-DESKTOP-I9E0661/realtime/ila_dualdiv_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'div_45' [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/div_45.v:3]
+INFO: [Synth 8-6157] synthesizing module 'reg_sync' [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/reg_sync.v:3]
 	Parameter WIDTH bound to: 1 - type: integer 
-INFO: [Synth 8-6155] done synthesizing module 'reg_sync' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/reg_sync.v:3]
-INFO: [Synth 8-6155] done synthesizing module 'div_45' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/div_45.v:3]
-INFO: [Synth 8-6157] synthesizing module 'p_counter' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/p_counter.v:9]
+INFO: [Synth 8-6155] done synthesizing module 'reg_sync' (0#1) [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/reg_sync.v:3]
+INFO: [Synth 8-6155] done synthesizing module 'div_45' (0#1) [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/div_45.v:3]
+INFO: [Synth 8-6157] synthesizing module 'p_counter' [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/p_counter.v:9]
 	Parameter WIDTH bound to: 6 - type: integer 
-INFO: [Synth 8-6155] done synthesizing module 'p_counter' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/p_counter.v:9]
-INFO: [Synth 8-6157] synthesizing module 's_counter' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/s_counter.v:7]
+INFO: [Synth 8-6155] done synthesizing module 'p_counter' (0#1) [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/p_counter.v:9]
+INFO: [Synth 8-6157] synthesizing module 's_counter' [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/s_counter.v:7]
 	Parameter WIDTH bound to: 2 - type: integer 
-INFO: [Synth 8-6155] done synthesizing module 's_counter' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/s_counter.v:7]
-INFO: [Synth 8-6155] done synthesizing module 'dual_div' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dual_div.v:7]
-INFO: [Synth 8-6155] done synthesizing module 'fractionaln' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/fractionaln.v:4]
-INFO: [Synth 8-6157] synthesizing module 'dtc_comp' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/dtc_comp.v:3]
-	Parameter WIDTH bound to: 10 - type: integer 
-	Parameter DTC_WIDTH bound to: 9 - type: integer 
-INFO: [Synth 8-6157] synthesizing module 'vio_1' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-7948-DESKTOP-I9E0661/realtime/vio_1_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'vio_1' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-7948-DESKTOP-I9E0661/realtime/vio_1_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'dtc_comp' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/dtc_comp.v:3]
-WARNING: [Synth 8-4446] all outputs are unconnected for this instance and logic may be removed [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:243]
-INFO: [Synth 8-6157] synthesizing module 'ila_0' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-7948-DESKTOP-I9E0661/realtime/ila_0_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'ila_0' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-7948-DESKTOP-I9E0661/realtime/ila_0_stub.v:6]
-INFO: [Synth 8-6157] synthesizing module 'OBUFDS' [D:/Xilinx/Vivado/2024.2/scripts/rt/data/unisim_comp.v:99442]
-	Parameter IOSTANDARD bound to: LVDS - type: string 
-	Parameter SLEW bound to: FAST - type: string 
-INFO: [Synth 8-6155] done synthesizing module 'OBUFDS' (0#1) [D:/Xilinx/Vivado/2024.2/scripts/rt/data/unisim_comp.v:99442]
-INFO: [Synth 8-6157] synthesizing module 'lut_dtc_top' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/lut_dtc_top.v:23]
-	Parameter N_TAP bound to: 512 - type: integer 
-	Parameter CODE_WIDTH bound to: 9 - type: integer 
-INFO: [Synth 8-6157] synthesizing module 'lut_dtc' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/lut_dtc.v:17]
+INFO: [Synth 8-6155] done synthesizing module 's_counter' (0#1) [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/s_counter.v:7]
+INFO: [Synth 8-6155] done synthesizing module 'dual_div' (0#1) [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dual_div.v:7]
+INFO: [Synth 8-6155] done synthesizing module 'fractionaln' (0#1) [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/fractionaln.v:4]
+WARNING: [Synth 8-689] width (13) of port connection 'E_combined' does not match port width (11) of module 'fractionaln' [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:216]
+INFO: [Synth 8-6157] synthesizing module 'dtc_cal_top' [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/dtc_cal_top.v:22]
+INFO: [Synth 8-6157] synthesizing module 'lut_dtc' [X:/fpga_pll_mash111_dtc_ssc/RTL/all/dtc/lut_dtc.v:17]
 	Parameter N_TAP bound to: 512 - type: integer 
 	Parameter CODE_WIDTH bound to: 9 - type: integer 
 INFO: [Synth 8-6157] synthesizing module 'CARRY8' [D:/Xilinx/Vivado/2024.2/scripts/rt/data/unisim_comp.v:3110]
 	Parameter CARRY_TYPE bound to: SINGLE_CY8 - type: string 
 INFO: [Synth 8-6155] done synthesizing module 'CARRY8' (0#1) [D:/Xilinx/Vivado/2024.2/scripts/rt/data/unisim_comp.v:3110]
-INFO: [Synth 8-6155] done synthesizing module 'lut_dtc' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/lut_dtc.v:17]
-INFO: [Synth 8-6155] done synthesizing module 'lut_dtc_top' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/lut_dtc_top.v:23]
-INFO: [Synth 8-6157] synthesizing module 'clk_wiz_0' [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-7948-DESKTOP-I9E0661/realtime/clk_wiz_0_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'clk_wiz_0' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-7948-DESKTOP-I9E0661/realtime/clk_wiz_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'lut_dtc' (0#1) [X:/fpga_pll_mash111_dtc_ssc/RTL/all/dtc/lut_dtc.v:17]
+INFO: [Synth 8-6157] synthesizing module 'phase_align_cal' [X:/fpga_pll_mash111_dtc_ssc/RTL/all/dtc/phase_align_cal.v:27]
+INFO: [Synth 8-6155] done synthesizing module 'phase_align_cal' (0#1) [X:/fpga_pll_mash111_dtc_ssc/RTL/all/dtc/phase_align_cal.v:27]
+INFO: [Synth 8-6157] synthesizing module 'cal_sign_gen' [X:/fpga_pll_mash111_dtc_ssc/RTL/all/dtc/cal_sign_gen.v:28]
+INFO: [Synth 8-6155] done synthesizing module 'cal_sign_gen' (0#1) [X:/fpga_pll_mash111_dtc_ssc/RTL/all/dtc/cal_sign_gen.v:28]
+INFO: [Synth 8-6157] synthesizing module 'dtc_gain_lms_cal' [X:/fpga_pll_mash111_dtc_ssc/RTL/all/dtc/dtc_gain_lms_cal.v:48]
+INFO: [Synth 8-6155] done synthesizing module 'dtc_gain_lms_cal' (0#1) [X:/fpga_pll_mash111_dtc_ssc/RTL/all/dtc/dtc_gain_lms_cal.v:48]
+WARNING: [Synth 8-4446] all outputs are unconnected for this instance and logic may be removed [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/dtc_cal_top.v:120]
+INFO: [Synth 8-6157] synthesizing module 'ila_cal_top' [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-13644-DESKTOP-I9E0661/realtime/ila_cal_top_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'ila_cal_top' (0#1) [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-13644-DESKTOP-I9E0661/realtime/ila_cal_top_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'dtc_cal_top' (0#1) [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/dtc_cal_top.v:22]
+INFO: [Synth 8-6157] synthesizing module 'dtc_comp' [X:/fpga_pll_mash111_dtc_ssc/RTL/all/dtc/dtc_comp.v:7]
+	Parameter WIDTH bound to: 13 - type: integer 
+	Parameter SHIFT bound to: 11 - type: integer 
+	Parameter DTC_WIDTH bound to: 9 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'vio_1' [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-13644-DESKTOP-I9E0661/realtime/vio_1_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'vio_1' (0#1) [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-13644-DESKTOP-I9E0661/realtime/vio_1_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'dtc_comp' (0#1) [X:/fpga_pll_mash111_dtc_ssc/RTL/all/dtc/dtc_comp.v:7]
+WARNING: [Synth 8-689] width (11) of port connection 'e1' does not match port width (13) of module 'dtc_comp' [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:275]
+WARNING: [Synth 8-4446] all outputs are unconnected for this instance and logic may be removed [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:293]
+INFO: [Synth 8-6157] synthesizing module 'ila_0' [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-13644-DESKTOP-I9E0661/realtime/ila_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'ila_0' (0#1) [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-13644-DESKTOP-I9E0661/realtime/ila_0_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'OBUFDS' [D:/Xilinx/Vivado/2024.2/scripts/rt/data/unisim_comp.v:99442]
+	Parameter IOSTANDARD bound to: LVDS - type: string 
+	Parameter SLEW bound to: FAST - type: string 
+INFO: [Synth 8-6155] done synthesizing module 'OBUFDS' (0#1) [D:/Xilinx/Vivado/2024.2/scripts/rt/data/unisim_comp.v:99442]
+INFO: [Synth 8-6157] synthesizing module 'lut_dtc_top' [X:/fpga_pll_mash111_dtc_ssc/RTL/all/dtc/lut_dtc_top.v:23]
+	Parameter N_TAP bound to: 512 - type: integer 
+	Parameter CODE_WIDTH bound to: 9 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'lut_dtc_top' (0#1) [X:/fpga_pll_mash111_dtc_ssc/RTL/all/dtc/lut_dtc_top.v:23]
+INFO: [Synth 8-6157] synthesizing module 'clk_wiz_0' [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-13644-DESKTOP-I9E0661/realtime/clk_wiz_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'clk_wiz_0' (0#1) [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/.Xil/Vivado-13644-DESKTOP-I9E0661/realtime/clk_wiz_0_stub.v:6]
 INFO: [Synth 8-6157] synthesizing module 'BUFGMUX' [D:/Xilinx/Vivado/2024.2/scripts/rt/data/unisim_comp.v:2777]
 	Parameter CLK_SEL_TYPE bound to: SYNC - type: string 
 INFO: [Synth 8-6155] done synthesizing module 'BUFGMUX' (0#1) [D:/Xilinx/Vivado/2024.2/scripts/rt/data/unisim_comp.v:2777]
-INFO: [Synth 8-6155] done synthesizing module 'fpga_ssc_pll_top' (0#1) [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:3]
-WARNING: [Synth 8-7137] Register ssc_int_reg in module ssc_controller has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:91]
-WARNING: [Synth 8-7137] Register ssc_frac_reg in module ssc_controller has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:92]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_mash_stage'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/mash111.v:121]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_mash111'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/fractionaln.v:88]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_ila'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/mash111.v:127]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_hk_efm_1'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/mash111.v:88]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_hk_efm_2'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/mash111.v:100]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_hk_efm_3'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/mash111.v:112]
-WARNING: [Synth 8-7137] Register real_integer_reg in module calculate_ps has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/calculate_ps.v:28]
-WARNING: [Synth 8-6014] Unused sequential element rst_n_d1_reg was removed.  [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/p_counter.v:62]
-WARNING: [Synth 8-6014] Unused sequential element rst_n_d1_reg was removed.  [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/s_counter.v:58]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_dual_div'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/fractionaln.v:118]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_p_counter'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dual_div.v:45]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_ila_dualdiv'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dual_div.v:24]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_s_counter'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dual_div.v:56]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_div_45'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dual_div.v:35]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_vio_eo'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/fractionaln.v:64]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_vio_dtc_comp'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/dtc_comp.v:51]
-WARNING: [Synth 8-3848] Net dtc_load in module/entity dtc_comp does not have driver. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/dtc_comp.v:15]
-WARNING: [Synth 8-3848] Net cal_result in module/entity lut_dtc does not have driver. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/lut_dtc.v:28]
-WARNING: [Synth 8-3848] Net cal_valid in module/entity lut_dtc does not have driver. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/lut_dtc.v:29]
-WARNING: [Synth 8-6014] Unused sequential element tdc_count_reg was removed.  [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/lut_dtc_top.v:133]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_vio'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:116]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_ssc_ctrl'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:152]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_dtc_ctrl'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:183]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_vio_test_clk'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:140]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_mux_out'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:362]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_mux_02'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:352]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_mux_01'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:342]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_mux_pll_02'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:332]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_mux_pll_01'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:323]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_mux_pll_ref'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:311]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_lut_dtc_top'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:280]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_vio_rst'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:131]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_mmcm_pll'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:296]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_sys_bufg_fracn_out'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:147]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_ila'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:243]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_sys_bufg_4'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:238]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_obuf_ref'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:261]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_fracn_div'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:167]
-INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_sys_bufg_2'. This will prevent further optimization [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:107]
+INFO: [Synth 8-6155] done synthesizing module 'fpga_ssc_pll_top' (0#1) [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:3]
+WARNING: [Synth 8-7137] Register ssc_int_reg in module ssc_controller has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [X:/fpga_pll_mash111_dtc_ssc/RTL/all/ssc_controller.v:115]
+WARNING: [Synth 8-7137] Register ssc_frac_reg in module ssc_controller has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [X:/fpga_pll_mash111_dtc_ssc/RTL/all/ssc_controller.v:116]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_mash111'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/fractionaln.v:80]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_ila'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/mash111.v:105]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_hk_efm_1'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/mash111.v:71]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_hk_efm_2'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/mash111.v:83]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_hk_efm_3'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/mash111.v:95]
+WARNING: [Synth 8-6014] Unused sequential element y3_d_reg was removed.  [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/mash111.v:47]
+WARNING: [Synth 8-6014] Unused sequential element y3_dd_reg was removed.  [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/mash111.v:48]
+WARNING: [Synth 8-7137] Register e_o_reg in module mash111 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/mash111.v:60]
+WARNING: [Synth 8-7137] Register c2_o_reg in module mash111 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/mash111.v:61]
+WARNING: [Synth 8-7137] Register real_integer_reg in module calculate_ps has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/calculate_ps.v:28]
+WARNING: [Synth 8-6014] Unused sequential element rst_n_d1_reg was removed.  [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/p_counter.v:62]
+WARNING: [Synth 8-6014] Unused sequential element rst_n_d1_reg was removed.  [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/s_counter.v:58]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_dual_div'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/fractionaln.v:112]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_p_counter'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dual_div.v:45]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_ila_dualdiv'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dual_div.v:24]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_s_counter'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dual_div.v:56]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_div_45'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dual_div.v:35]
+WARNING: [Synth 8-3848] Net cal_result in module/entity lut_dtc does not have driver. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/dtc/lut_dtc.v:28]
+WARNING: [Synth 8-3848] Net cal_valid in module/entity lut_dtc does not have driver. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/dtc/lut_dtc.v:29]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_cal_top'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:226]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_ila_cal_top'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/dtc_cal_top.v:120]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_bbpd'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/dtc_cal_top.v:101]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_bbpd_cal'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/dtc_cal_top.v:94]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_dtc_cal_dly_fb'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/dtc_cal_top.v:81]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_dtc_cal_dly_ref'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/dtc_cal_top.v:64]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_lms_cal'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/dtc_cal_top.v:109]
+WARNING: [Synth 8-6014] Unused sequential element wait_time_reg was removed.  [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/dtc_cal_top.v:45]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_vio_dtc_comp'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/dtc/dtc_comp.v:60]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_vio'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:137]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_ssc_ctrl'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:191]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_dtc_ctrl'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:272]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_vio_test_clk'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:179]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_mux_out'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:413]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_mux_02'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:403]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_mux_01'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:393]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_mux_pll_02'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:383]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_mux_pll_01'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:374]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_mux_pll_ref'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:362]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_vio_cal'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:154]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_ila'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:293]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_lut_dtc_top'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:330]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_fracn_div'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:208]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_vio_rst'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:164]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_vio_ssc'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:172]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_mmcm_pll'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:347]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_sys_bufg_2'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:128]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_sys_bufg_4'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:288]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'u_obuf_ref'. This will prevent further optimization [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fpga_ssc_pll_top.v:311]
 WARNING: [Synth 8-7129] Port cal_result[8] in module lut_dtc is either unconnected or has no load
 WARNING: [Synth 8-7129] Port cal_result[7] in module lut_dtc is either unconnected or has no load
 WARNING: [Synth 8-7129] Port cal_result[6] in module lut_dtc is either unconnected or has no load
@@ -175,77 +197,88 @@ WARNING: [Synth 8-7129] Port sys_clk in module lut_dtc is either unconnected or 
 WARNING: [Synth 8-7129] Port rst_n in module lut_dtc is either unconnected or has no load
 WARNING: [Synth 8-7129] Port cal_mode in module lut_dtc is either unconnected or has no load
 WARNING: [Synth 8-7129] Port dtc_sel in module lut_dtc is either unconnected or has no load
-WARNING: [Synth 8-7129] Port dtc_load in module dtc_comp is either unconnected or has no load
 WARNING: [Synth 8-7129] Port rst_n in module dtc_comp is either unconnected or has no load
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2253.102 ; gain = 486.613
+Finished RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 2263.691 ; gain = 487.703
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2253.102 ; gain = 486.613
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 2263.691 ; gain = 487.703
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2253.102 ; gain = 486.613
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 2263.691 ; gain = 487.703
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.029 . Memory (MB): peak = 2253.102 ; gain = 0.000
-INFO: [Netlist 29-17] Analyzing 1165 Unisim elements for replacement
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.067 . Memory (MB): peak = 2263.691 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 1293 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
 Initializing timing engine
-Parsing XDC File [c:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc] for cell 'u_mmcm_pll'
-Finished Parsing XDC File [c:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc] for cell 'u_mmcm_pll'
-Parsing XDC File [c:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/vio_0/vio_0/vio_0_in_context.xdc] for cell 'u_vio'
-Finished Parsing XDC File [c:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/vio_0/vio_0/vio_0_in_context.xdc] for cell 'u_vio'
-Parsing XDC File [c:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/test_clk/test_clk/test_clk_in_context.xdc] for cell 'u_vio_test_clk'
-Finished Parsing XDC File [c:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/test_clk/test_clk/test_clk_in_context.xdc] for cell 'u_vio_test_clk'
-Parsing XDC File [c:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/ila_0/ila_0/ila_0_in_context.xdc] for cell 'u_ila'
-Finished Parsing XDC File [c:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/ila_0/ila_0/ila_0_in_context.xdc] for cell 'u_ila'
-Parsing XDC File [c:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/mash_stage/mash_stage/mash_stage_in_context.xdc] for cell 'u_fracn_div/u_mash111/u_mash_stage'
-Finished Parsing XDC File [c:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/mash_stage/mash_stage/mash_stage_in_context.xdc] for cell 'u_fracn_div/u_mash111/u_mash_stage'
-Parsing XDC File [c:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/ila_1/ila_1/ila_1_in_context.xdc] for cell 'u_fracn_div/u_mash111/u_ila'
-Finished Parsing XDC File [c:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/ila_1/ila_1/ila_1_in_context.xdc] for cell 'u_fracn_div/u_mash111/u_ila'
-Parsing XDC File [c:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/ila_dualdiv/ila_dualdiv/ila_dualdiv_in_context.xdc] for cell 'u_fracn_div/u_dual_div/u_ila_dualdiv'
-Finished Parsing XDC File [c:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/ila_dualdiv/ila_dualdiv/ila_dualdiv_in_context.xdc] for cell 'u_fracn_div/u_dual_div/u_ila_dualdiv'
-Parsing XDC File [c:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/vio_1/vio_1/vio_1_in_context.xdc] for cell 'u_dtc_ctrl/u_vio_dtc_comp'
-Finished Parsing XDC File [c:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/vio_1/vio_1/vio_1_in_context.xdc] for cell 'u_dtc_ctrl/u_vio_dtc_comp'
-Parsing XDC File [c:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/vio_rst/vio_rst/vio_rst_in_context.xdc] for cell 'u_vio_rst'
-Finished Parsing XDC File [c:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/vio_rst/vio_rst/vio_rst_in_context.xdc] for cell 'u_vio_rst'
-Parsing XDC File [c:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/vio_eo/vio_eo/vio_eo_in_context.xdc] for cell 'u_fracn_div/u_vio_eo'
-Finished Parsing XDC File [c:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/vio_eo/vio_eo/vio_eo_in_context.xdc] for cell 'u_fracn_div/u_vio_eo'
-Parsing XDC File [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/constrs_1/new/TOP.xdc]
+Parsing XDC File [x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc] for cell 'u_mmcm_pll'
+Finished Parsing XDC File [x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc] for cell 'u_mmcm_pll'
+Parsing XDC File [x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/vio_cal/vio_cal/vio_cal_in_context.xdc] for cell 'u_vio_cal'
+Finished Parsing XDC File [x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/vio_cal/vio_cal/vio_cal_in_context.xdc] for cell 'u_vio_cal'
+Parsing XDC File [x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/ila_0/ila_0/ila_0_in_context.xdc] for cell 'u_ila'
+Finished Parsing XDC File [x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/ila_0/ila_0/ila_0_in_context.xdc] for cell 'u_ila'
+Parsing XDC File [x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/vio_1/vio_1/vio_1_in_context.xdc] for cell 'u_dtc_ctrl/u_vio_dtc_comp'
+Finished Parsing XDC File [x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/vio_1/vio_1/vio_1_in_context.xdc] for cell 'u_dtc_ctrl/u_vio_dtc_comp'
+Parsing XDC File [x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/test_clk/test_clk/test_clk_in_context.xdc] for cell 'u_vio_test_clk'
+Finished Parsing XDC File [x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/test_clk/test_clk/test_clk_in_context.xdc] for cell 'u_vio_test_clk'
+Parsing XDC File [x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/ila_dualdiv/ila_dualdiv/ila_dualdiv_in_context.xdc] for cell 'u_fracn_div/u_dual_div/u_ila_dualdiv'
+Finished Parsing XDC File [x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/ila_dualdiv/ila_dualdiv/ila_dualdiv_in_context.xdc] for cell 'u_fracn_div/u_dual_div/u_ila_dualdiv'
+Parsing XDC File [x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/ila_1/ila_1/ila_1_in_context.xdc] for cell 'u_fracn_div/u_mash111/u_ila'
+Finished Parsing XDC File [x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/ila_1/ila_1/ila_1_in_context.xdc] for cell 'u_fracn_div/u_mash111/u_ila'
+Parsing XDC File [x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/vio_0/vio_0/vio_0_in_context.xdc] for cell 'u_vio'
+Finished Parsing XDC File [x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/vio_0/vio_0/vio_0_in_context.xdc] for cell 'u_vio'
+Parsing XDC File [x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/vio_rst/vio_rst/vio_rst_in_context.xdc] for cell 'u_vio_rst'
+Finished Parsing XDC File [x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/vio_rst/vio_rst/vio_rst_in_context.xdc] for cell 'u_vio_rst'
+Parsing XDC File [x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/vio_ssc/vio_ssc/vio_ssc_in_context.xdc] for cell 'u_vio_ssc'
+Finished Parsing XDC File [x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/vio_ssc/vio_ssc/vio_ssc_in_context.xdc] for cell 'u_vio_ssc'
+Parsing XDC File [x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/ila_cal_top/ila_cal_top/ila_cal_top_in_context.xdc] for cell 'u_cal_top/u_ila_cal_top'
+Finished Parsing XDC File [x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/ila_cal_top/ila_cal_top/ila_cal_top_in_context.xdc] for cell 'u_cal_top/u_ila_cal_top'
+Parsing XDC File [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/constrs_1/new/TOP.xdc]
 CRITICAL WARNING: [Constraints 18-1056] Clock 'clk_out_pll' completely overrides clock 'u_mmcm_pll/clk_out1'.
-New: create_clock -period 1.600 -name clk_out_pll [get_nets clk_out_pll], [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/constrs_1/new/TOP.xdc:38]
-Previous: create_generated_clock -source [get_pins u_mmcm_pll/clk_in1] -edges {1 2 3} -edge_shift {0.000 -38.800 -78.400} [get_pins u_mmcm_pll/clk_out1], [c:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc:2]
+New: create_clock -period 1.600 -name clk_out_pll [get_nets clk_out_pll], [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/constrs_1/new/TOP.xdc:38]
+Previous: create_generated_clock -source [get_pins u_mmcm_pll/clk_in1] -edges {1 2 3} -edge_shift {0.000 -38.800 -78.400} [get_pins u_mmcm_pll/clk_out1], [x:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.gen/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc:2]
 Resolution: Review the constraint files and remove the redundant clock definition(s). If the clock constraints are not saved in a file, you can first save the constraints to an XDC file and reload the design once the constraints have been corrected.
-Finished Parsing XDC File [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/constrs_1/new/TOP.xdc]
-INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/constrs_1/new/TOP.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/fpga_ssc_pll_top_propImpl.xdc].
+WARNING: [Vivado 12-180] No cells matched '*'. [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/constrs_1/new/TOP.xdc:61]
+WARNING: [Vivado 12-180] No cells matched '*'. [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/constrs_1/new/TOP.xdc:62]
+WARNING: [Vivado 12-180] No cells matched '*'. [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/constrs_1/new/TOP.xdc:63]
+CRITICAL WARNING: [Netlist 29-177] Cannot set property 'BLOCK_SYNTH.COLLAPSE_ALL' because the property does not exist. [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/constrs_1/new/TOP.xdc:66]
+Resolution: Create this property using create_property command before setting it.
+Finished Parsing XDC File [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/constrs_1/new/TOP.xdc]
+WARNING: [Project 1-498] One or more constraints failed evaluation while reading constraint file [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/constrs_1/new/TOP.xdc] and the design contains unresolved black boxes. These constraints will be read post-synthesis (as long as their source constraint file is marked as used_in_implementation) and should be applied correctly then. You should review the constraints listed in the file [.Xil/fpga_ssc_pll_top_propImpl.xdc] and check the run log file to verify that these constraints were correctly applied.
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/constrs_1/new/TOP.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/fpga_ssc_pll_top_propImpl.xdc].
 Resolution: To avoid this warning, move constraints listed in [.Xil/fpga_ssc_pll_top_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Parsing XDC File [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/dont_touch.xdc]
+Finished Parsing XDC File [X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/dont_touch.xdc]
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2375.902 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 2387.996 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
   A total of 11 instances were transformed.
   BUFG => BUFGCE: 4 instances
   BUFGMUX => BUFGCTRL (inverted pins: CE0): 6 instances
   IBUFDS => IBUFDS (DIFFINBUF, IBUFCTRL): 1 instance 
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.014 . Memory (MB): peak = 2375.902 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.022 . Memory (MB): peak = 2387.996 ; gain = 0.000
 WARNING: [Timing 38-316] Clock period '10.000' specified during out-of-context synthesis of instance 'u_ila' at clock pin 'clk' is different from the actual clock period '8.000', this can lead to different synthesis results.
 WARNING: [Timing 38-316] Clock period '10.000' specified during out-of-context synthesis of instance 'u_vio' at clock pin 'clk' is different from the actual clock period '8.000', this can lead to different synthesis results.
+WARNING: [Timing 38-316] Clock period '10.000' specified during out-of-context synthesis of instance 'u_vio_cal' at clock pin 'clk' is different from the actual clock period '8.000', this can lead to different synthesis results.
 WARNING: [Timing 38-316] Clock period '10.000' specified during out-of-context synthesis of instance 'u_vio_rst' at clock pin 'clk' is different from the actual clock period '8.000', this can lead to different synthesis results.
+WARNING: [Timing 38-316] Clock period '10.000' specified during out-of-context synthesis of instance 'u_vio_ssc' at clock pin 'clk' is different from the actual clock period '8.000', this can lead to different synthesis results.
 WARNING: [Timing 38-316] Clock period '10.000' specified during out-of-context synthesis of instance 'u_vio_test_clk' at clock pin 'clk' is different from the actual clock period '8.000', this can lead to different synthesis results.
+WARNING: [Timing 38-316] Clock period '10.000' specified during out-of-context synthesis of instance 'u_cal_top/u_ila_cal_top' at clock pin 'clk' is different from the actual clock period '8.000', this can lead to different synthesis results.
 WARNING: [Timing 38-316] Clock period '10.000' specified during out-of-context synthesis of instance 'u_dtc_ctrl/u_vio_dtc_comp' at clock pin 'clk' is different from the actual clock period '8.000', this can lead to different synthesis results.
-WARNING: [Timing 38-316] Clock period '10.000' specified during out-of-context synthesis of instance 'u_fracn_div/u_vio_eo' at clock pin 'clk' is different from the actual clock period '8.000', this can lead to different synthesis results.
 WARNING: [Timing 38-316] Clock period '10.000' specified during out-of-context synthesis of instance 'u_fracn_div/u_dual_div/u_ila_dualdiv' at clock pin 'clk' is different from the actual clock period '8.000', this can lead to different synthesis results.
 WARNING: [Timing 38-316] Clock period '10.000' specified during out-of-context synthesis of instance 'u_fracn_div/u_mash111/u_ila' at clock pin 'clk' is different from the actual clock period '8.000', this can lead to different synthesis results.
 INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
 INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 2376.875 ; gain = 610.387
+Finished Constraint Validation : Time (s): cpu = 00:00:20 ; elapsed = 00:00:22 . Memory (MB): peak = 2387.996 ; gain = 612.008
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
@@ -253,57 +286,63 @@ Start Loading Part and Timing Information
 Loading part: xcvu9p-flga2104-2L-e
 INFO: [Synth 8-6742] Reading net delay rules and data
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 2376.875 ; gain = 610.387
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:20 ; elapsed = 00:00:22 . Memory (MB): peak = 2387.996 ; gain = 612.008
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 Applied set_property KEEP_HIERARCHY = SOFT for u_mmcm_pll. (constraint file  auto generated constraint).
-Applied set_property KEEP_HIERARCHY = SOFT for u_vio. (constraint file  auto generated constraint).
-Applied set_property KEEP_HIERARCHY = SOFT for u_vio_test_clk. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for u_vio_cal. (constraint file  auto generated constraint).
 Applied set_property KEEP_HIERARCHY = SOFT for u_ila. (constraint file  auto generated constraint).
-Applied set_property KEEP_HIERARCHY = SOFT for u_fracn_div/u_mash111/u_mash_stage. (constraint file  auto generated constraint).
-Applied set_property KEEP_HIERARCHY = SOFT for u_fracn_div/u_mash111/u_ila. (constraint file  auto generated constraint).
-Applied set_property KEEP_HIERARCHY = SOFT for u_fracn_div/u_dual_div/u_ila_dualdiv. (constraint file  auto generated constraint).
 Applied set_property KEEP_HIERARCHY = SOFT for u_dtc_ctrl/u_vio_dtc_comp. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for u_vio_test_clk. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for u_fracn_div/u_dual_div/u_ila_dualdiv. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for u_fracn_div/u_mash111/u_ila. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for u_vio. (constraint file  auto generated constraint).
 Applied set_property KEEP_HIERARCHY = SOFT for u_vio_rst. (constraint file  auto generated constraint).
-Applied set_property KEEP_HIERARCHY = SOFT for u_fracn_div/u_vio_eo. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for u_vio_ssc. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for u_cal_top/u_ila_cal_top. (constraint file  auto generated constraint).
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 2376.875 ; gain = 610.387
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:20 ; elapsed = 00:00:22 . Memory (MB): peak = 2387.996 ; gain = 612.008
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:12 ; elapsed = 00:00:12 . Memory (MB): peak = 2376.875 ; gain = 610.387
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:21 ; elapsed = 00:00:22 . Memory (MB): peak = 2387.996 ; gain = 612.008
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
 ---------------------------------------------------------------------------------
 Detailed RTL Component Info : 
 +---Adders : 
-	   2 Input   11 Bit       Adders := 2     
-	   4 Input   11 Bit       Adders := 3     
+	   2 Input   24 Bit       Adders := 1     
+	   2 Input   18 Bit       Adders := 1     
+	   3 Input   13 Bit       Adders := 1     
+	   2 Input   12 Bit       Adders := 4     
+	   4 Input   11 Bit       Adders := 1     
+	   3 Input   11 Bit       Adders := 1     
+	   2 Input   11 Bit       Adders := 4     
 	   2 Input    9 Bit       Adders := 4     
-	   2 Input    8 Bit       Adders := 2     
+	   2 Input    8 Bit       Adders := 3     
 	   2 Input    6 Bit       Adders := 1     
-	   8 Input    4 Bit       Adders := 1     
-	   4 Input    4 Bit       Adders := 2     
+	   4 Input    4 Bit       Adders := 1     
 	   2 Input    4 Bit       Adders := 1     
-	   4 Input    3 Bit       Adders := 1     
++---XORs : 
+	   2 Input      1 Bit         XORs := 1     
 +---Registers : 
-	               11 Bit    Registers := 3     
-	               10 Bit    Registers := 7     
-	                9 Bit    Registers := 3     
+	               12 Bit    Registers := 1     
+	               11 Bit    Registers := 5     
+	               10 Bit    Registers := 6     
+	                9 Bit    Registers := 8     
 	                8 Bit    Registers := 2     
-	                4 Bit    Registers := 2     
-	                3 Bit    Registers := 1     
-	                1 Bit    Registers := 28    
+	                4 Bit    Registers := 3     
+	                1 Bit    Registers := 27    
 +---Muxes : 
-	   2 Input   10 Bit        Muxes := 3     
-	   4 Input   10 Bit        Muxes := 1     
-	   2 Input    9 Bit        Muxes := 7     
-	   2 Input    8 Bit        Muxes := 4     
-	   4 Input    4 Bit        Muxes := 1     
-	   2 Input    4 Bit        Muxes := 1     
-	   2 Input    1 Bit        Muxes := 42    
+	   2 Input   11 Bit        Muxes := 2     
+	   2 Input   10 Bit        Muxes := 6     
+	   2 Input    9 Bit        Muxes := 6     
+	   4 Input    9 Bit        Muxes := 1     
+	   2 Input    8 Bit        Muxes := 7     
+	   2 Input    4 Bit        Muxes := 3     
+	   2 Input    1 Bit        Muxes := 44    
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
 ---------------------------------------------------------------------------------
@@ -320,6 +359,10 @@ Finished Part Resource Summary
 Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
 WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+DSP Report: Generating DSP max_off_prod, operation Mode is: A*B.
+DSP Report: operator max_off_prod is absorbed into DSP max_off_prod.
+DSP Report: Generating DSP offset_mult, operation Mode is: A*B.
+DSP Report: operator offset_mult is absorbed into DSP offset_mult.
 DSP Report: Generating DSP mult, operation Mode is: A*B.
 DSP Report: operator mult is absorbed into DSP mult.
 WARNING: [Synth 8-7129] Port cal_result[8] in module lut_dtc is either unconnected or has no load
@@ -336,22 +379,25 @@ WARNING: [Synth 8-7129] Port sys_clk in module lut_dtc is either unconnected or 
 WARNING: [Synth 8-7129] Port rst_n in module lut_dtc is either unconnected or has no load
 WARNING: [Synth 8-7129] Port cal_mode in module lut_dtc is either unconnected or has no load
 WARNING: [Synth 8-7129] Port dtc_sel in module lut_dtc is either unconnected or has no load
-WARNING: [Synth 8-7129] Port dtc_load in module dtc_comp is either unconnected or has no load
 WARNING: [Synth 8-7129] Port rst_n in module dtc_comp is either unconnected or has no load
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:24 ; elapsed = 00:00:24 . Memory (MB): peak = 2376.875 ; gain = 610.387
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:43 ; elapsed = 00:00:46 . Memory (MB): peak = 2391.484 ; gain = 615.496
 ---------------------------------------------------------------------------------
- Sort Area is  mult_0 : 0 0 : 723 723 : Used 1 time 0
+ Sort Area is  max_off_prod_0 : 0 0 : 2140 2140 : Used 1 time 0
+ Sort Area is  mult_4 : 0 0 : 1043 1043 : Used 1 time 0
+ Sort Area is  offset_mult_2 : 0 0 : 751 751 : Used 1 time 0
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP, Shift Register and Retiming Reporting
 ---------------------------------------------------------------------------------
 
 DSP: Preliminary Mapping Report (see note below. The ' indicates corresponding REG is set)
-+------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
-|Module Name | DSP Mapping | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
-+------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
-|dtc_comp    | A*B         | 10     | 10     | -      | -      | 20     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-+------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
++---------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name    | DSP Mapping | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++---------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|ssc_controller | A*B         | 18     | 16     | -      | -      | 34     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|ssc_controller | A*B         | 13     | 9      | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|dtc_comp       | A*B         | 13     | 11     | -      | -      | 24     | 0    | 0    | -    | -    | -     | 0    | 0    | 
++---------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
 
 Note: The table above is a preliminary report that shows the DSPs inferred at the current stage of the synthesis flow. Some DSP may be reimplemented as non DSP primitives later in the synthesis flow. Multiple instantiated DSPs are reported only once.
 ---------------------------------------------------------------------------------
@@ -360,21 +406,20 @@ Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
 ---------------------------------------------------------------------------------
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
-invalid command name "NULL" at line 45 of file C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/constrs_1/new/TOP.xdc
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:29 ; elapsed = 00:00:30 . Memory (MB): peak = 2885.609 ; gain = 1119.121
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:50 ; elapsed = 00:00:54 . Memory (MB): peak = 2896.445 ; gain = 1120.457
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:29 ; elapsed = 00:00:30 . Memory (MB): peak = 2923.926 ; gain = 1157.438
+Finished Timing Optimization : Time (s): cpu = 00:00:51 ; elapsed = 00:00:55 . Memory (MB): peak = 2925.031 ; gain = 1149.043
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:30 ; elapsed = 00:00:31 . Memory (MB): peak = 2923.926 ; gain = 1157.438
+Finished Technology Mapping : Time (s): cpu = 00:00:53 ; elapsed = 00:00:57 . Memory (MB): peak = 2925.031 ; gain = 1149.043
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -392,79 +437,53 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 WARNING: [Synth 8-3295] tying undriven pin idelay_rdy_inferred:in0 to constant 0
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:92]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:92]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:92]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:92]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:92]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:92]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:92]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:92]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:92]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:92]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:48]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:48]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:48]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:48]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:48]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:48]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:48]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:48]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:48]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:49]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:91]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:91]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:91]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:91]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:91]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:91]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:91]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:91]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/fractionaln.v:51]
-WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dff.v:15]
+WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/fractionaln.v:48]
+WARNING: [Synth 8-5396] Clock pin C has keep related attribute (keep/mark_debug/dont_touch) which could create extra logic on its net [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dff.v:15]
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:31 ; elapsed = 00:00:33 . Memory (MB): peak = 3113.066 ; gain = 1346.578
+Finished IO Insertion : Time (s): cpu = 00:00:56 ; elapsed = 00:01:01 . Memory (MB): peak = 3117.336 ; gain = 1341.348
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:31 ; elapsed = 00:00:33 . Memory (MB): peak = 3113.066 ; gain = 1346.578
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:56 ; elapsed = 00:01:01 . Memory (MB): peak = 3117.336 ; gain = 1341.348
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:31 ; elapsed = 00:00:34 . Memory (MB): peak = 3113.066 ; gain = 1346.578
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:56 ; elapsed = 00:01:01 . Memory (MB): peak = 3117.336 ; gain = 1341.348
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:31 ; elapsed = 00:00:34 . Memory (MB): peak = 3113.066 ; gain = 1346.578
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:56 ; elapsed = 00:01:01 . Memory (MB): peak = 3117.336 ; gain = 1341.348
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:31 ; elapsed = 00:00:34 . Memory (MB): peak = 3113.066 ; gain = 1346.578
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:56 ; elapsed = 00:01:01 . Memory (MB): peak = 3117.336 ; gain = 1341.348
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:31 ; elapsed = 00:00:34 . Memory (MB): peak = 3113.066 ; gain = 1346.578
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:56 ; elapsed = 00:01:01 . Memory (MB): peak = 3117.336 ; gain = 1341.348
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
 ---------------------------------------------------------------------------------
 
 DSP Final Report (the ' indicates corresponding REG is set)
-+------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
-|Module Name | DSP Mapping | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
-+------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
-|dtc_comp    | A*B         | 10     | 10     | -      | -      | 20     | 0    | 0    | -    | -    | -     | 0    | 0    | 
-+------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
++---------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name    | DSP Mapping | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++---------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|ssc_controller | A*B         | 18     | 16     | -      | -      | 34     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|ssc_controller | A*B         | 13     | 9      | -      | -      | 22     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|dtc_comp       | A*B         | 30     | 10     | -      | -      | 24     | 0    | 0    | -    | -    | -     | 0    | 0    | 
++---------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
 
 
 Report BlackBoxes: 
@@ -472,15 +491,16 @@ Report BlackBoxes:
 |      |BlackBox name |Instances |
 +------+--------------+----------+
 |1     |vio_0         |         1|
-|2     |vio_rst       |         1|
-|3     |test_clk      |         1|
-|4     |vio_eo        |         1|
-|5     |mash_stage    |         1|
+|2     |vio_cal       |         1|
+|3     |vio_rst       |         1|
+|4     |vio_ssc       |         1|
+|5     |test_clk      |         1|
 |6     |ila_1         |         1|
 |7     |ila_dualdiv   |         1|
-|8     |vio_1         |         1|
-|9     |ila_0         |         1|
-|10    |clk_wiz_0     |         1|
+|8     |ila_cal_top   |         1|
+|9     |vio_1         |         1|
+|10    |ila_0         |         1|
+|11    |clk_wiz_0     |         1|
 +------+--------------+----------+
 
 Report Cell Usage: 
@@ -489,203 +509,208 @@ Report Cell Usage:
 +------+----------------+------+
 |1     |clk_wiz         |     1|
 |2     |ila             |     2|
-|4     |ila_dualdiv     |     1|
-|5     |mash_stage      |     1|
+|4     |ila_cal_top     |     1|
+|5     |ila_dualdiv     |     1|
 |6     |test_clk        |     1|
 |7     |vio             |     2|
-|9     |vio_eo          |     1|
+|9     |vio_cal         |     1|
 |10    |vio_rst         |     1|
-|11    |BUFG            |     4|
-|12    |BUFGMUX         |     6|
-|13    |CARRY8          |  1178|
-|14    |DSP_ALU         |     1|
-|15    |DSP_A_B_DATA    |     1|
-|16    |DSP_C_DATA      |     1|
-|17    |DSP_MULTIPLIER  |     1|
-|18    |DSP_M_DATA      |     1|
-|19    |DSP_OUTPUT      |     1|
-|20    |DSP_PREADD      |     1|
-|21    |DSP_PREADD_DATA |     1|
-|22    |LUT1            |    31|
-|23    |LUT2            |   147|
-|24    |LUT3            |    79|
-|25    |LUT4            |    89|
-|26    |LUT5            |    50|
-|27    |LUT6            |  2536|
-|28    |MUXF7           |  1227|
-|29    |MUXF8           |   576|
-|30    |FDCE            |   138|
-|31    |FDCP            |    34|
-|32    |FDRE            |     1|
-|33    |IBUF            |     1|
-|34    |IBUFDS          |     1|
-|35    |OBUFDS          |     2|
+|11    |vio_ssc         |     1|
+|12    |BUFG            |     4|
+|13    |BUFGMUX         |     6|
+|14    |CARRY8          |  1339|
+|15    |DSP_ALU         |     3|
+|16    |DSP_A_B_DATA    |     3|
+|17    |DSP_C_DATA      |     3|
+|18    |DSP_MULTIPLIER  |     3|
+|19    |DSP_M_DATA      |     3|
+|20    |DSP_OUTPUT      |     3|
+|21    |DSP_PREADD      |     3|
+|22    |DSP_PREADD_DATA |     3|
+|23    |LUT1            |    47|
+|24    |LUT2            |   268|
+|25    |LUT3            |   172|
+|26    |LUT4            |   142|
+|27    |LUT5            |    82|
+|28    |LUT6            |  2860|
+|29    |MUXF7           |  1360|
+|30    |MUXF8           |   640|
+|31    |FDCE            |   210|
+|32    |FDCP            |    35|
+|33    |FDRE            |    11|
+|34    |IBUF            |     1|
+|35    |IBUFDS          |     1|
+|36    |OBUFDS          |     2|
 +------+----------------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:31 ; elapsed = 00:00:34 . Memory (MB): peak = 3113.066 ; gain = 1346.578
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:56 ; elapsed = 00:01:01 . Memory (MB): peak = 3117.336 ; gain = 1341.348
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 48 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:23 ; elapsed = 00:00:30 . Memory (MB): peak = 3113.066 ; gain = 1222.805
-Synthesis Optimization Complete : Time (s): cpu = 00:00:31 ; elapsed = 00:00:34 . Memory (MB): peak = 3113.066 ; gain = 1346.578
+Synthesis finished with 0 errors, 0 critical warnings and 19 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:43 ; elapsed = 00:00:54 . Memory (MB): peak = 3117.336 ; gain = 1217.043
+Synthesis Optimization Complete : Time (s): cpu = 00:00:57 ; elapsed = 00:01:02 . Memory (MB): peak = 3117.336 ; gain = 1341.348
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.039 . Memory (MB): peak = 3113.066 ; gain = 0.000
-INFO: [Netlist 29-17] Analyzing 3030 Unisim elements for replacement
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_calculate_ps/real_integer_reg[0]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/calculate_ps.v:28]
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.074 . Memory (MB): peak = 3117.336 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 3391 Unisim elements for replacement
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_calculate_ps/real_integer_reg[0]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/calculate_ps.v:28]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_calculate_ps/real_integer_reg[1]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/calculate_ps.v:28]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_calculate_ps/real_integer_reg[1]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/calculate_ps.v:28]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_calculate_ps/real_integer_reg[2]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/calculate_ps.v:28]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_calculate_ps/real_integer_reg[2]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/calculate_ps.v:28]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_calculate_ps/real_integer_reg[3]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/calculate_ps.v:28]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_calculate_ps/real_integer_reg[3]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/calculate_ps.v:28]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_calculate_ps/real_integer_reg[4]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/calculate_ps.v:28]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_calculate_ps/real_integer_reg[4]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/calculate_ps.v:28]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_calculate_ps/real_integer_reg[5]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/calculate_ps.v:28]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_calculate_ps/real_integer_reg[5]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/calculate_ps.v:28]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_calculate_ps/real_integer_reg[6]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/calculate_ps.v:28]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_calculate_ps/real_integer_reg[6]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/calculate_ps.v:28]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_calculate_ps/real_integer_reg[7]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/calculate_ps.v:28]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_calculate_ps/real_integer_reg[7]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/calculate_ps.v:28]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dff.v:15]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_dual_div/u_p_counter/BLOCK1[0].u_dff/Q_reg' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dff.v:15]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dff.v:15]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_dual_div/u_p_counter/BLOCK1[1].u_dff/Q_reg' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dff.v:15]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dff.v:15]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_dual_div/u_p_counter/BLOCK1[2].u_dff/Q_reg' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dff.v:15]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dff.v:15]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_dual_div/u_p_counter/BLOCK1[3].u_dff/Q_reg' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dff.v:15]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dff.v:15]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_dual_div/u_p_counter/BLOCK1[4].u_dff/Q_reg' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dff.v:15]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dff.v:15]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_dual_div/u_p_counter/BLOCK1[5].u_dff/Q_reg' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dff.v:15]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dff.v:15]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_dual_div/u_s_counter/BLOCK1[0].u_dff/Q_reg' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dff.v:15]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_reg' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dff.v:15]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_dual_div/u_s_counter/BLOCK1[1].u_dff/Q_reg' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/dff.v:15]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_frac_reg[0]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:92]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_fracn_div/u_mash111/c2_o_reg' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/fractionaln/mash111.v:61]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_frac_reg[1]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:92]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_frac_reg[0]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/ssc_controller.v:116]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_frac_reg[2]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:92]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_frac_reg[1]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/ssc_controller.v:116]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_frac_reg[3]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:92]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_frac_reg[2]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/ssc_controller.v:116]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_frac_reg[4]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:92]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_frac_reg[3]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/ssc_controller.v:116]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_frac_reg[5]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:92]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_frac_reg[4]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/ssc_controller.v:116]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_frac_reg[6]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:92]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_frac_reg[5]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/ssc_controller.v:116]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_frac_reg[7]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:92]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_frac_reg[6]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/ssc_controller.v:116]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_frac_reg[8]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:92]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_frac_reg[7]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/ssc_controller.v:116]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_frac_reg[9]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:92]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_frac_reg[8]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/ssc_controller.v:116]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_int_reg[0]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:91]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_frac_reg[9]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/ssc_controller.v:116]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_int_reg[1]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:91]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_int_reg[0]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/ssc_controller.v:115]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_int_reg[2]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:91]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_int_reg[1]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/ssc_controller.v:115]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_int_reg[3]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:91]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_int_reg[2]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/ssc_controller.v:115]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_int_reg[4]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:91]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_int_reg[3]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/ssc_controller.v:115]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_int_reg[5]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:91]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_int_reg[4]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/ssc_controller.v:115]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_int_reg[6]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:91]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_int_reg[5]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/ssc_controller.v:115]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
-CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_int_reg[7]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.srcs/sources_1/new/ssc_controller.v:91]
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_int_reg[6]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/ssc_controller.v:115]
+Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
+Convert at least one of them to synchronous signal, or get rid of at least one of those.
+Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
+CRITICAL WARNING: [Netlist 29-358] Reg 'u_ssc_ctrl/ssc_int_reg[7]' of type 'FDCP' cannot be timed accurately. Hardware behavior may be unpredictable. Use check_timing command for more information. [X:/fpga_pll_mash111_dtc_ssc/RTL/all/ssc_controller.v:115]
 Resolution: Recode your design, so that you do not depend on both asynchronous set and reset for your desired functionality.
 Convert at least one of them to synchronous signal, or get rid of at least one of those.
 Often, the use of "initial" value will help you get rid of one of the asynchronous set/reset signals.
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 3113.066 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 3117.336 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
-  A total of 47 instances were transformed.
+  A total of 50 instances were transformed.
   BUFG => BUFGCE: 4 instances
   BUFGMUX => BUFGCTRL (inverted pins: CE0): 6 instances
-  DSP48E2 => DSP48E2 (DSP_ALU, DSP_A_B_DATA, DSP_C_DATA, DSP_MULTIPLIER, DSP_M_DATA, DSP_OUTPUT, DSP_PREADD, DSP_PREADD_DATA): 1 instance 
-  FDCP => FDCP (FDCE, FDPE, LDCE, LUT3, VCC): 34 instances
+  DSP48E2 => DSP48E2 (DSP_ALU, DSP_A_B_DATA, DSP_C_DATA, DSP_MULTIPLIER, DSP_M_DATA, DSP_OUTPUT, DSP_PREADD, DSP_PREADD_DATA): 3 instances
+  FDCP => FDCP (FDCE, FDPE, LDCE, LUT3, VCC): 35 instances
   IBUF => IBUF (IBUFCTRL, INBUF): 1 instance 
   IBUFDS => IBUFDS (DIFFINBUF, IBUFCTRL): 1 instance 
 
-Synth Design complete | Checksum: 47f6353b
+Synth Design complete | Checksum: 4941047d
 INFO: [Common 17-83] Releasing license: Synthesis
-116 Infos, 86 Warnings, 35 Critical Warnings and 0 Errors encountered.
+132 Infos, 67 Warnings, 37 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:35 ; elapsed = 00:00:42 . Memory (MB): peak = 3113.066 ; gain = 2428.559
+synth_design: Time (s): cpu = 00:01:08 ; elapsed = 00:01:16 . Memory (MB): peak = 3117.336 ; gain = 2417.492
 INFO: [runtcl-6] Synthesis results are not added to the cache due to CRITICAL_WARNING
-Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.011 . Memory (MB): peak = 3113.066 ; gain = 0.000
-INFO: [Common 17-1381] The checkpoint 'C:/Users/admin/Desktop/cygao/20260720/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/fpga_ssc_pll_top.dcp' has been generated.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.024 . Memory (MB): peak = 3117.336 ; gain = 0.000
+INFO: [Common 17-1381] The checkpoint 'X:/fpga_pll_mash111_dtc_ssc/FPGA_SSC_PLL/FPGA_SSC_PLL.runs/synth_1/fpga_ssc_pll_top.dcp' has been generated.
 INFO: [Vivado 12-24828] Executing command : report_utilization -file fpga_ssc_pll_top_utilization_synth.rpt -pb fpga_ssc_pll_top_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Tue Jul 21 13:17:29 2026...
+INFO: [Common 17-206] Exiting Vivado at Tue Jul 28 12:03:50 2026...

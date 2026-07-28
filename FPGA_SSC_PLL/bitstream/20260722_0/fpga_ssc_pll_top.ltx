@@ -740,7 +740,7 @@
                                 "portIndex": 3,
                                 "nets": [
                                     {
-                                        "name": "clk_ref_pll",
+                                        "name": "dtc_load",
                                         "isBus": false
                                     }
                                 ]
@@ -756,7 +756,7 @@
                                 "portIndex": 3,
                                 "nets": [
                                     {
-                                        "name": "dtc_load",
+                                        "name": "cal_auto_en_1",
                                         "isBus": false
                                     }
                                 ]
@@ -772,7 +772,7 @@
                                 "portIndex": 3,
                                 "nets": [
                                     {
-                                        "name": "<const0>",
+                                        "name": "cal_done_1",
                                         "isBus": false
                                     }
                                 ]
@@ -788,35 +788,35 @@
                                 "portIndex": 4,
                                 "nets": [
                                     {
-                                        "name": "dtc_code",
+                                        "name": "dtc_code_pipe",
                                         "isBus": true,
                                         "subnets": [
                                             {
-                                                "name": "dtc_code[8]"
+                                                "name": "dtc_code_pipe[8]"
                                             },
                                             {
-                                                "name": "dtc_code[7]"
+                                                "name": "dtc_code_pipe[7]"
                                             },
                                             {
-                                                "name": "dtc_code[6]"
+                                                "name": "dtc_code_pipe[6]"
                                             },
                                             {
-                                                "name": "dtc_code[5]"
+                                                "name": "dtc_code_pipe[5]"
                                             },
                                             {
-                                                "name": "dtc_code[4]"
+                                                "name": "dtc_code_pipe[4]"
                                             },
                                             {
-                                                "name": "dtc_code[3]"
+                                                "name": "dtc_code_pipe[3]"
                                             },
                                             {
-                                                "name": "dtc_code[2]"
+                                                "name": "dtc_code_pipe[2]"
                                             },
                                             {
-                                                "name": "dtc_code[1]"
+                                                "name": "dtc_code_pipe[1]"
                                             },
                                             {
-                                                "name": "dtc_code[0]"
+                                                "name": "dtc_code_pipe[0]"
                                             }
                                         ]
                                     }
@@ -872,9 +872,121 @@
                                 "id": 29,
                                 "type": "DATA_TRIGGER",
                                 "direction": "IN",
-                                "isVector": false,
+                                "isVector": true,
                                 "leftIndex": 0,
                                 "rightIndex": 0,
+                                "portIndex": 6,
+                                "nets": [
+                                    {
+                                        "name": "<const0>_1",
+                                        "isBus": false
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe6",
+                                "id": 30,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": true,
+                                "leftIndex": 1,
+                                "rightIndex": 1,
+                                "portIndex": 6,
+                                "nets": [
+                                    {
+                                        "name": "<const0>_2",
+                                        "isBus": false
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe6",
+                                "id": 31,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": true,
+                                "leftIndex": 2,
+                                "rightIndex": 2,
+                                "portIndex": 6,
+                                "nets": [
+                                    {
+                                        "name": "<const0>_3",
+                                        "isBus": false
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe6",
+                                "id": 32,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": true,
+                                "leftIndex": 3,
+                                "rightIndex": 3,
+                                "portIndex": 6,
+                                "nets": [
+                                    {
+                                        "name": "<const0>_4",
+                                        "isBus": false
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe6",
+                                "id": 33,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": true,
+                                "leftIndex": 4,
+                                "rightIndex": 4,
+                                "portIndex": 6,
+                                "nets": [
+                                    {
+                                        "name": "<const0>",
+                                        "isBus": false
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe6",
+                                "id": 34,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": true,
+                                "leftIndex": 5,
+                                "rightIndex": 5,
+                                "portIndex": 6,
+                                "nets": [
+                                    {
+                                        "name": "cal_start_1",
+                                        "isBus": false
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe6",
+                                "id": 35,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": true,
+                                "leftIndex": 6,
+                                "rightIndex": 6,
+                                "portIndex": 6,
+                                "nets": [
+                                    {
+                                        "name": "cal_done_2",
+                                        "isBus": false
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe6",
+                                "id": 36,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": true,
+                                "leftIndex": 7,
+                                "rightIndex": 7,
                                 "portIndex": 6,
                                 "nets": [
                                     {
@@ -899,7 +1011,7 @@
                         "pins": [
                             {
                                 "name": "probe_in0",
-                                "id": 30,
+                                "id": 37,
                                 "type": "DATA",
                                 "direction": "IN",
                                 "isVector": false,
@@ -915,7 +1027,7 @@
                             },
                             {
                                 "name": "probe_in1",
-                                "id": 31,
+                                "id": 38,
                                 "type": "DATA",
                                 "direction": "IN",
                                 "isVector": false,
@@ -931,7 +1043,7 @@
                             },
                             {
                                 "name": "probe_out0",
-                                "id": 32,
+                                "id": 39,
                                 "type": "DATA",
                                 "direction": "OUT",
                                 "isVector": true,
@@ -973,7 +1085,7 @@
                             },
                             {
                                 "name": "probe_out1",
-                                "id": 33,
+                                "id": 40,
                                 "type": "DATA",
                                 "direction": "OUT",
                                 "isVector": true,
@@ -1021,7 +1133,7 @@
                             },
                             {
                                 "name": "probe_out2",
-                                "id": 34,
+                                "id": 41,
                                 "type": "DATA",
                                 "direction": "OUT",
                                 "isVector": true,
@@ -1069,7 +1181,7 @@
                             },
                             {
                                 "name": "probe_out3",
-                                "id": 35,
+                                "id": 42,
                                 "type": "DATA",
                                 "direction": "OUT",
                                 "isVector": true,
@@ -1085,7 +1197,7 @@
                             },
                             {
                                 "name": "probe_out3",
-                                "id": 36,
+                                "id": 43,
                                 "type": "DATA",
                                 "direction": "OUT",
                                 "isVector": true,
@@ -1105,7 +1217,7 @@
                             },
                             {
                                 "name": "probe_out4",
-                                "id": 37,
+                                "id": 44,
                                 "type": "DATA",
                                 "direction": "OUT",
                                 "isVector": true,
@@ -1153,7 +1265,7 @@
                             },
                             {
                                 "name": "probe_out5",
-                                "id": 38,
+                                "id": 45,
                                 "type": "DATA",
                                 "direction": "OUT",
                                 "isVector": true,
@@ -1198,7 +1310,7 @@
                             },
                             {
                                 "name": "probe_out6",
-                                "id": 39,
+                                "id": 46,
                                 "type": "DATA",
                                 "direction": "OUT",
                                 "isVector": false,
@@ -1216,7 +1328,7 @@
                     },
                     {
                         "type": "VIO_V2",
-                        "name": "u_vio_rst",
+                        "name": "u_vio_cal",
                         "spec": "labtools_vio_v3",
                         "ipName": "vio",
                         "core_location": {
@@ -1224,11 +1336,137 @@
                             "slave_index": 7,
                             "bscan_switch_index": 0
                         },
+                        "uuid": "9BF5AA9AF2BD53459ED997275325CA42",
+                        "pins": [
+                            {
+                                "name": "probe_in0",
+                                "id": 47,
+                                "type": "DATA",
+                                "direction": "IN",
+                                "isVector": true,
+                                "leftIndex": 0,
+                                "rightIndex": 9,
+                                "portIndex": 0,
+                                "nets": [
+                                    {
+                                        "name": "dtc_gain_cal",
+                                        "isBus": true,
+                                        "subnets": [
+                                            {
+                                                "name": "dtc_gain_cal[9]"
+                                            },
+                                            {
+                                                "name": "dtc_gain_cal[8]"
+                                            },
+                                            {
+                                                "name": "dtc_gain_cal[7]"
+                                            },
+                                            {
+                                                "name": "dtc_gain_cal[6]"
+                                            },
+                                            {
+                                                "name": "dtc_gain_cal[5]"
+                                            },
+                                            {
+                                                "name": "dtc_gain_cal[4]"
+                                            },
+                                            {
+                                                "name": "dtc_gain_cal[3]"
+                                            },
+                                            {
+                                                "name": "dtc_gain_cal[2]"
+                                            },
+                                            {
+                                                "name": "dtc_gain_cal[1]"
+                                            },
+                                            {
+                                                "name": "dtc_gain_cal[0]"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe_in1",
+                                "id": 48,
+                                "type": "DATA",
+                                "direction": "IN",
+                                "isVector": false,
+                                "leftIndex": 0,
+                                "rightIndex": 0,
+                                "portIndex": 1,
+                                "nets": [
+                                    {
+                                        "name": "cal_done",
+                                        "isBus": false
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe_out0",
+                                "id": 49,
+                                "type": "DATA",
+                                "direction": "OUT",
+                                "isVector": false,
+                                "leftIndex": 0,
+                                "rightIndex": 0,
+                                "portIndex": 0,
+                                "nets": [
+                                    {
+                                        "name": "cal_start",
+                                        "isBus": false
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe_out1",
+                                "id": 50,
+                                "type": "DATA",
+                                "direction": "OUT",
+                                "isVector": false,
+                                "leftIndex": 0,
+                                "rightIndex": 0,
+                                "portIndex": 1,
+                                "nets": [
+                                    {
+                                        "name": "cal_auto_en",
+                                        "isBus": false
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe_out2",
+                                "id": 51,
+                                "type": "DATA",
+                                "direction": "OUT",
+                                "isVector": false,
+                                "leftIndex": 0,
+                                "rightIndex": 0,
+                                "portIndex": 2,
+                                "nets": [
+                                    {
+                                        "name": "order_sel",
+                                        "isBus": false
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "VIO_V2",
+                        "name": "u_vio_rst",
+                        "spec": "labtools_vio_v3",
+                        "ipName": "vio",
+                        "core_location": {
+                            "user_chain": 1,
+                            "slave_index": 8,
+                            "bscan_switch_index": 0
+                        },
                         "uuid": "6F011B3A6ADE5F3C99A17B9FA5634531",
                         "pins": [
                             {
                                 "name": "probe_out0",
-                                "id": 40,
+                                "id": 52,
                                 "type": "DATA",
                                 "direction": "OUT",
                                 "isVector": false,
@@ -1244,7 +1482,7 @@
                             },
                             {
                                 "name": "probe_out1",
-                                "id": 41,
+                                "id": 53,
                                 "type": "DATA",
                                 "direction": "OUT",
                                 "isVector": false,
@@ -1260,7 +1498,7 @@
                             },
                             {
                                 "name": "probe_out2",
-                                "id": 42,
+                                "id": 54,
                                 "type": "DATA",
                                 "direction": "OUT",
                                 "isVector": false,
@@ -1270,13 +1508,14 @@
                                 "nets": [
                                     {
                                         "name": "rst_n_dtc",
-                                        "isBus": false
+                                        "isBus": false,
+                                        "parentNetId": 175
                                     }
                                 ]
                             },
                             {
                                 "name": "probe_out3",
-                                "id": 43,
+                                "id": 55,
                                 "type": "DATA",
                                 "direction": "OUT",
                                 "isVector": false,
@@ -1299,14 +1538,14 @@
                         "ipName": "vio",
                         "core_location": {
                             "user_chain": 1,
-                            "slave_index": 8,
+                            "slave_index": 9,
                             "bscan_switch_index": 0
                         },
                         "uuid": "89A1FE76BD48531684E7DE16812ACC96",
                         "pins": [
                             {
                                 "name": "probe_out0",
-                                "id": 44,
+                                "id": 56,
                                 "type": "DATA",
                                 "direction": "OUT",
                                 "isVector": true,
@@ -1333,7 +1572,7 @@
                             },
                             {
                                 "name": "probe_out1",
-                                "id": 45,
+                                "id": 57,
                                 "type": "DATA",
                                 "direction": "OUT",
                                 "isVector": true,
@@ -1355,6 +1594,75 @@
                                                 "name": "clk_sel_1[0]"
                                             }
                                         ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "parent_nets": [
+                    {
+                        "id": 175,
+                        "name": "u_vio_rst/inst/PROBE_OUT_ALL_INST/G_PROBE_OUT[2].PROBE_OUT0_INST/probe_out2[0]",
+                        "state_reg": [
+                            {
+                                "name": "u_cal/FSM_sequential_state_reg[0]",
+                                "states": [
+                                    {
+                                        "name": "SM_MIN_MEAS",
+                                        "val": "0100"
+                                    },
+                                    {
+                                        "name": "SM_MIN_FLUSH",
+                                        "val": "0011"
+                                    },
+                                    {
+                                        "name": "SM_MIN_DISCARD",
+                                        "val": "0010"
+                                    },
+                                    {
+                                        "name": "SM_DONE",
+                                        "val": "1101"
+                                    },
+                                    {
+                                        "name": "SM_DIVIDE",
+                                        "val": "1011"
+                                    },
+                                    {
+                                        "name": "SM_SATURATE",
+                                        "val": "1100"
+                                    },
+                                    {
+                                        "name": "SM_MAX_STORE",
+                                        "val": "1010"
+                                    },
+                                    {
+                                        "name": "SM_MIN_CODE",
+                                        "val": "0001"
+                                    },
+                                    {
+                                        "name": "S_IDLE",
+                                        "val": "0000"
+                                    },
+                                    {
+                                        "name": "SM_MAX_MEAS",
+                                        "val": "1001"
+                                    },
+                                    {
+                                        "name": "SM_MAX_DISCARD",
+                                        "val": "0111"
+                                    },
+                                    {
+                                        "name": "SM_MAX_CODE",
+                                        "val": "0110"
+                                    },
+                                    {
+                                        "name": "SM_MAX_FLUSH",
+                                        "val": "1000"
+                                    },
+                                    {
+                                        "name": "SM_MIN_STORE",
+                                        "val": "0101"
                                     }
                                 ]
                             }

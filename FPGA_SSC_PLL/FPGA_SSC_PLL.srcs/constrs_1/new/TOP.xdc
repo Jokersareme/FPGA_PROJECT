@@ -42,7 +42,7 @@ create_clock -period 1.600 -name clk_out_pll [get_nets clk_out_pll]
 create_clock -period 40    -name div_out_dtc [get_nets div_out_dtc]
 create_clock -period 40    -name div_out_raw [get_nets div_out_raw]
 create_clock -period 10    -name f45 [get_nets u_fracn_div/u_dual_div/f45]
-create_clock -period 20    -name dtc_code [get_nets dtc_code[*]]
+#create_clock -period 20    -name dtc_code [get_nets dtc_code[*]]
 #ignore mmcm bufg conne33ction error
 #set_property CLOCK_DEDICATED_ROUTE BACKBONE [get_nets u_pll_mps_top/u_cleaner/clk_out1]
 
@@ -59,6 +59,8 @@ set_false_path -through [get_cells -hierarchical -filter {NAME =~ *lut_dtc_top/u
 set_false_path -through [get_cells -hierarchical -filter {NAME =~ *lut_dtc_top/u_lut_dtc_dly2/u_carry*}]
 # DTC 校准路径 (16 级 cascade)
 set_false_path -through [get_cells -hierarchical -filter {NAME =~ *lut_dtc_top/cascade*/u_lut_dtc/u_carry*}]
+set_false_path -through [get_cells -hierarchical -filter {NAME =~ *lut_dtc_top/u_lut_dtc_dly3/u_carry*}]
+set_false_path -through [get_cells -hierarchical -filter {NAME =~ *lut_dtc_top/u_lut_dtc_dly4/u_carry*}]
 
 # 保持 carry 链的 DONT_TOUFF 属性不被综合器优化
 set_property BLOCK_SYNTH.COLLAPSE_ALL NONE [get_cells -hierarchical -filter {NAME =~ *lut_dtc_top*}]
@@ -78,10 +80,6 @@ set_property BLOCK_SYNTH.COLLAPSE_ALL NONE [get_cells -hierarchical -filter {NAM
 #resize_pblock pblock_dtc -add SLICE_X0Y100:SLICE_X0Y180
 
 
-#ADC
-# Define ADC clock period and half-period (UI/2) for DDR constraints
-set adc_clk_period 8.000
-set adc_clk_half_period [expr {$adc_clk_period / 2.0}]
 
-# delay 8ns for hold fix, 2UI, not care DATA_N or DATA_N+2
-set hold_fix_time [expr {$adc_clk_half_period * 1}]
+
+
