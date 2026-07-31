@@ -1,0 +1,4 @@
+# edge_log: div_out_raw_g / div_out_dtc_g edge timing
+# format: time(ps) signal value dtc_code
+# dvco=625MHz fout~=8.8MHz
+4 code 256

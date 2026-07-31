@@ -1,0 +1,66 @@
+* ============================================================
+* Fractional-N PLL Pre-Layout Simulation Template (LTspice)
+* PRE-SIM: ideal components, NO PCB parasitics.
+* Model: phase-domain linear PLL (standard pre-sim method).
+* How to use: edit the .param block, run .tran to see locking,
+*   tune R/C to set loop bandwidth / phase margin.
+* NOTE: defaults match the project (Fref=125MHz, N=5 -> VCO 625MHz).
+* ============================================================
+
+* ---------- PARAMETER BLOCK (edit for your device) ----------
+.param Fref  = 125Meg      ; reference frequency (Hz)
+.param N     = 5            ; integer divide ratio, lock target = N*Fref
+.param Nfrac = 0.0          ; fractional part (0..1); avg ratio = N+Nfrac
+.param F0    = {N*Fref}    ; VCO center freq at Vctl=0 (set = target for fast lock)
+.param Kvco  = 10Meg       ; VCO gain (Hz/V)
+.param Icp   = 100u         ; charge pump current (A)
+
+* ---------- Reference phase (phase domain) ----------
+* ph_ref = integral of 2*pi*Fref over time
+Bref ph_ref 0 V=idt(2*pi*{Fref})
+
+* ---------- VCO phase (phase domain, with Kvco) ----------
+* ph_vco = integral of 2*pi*(F0 + Kvco*V(ctl)) over time
+Bvco ph_vco 0 V=idt(2*pi*({F0}+{Kvco}*V(node3)))
+
+* ---------- Divider /N (phase-domain divide, supports fraction) ----------
+* average divide ratio = N + Nfrac (replace Nfrac with MASH output later)
+Bdiv ph_div 0 V=V(ph_vco)/({N}+{Nfrac})
+
+* ---------- Phase Detector: phase error ----------
+Berr err 0 V=V(ph_ref)-V(ph_div)
+
+* ---------- Charge Pump + passive 3rd-order loop filter ----------
+* CP injects current into filter node 'filt'.
+* err>0 (VCO too slow) -> raise Vctl. Negative sign sources current into filt.
+* If it fails to lock, remove the minus sign (flip pump direction).
+Bcp filt 0 I=-{Icp}*V(err)/(2*pi)
+
+* 3rd-order passive filter
+C1  filt  0  {C1val}
+R2  filt  node2 {R2val}
+C2  node2 0  {C2val}
+R3  node2 node3 {R3val}
+C3  node3 0  {C3val}
+* VCO control voltage = node3
+
+* Filter values (recompute from loop bandwidth target).
+* 2nd-order approx: wc ~ sqrt( Icp*Kvco / (2*pi*C1*N) )
+.param C1val = 100p
+.param R2val = 10k
+.param C2val = 10p
+.param R3val = 1k
+.param C3val = 5p
+
+* ---------- Simulation ----------
+.tran 0 10u            ; watch lock transient (10 us)
+* .ac dec 100 1k 100Meg  ; optional small-signal sweep (see notes)
+
+* Initial conditions: start VCO at center freq for quick lock
+.ic V(filt)=0 V(node2)=0 V(node3)=0 V(ph_ref)=0 V(ph_vco)=0 V(ph_div)=0
+
+* ---------- Measurements ----------
+.meas tran vctl_final avg V(node3) from 9u to 10u
+.meas tran vco_final param {N*Fref + Kvco*vctl_final}
+
+.end

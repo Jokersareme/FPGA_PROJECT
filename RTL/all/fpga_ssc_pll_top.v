@@ -1,14 +1,14 @@
 `timescale 1ns / 1ps
 
 module fpga_ssc_pll_top (
-    input  wire sys_clk_p,      // 125MHz，必须来自 MMCM/BUFG
-    input  wire sys_clk_n,      // 125MHz，必须来自 MMCM/BUFG
+    input  wire sys_clk_p,      // 125MHz，必须来�?MMCM/BUFG
+    input  wire sys_clk_n,      // 125MHz，必须来�?MMCM/BUFG
     input  wire sys_rst,
-//    input  wire clk_300m_p,       // 300MHz，给 IDELAYCTRL，必须来自 MMCM/BUFG
-//    input  wire clk_300m_n,       // 300MHz，给 IDELAYCTRL，必须来自 MMCM/BUFG
+//    input  wire clk_300m_p,       // 300MHz，给 IDELAYCTRL，必须来�?MMCM/BUFG
+//    input  wire clk_300m_n,       // 300MHz，给 IDELAYCTRL，必须来�?MMCM/BUFG
     output wire sma_ref_p,      // 参考通道
     output wire sma_ref_n,
-    output wire sma_dtc_p,      // 补偿通道（有 DTC）
+    output wire sma_dtc_p,      // 补偿通道（有 DTC�?
     output wire sma_dtc_n
 );
     wire sys_rst_n;
@@ -40,6 +40,7 @@ module fpga_ssc_pll_top (
     wire [2:0]  clk_sel_0          ; //debug_1 clk out sel [2] for change to clk_sel_1 debug
     wire [2:0]  clk_sel_1          ; //[2] for sel pll ref, [1,0] for sel debug_2 out
     wire [9:0]        mash_e1;
+    wire [12:0]       mash_e_combined;   // 3 阶组合误�?(13-bit signed)
     wire              div_out_raw;
     wire clk_mux_01;
     wire clk_mux_02;
@@ -53,6 +54,18 @@ module fpga_ssc_pll_top (
     wire cal_mode;
     wire [8:0] cal_result;
     wire cal_valid;
+    wire [8:0] dtc_code_cal;       // 校准器输出的 dtc_code
+    wire [8:0] dtc_code_cal_muxed;       //cal used dtc_code_cal
+    wire [9:0] dtc_gain_cal;       // 校准器计算的增益
+    wire       cal_done;            // 校准完成
+    wire       cal_start;           // 校准触发
+    wire       cal_auto_en;         // 0=手动, 1=自动校准
+    wire       cal_bg_en;           // 0=单次, 1=后台持续校准
+
+    wire       order_sel;           // 0=1阶补�? 1=3阶补�?
+    wire signed [10:0] mash_e_dtc;          // �?MUX 选通的误差 (�?dtc_comp)
+    wire       cal_mode_int;        // 校准器内�?cal_mode
+    wire [9:0] dtc_gain_muxed;      // 自动/手动增益选择
     
     wire rst_n_fracn;
     wire rst_n_mmcm;
@@ -63,6 +76,14 @@ module fpga_ssc_pll_top (
     
     wire dtc_sel;
     wire ssc_bp;
+    wire       spread_type;
+    wire [15:0] spread_ppm;
+    
+    wire       cal_bg_ctrl;            // 0=����У׼, 1=��̨����У׼��ԭ idelay_en��
+    
+    assign cal_bg_en = cal_bg_ctrl;    // 复用 IDELAYE3 的控制信号（模块已删�?
+    
+//    assign cal_bg_ctrl  = 1'b0;           // 默认 CARRY8（可通过 VIO 控制�?
     
     assign and_rst_n_fracn =   1'b1   &&   sys_rst_n;
     assign and_rst_n_mmcm =    1'b1   &&   sys_rst_n;
@@ -115,8 +136,8 @@ module fpga_ssc_pll_top (
 
     vio_0 u_vio (
         .clk        (sys_clk_g),
-        .probe_in0  (idelay_rdy),      // 接 IDELAYCTRL 就绪状态
-        .probe_in1  (locked_pll),      // 接 pll_locked 就绪状态
+        .probe_in0  (idelay_rdy),      // �?IDELAYCTRL 就绪状�?
+        .probe_in1  (locked_pll),      // �?pll_locked 就绪状�?
         .probe_out0 (int_div),     // 8-bit
         .probe_out1 (frac),     // 10-bit
         .probe_out2 (dtc_gain),      // 8-bit
@@ -126,14 +147,32 @@ module fpga_ssc_pll_top (
         .probe_out6 (cal_mode)      // 9-bit
         
     );
-    
+
+    // -------------------------------------------------------------------------
+    // 1b. VIO 校准控制 (新增)
+    // -------------------------------------------------------------------------
+    vio_cal u_vio_cal (
+        .clk        (sys_clk_g),
+        .probe_out0 (cal_start),        // 上升沿触发校�?
+        .probe_out1 (cal_auto_en),      // 0=手动, 1=自动
+        .probe_out2 (order_sel),        // 0=1阶补�? 1=3阶补�?
+        .probe_in0  (dtc_gain_cal),     // 校准结果: 修正增益
+        .probe_in1  (cal_done)          // 校准完成标志
+    );
+
     
     vio_rst u_vio_rst (
       .clk(sys_clk_g),                // input wire clk
       .probe_out0(rst_n_fracn),  // output wire [0 : 0] probe_out0
       .probe_out1(ssc_bp),  // output wire [0 : 0] probe_out1
       .probe_out2(rst_n_dtc),  // output wire [0 : 0] probe_out2
-      .probe_out3(dtc_sel)  // output wire [0 : 0] probe_out3
+      .probe_out3(cal_bg_ctrl)  // output wire [0 : 0] probe_out3
+    );
+    
+    vio_ssc u_vio_ssc (
+        .clk        (sys_clk_g),
+        .probe_out0 (spread_type),
+        .probe_out1 (spread_ppm)
     );
     
     
@@ -150,16 +189,18 @@ module fpga_ssc_pll_top (
     // -------------------------------------------------------------------------
 
     ssc_controller u_ssc_ctrl (
-    .clk        (div_out_raw_g),     
-    .rst_n      (and_rst_n_fracn),   
-    .bypass     (ssc_bp),  
+    .clk            (~div_out_raw_g),     
+    .rst_n          (and_rst_n_fracn),   
+    .bypass         (ssc_bp),
+    .spread_type    (spread_type),
+    .spread_ppm     (spread_ppm),
             
-    .Integer    (int_div), 
-    .Fraction   (frac),
+    .Integer        (int_div), 
+    .Fraction       (frac),
           
-    .ssc_int    (ssc_int_div), 
-    .ssc_frac   (ssc_frac),
-    .ssc_en     ()
+    .ssc_int        (ssc_int_div), 
+    .ssc_frac       (ssc_frac),
+    .ssc_en         ()
     
     );
 
@@ -167,70 +208,56 @@ module fpga_ssc_pll_top (
     fractionaln  u_fracn_div (
         .Fin         (clk_out_pll  ),
         .Sys_clk     (sys_clk_g  ),
-        .rst_n       (and_rst_n_fracn  ),
+        .rst_n       (rst_n_fracn  ),
+        .order_sel       (order_sel  ),
         .Integer     (ssc_int_div    ),
         .Fraction    (ssc_frac       ),
-        .Eo          (mash_e1    ),
+        .Eo              (mash_e1),
+        .E_combined      (mash_e_combined),
+
         .Fout        (div_out_raw)
                   
     );
 
-    // -------------------------------------------------------------------------
-    // 3. DTC 补偿控制
-    // -------------------------------------------------------------------------
+
+    assign cal_mode_int = 1'b0;
+    assign cal_done = 1'b0;
+
+    dtc_cal_top u_cal_top (
+        .sys_clk                 (sys_clk_g),        
+        .clk_ref                 (clk_ref_pll),        
+        .clk_fb                  (clk_fb_pll),         
+        .rst_n                   (cal_auto_en && rst_n_dtc),          
+        .dtc_code                (dtc_code_d1),       
+        .dtc_cal_out_gain        (dtc_gain_cal)
+);
 
 
-    dtc_comp #(.WIDTH(10), .DTC_WIDTH(9)) u_dtc_ctrl (
+    // -------------------------------------------------------------------------
+    // 3c. DTC 补偿阶数选择
+    // -------------------------------------------------------------------------
+    // order_sel = 0: 1 阶补�?(Eo = e1[n-1], 10-bit unsigned �?零扩�?
+    // order_sel = 1: 2 阶补�?(E_combined, 13-bit signed)
+    assign mash_e_dtc = order_sel ? $signed(mash_e_combined) : $signed({1'b0, mash_e1});
+
+    // 增益 MUX: 自动模式走校准器, 手动模式�?VIO
+    assign dtc_gain_muxed = cal_auto_en ? dtc_gain_cal : dtc_gain;
+
+    // SHIFT=11: 必须�?dtc_calibrator �?SHIFT 一�?
+    //   (SHIFT=12 �?K_BASE=32704, 1635 装不�?10-bit gain)
+    // offset 自动居中: 3阶加 256, 1阶不�?(�?dtc_comp 内部处理)
+    dtc_comp #(.WIDTH(13), .SHIFT(11), .DTC_WIDTH(9)) u_dtc_ctrl (
         .clk             (sys_clk_g),
         .rst_n           (rst_n_dtc),
-        .e1              (mash_e1),
-        .dtc_gain        (dtc_gain),
-        //.dtc_offset_sel  (dtc_offset_sel),
+        .e1              (mash_e_dtc),
+        .dtc_gain        (dtc_gain_muxed),
         .dtc_en          (dtc_en),
-		.dtc_offset      (dtc_offset),
+        .dtc_offset      (dtc_offset),
+        .order_sel       (order_sel),
         .dtc_code        (dtc_code),
-        .dtc_load        (dtc_load)
+        .dtc_load        ()
     );
 
-    // -------------------------------------------------------------------------
-    // 4. IDELAYE3 延迟线（补偿通道）
-    // -------------------------------------------------------------------------
-// (* IODELAY_GROUP = "DTC_GRP" *)
-//IDELAYE3 #(
-//    .CASCADE          ("NONE"),
-//    .DELAY_FORMAT     ("TIME"),          // 模板指定
-//    .DELAY_SRC        ("DATAIN"),       // 从内部逻辑输入（div_out_raw 是内部信号）
-//    .DELAY_TYPE       ("VAR_LOAD"),
-//    .DELAY_VALUE      (256),
-//    .IS_CLK_INVERTED  (1'b0),
-//    .IS_RST_INVERTED  (1'b0),
-//    .REFCLK_FREQUENCY (125.0),          // ⚠️ 必须和 clk_300m 实际频率一致！
-//    .SIM_DEVICE       ("ULTRASCALE_PLUS"),
-//    .UPDATE_MODE      ("M_SYNC")
-//) u_idelaye3 (
-//    .CLK         (sys_clk_g),
-//    .CE          (1'b0),
-//    .CASC_IN     (1'b0),
-//    .CASC_RETURN (1'b0),
-//    .IDATAIN      (1'b0),                // 不用 IDATAIN 路径，接地
-//    .DATAIN     (div_out_raw_g),         // 内部信号走 DATAIN
-//    .INC         (1'b0),
-//    .LOAD        (dtc_load),            // 模板端口名是 LOAD
-//    .CNTVALUEIN  (dtc_code),
-//    .CNTVALUEOUT (),
-//    .DATAOUT     (div_out_dtc),
-//    .CASC_OUT    (),
-//    .EN_VTC      (1'b1),                // 不单独使能 VTC，由 IDELAYCTRL 统一处理
-//    .RST         (~sys_rst_n)
-//);
-
-//(* IODELAY_GROUP = "DTC_GRP" *)
-//IDELAYCTRL #(    .SIM_DEVICE       ("ULTRASCALE"))
-//u_idelayctrl (
-//    .REFCLK (sys_clk_g),
-//    .RST    (~sys_rst_n),
-//    .RDY    (idelay_rdy)
-//);
 
 
 //assign div_out_dtc_b = ~div_out_dtc & sys_rst_n;
@@ -242,17 +269,17 @@ BUFG u_sys_bufg_4 (.I (div_out_dtc), .O (div_out_dtc_g));
     // -------------------------------------------------------------------------
     ila_0 u_ila (
         .clk    (sys_clk_g),
-        .probe0 (div_out_raw_g),
+        .probe0 (clk_ref_pll),
         .probe1 (div_out_dtc_g),
-        .probe2 (mash_e1),
-        .probe3 ({1'b0,dtc_load,clk_ref_pll}),  // 3-bit 扩展为 4-bit 匹配 ILA 宽度，或按实际 ILA 配置调整
-        .probe4 (dtc_code),  // 3-bit 扩展为 4-bit 匹配 ILA 宽度，或按实际 ILA 配置调整
-        .probe5 (cal_result),  // 3-bit 扩展为 4-bit 匹配 ILA 宽度，或按实际 ILA 配置调整
-        .probe6 (cal_valid)  // 3-bit 扩展为 4-bit 匹配 ILA 宽度，或按实际 ILA 配置调整
+        .probe2 (mash_e_dtc),
+        .probe3 ({cal_done, cal_auto_en, dtc_load}),
+        .probe4 (dtc_code_pipe),
+        .probe5 (cal_result),
+        .probe6 ({cal_valid, cal_done, cal_start, 5'd0})
     );
 
 //     -------------------------------------------------------------------------
-//     6. SMA 差分输出（直接驱动顶层端口，无内部 assign） 
+//     6. SMA 差分输出（直接驱动顶层端口，无内�?assign�?
 //      TO ADI PLL
 //     -------------------------------------------------------------------------
     OBUFDS #(
@@ -265,31 +292,70 @@ BUFG u_sys_bufg_4 (.I (div_out_dtc), .O (div_out_dtc_g));
     );
     
 
-    
+    // cal_mode: 自动模式走校准器, 手动模式�?VIO
+    // dtc_code: 主延迟链始终�?dtc_comp 的输�?
+    // dtc_code_cal: 校准延迟链走校准器的 code（与主路径独立）
+    wire cal_mode_sel;
+
+    // TDC 校准路径始终由校准器控制（主/校路径已分离，VIO cal_mode 不再参与）
+    assign cal_mode_sel = cal_auto_en ? cal_mode_int : cal_mode;
+    assign dtc_code_cal_muxed = dtc_code;
+
+    // dtc_code_pipe: �?Fout 域打一�? 避免 dtc_comp 组合输出直接�?dtc_code_d1
+    //   posedge Fout 捕获: 1阶的 Eo(posedge更新) 采到旧�?正确)
+    //                       3阶的 E_combined(negedge更新) 已传播半个周�?稳定)
+    //   再经 dtc_code_d1(negedge div_out_dtc_g) 捕获, 隔半个Fout周期, 安全
+    reg [8:0] dtc_code_pipe;
+    always @(posedge div_out_raw_g or negedge rst_n_dtc) begin
+        if (!rst_n_dtc)
+            dtc_code_pipe <= 9'd0;
+        else
+            dtc_code_pipe <= dtc_code;
+    end
 
     always @(posedge ~div_out_dtc_g or negedge rst_n_dtc) begin
         if (!rst_n_dtc)
             dtc_code_d1 <= 1'b0;
         else 
-            dtc_code_d1 <= dtc_code;
+            dtc_code_d1 <= dtc_code_pipe;
     end
     
-    lut_dtc_top #(
-    .N_TAP (512),
-    .CODE_WIDTH (9)
-) u_lut_dtc_top (
-             .sys_clk       (sys_clk_g),
-             .rst_n         (rst_n_dtc),
-             .din           (div_out_raw_g),
-             .code          (dtc_code_d1),
-             .cal_mode      (cal_mode),
-             .dtc_sel       (dtc_sel),
-             .vco_clk       (clk_out_pll),
-             .dout          (div_out_dtc),
-             .cal_result    (cal_result),
-             .cal_valid     (cal_valid)
-    );
+//    lut_dtc_top #(
+//    .N_TAP (512),
+//    .CODE_WIDTH (9)
+//) u_lut_dtc_top (
+//             .sys_clk       (sys_clk_g),
+//             .rst_n         (rst_n_dtc),
+//             .din           (div_out_raw_g),
+//             .code          (dtc_code_d1),
+//             .cal_code      (dtc_code_cal_muxed),
+//             .cal_mode      (cal_mode_sel),
+//             .dtc_sel       (order_sel),
+//             .vco_clk       (clk_out_pll),
+//             .dout          (div_out_dtc),
+//             .cal_result    (cal_result),
+//             .cal_valid     (cal_valid)
+//    );
 
+    //20260729 use idelay3 replace lut dtc
+    idelay_dtc_top u_dtc_top (
+        .sys_clk       (sys_clk_g),          
+        .rst_n         (rst_n_dtc),          
+        .din           (div_out_raw_g),      
+        .code          (dtc_code_d1),        
+        .cal_code      (1'b0), 
+        .cal_mode      (1'b0),       
+        .dtc_sel       (1'b0),          
+        .vco_clk       (1'b0),        
+        .idelay_en     (dtc_en),        
+        .idelay_clk    (sys_clk_g),        
+        .idelay_load   (dtc_load),        
+        .dout          (div_out_dtc),        
+        .cal_result    (cal_result),         
+        .cal_valid     (cal_valid)           
+        
+    );
+    
     
     
     //PLL
@@ -307,7 +373,7 @@ BUFG u_sys_bufg_4 (.I (div_out_dtc), .O (div_out_dtc_g));
     
         
     BUFGMUX #(
-        .CLK_SEL_TYPE("SYNC")   // 同步切换，毛刺更小
+        .CLK_SEL_TYPE("SYNC")   // 同步切换，毛刺更�?
     ) u_mux_pll_ref (
         .O  (clk_fb_pll),
         .I0 (clk_fb_pll_raw),            // 必须来自 BUFG 输出
@@ -316,10 +382,10 @@ BUFG u_sys_bufg_4 (.I (div_out_dtc), .O (div_out_dtc_g));
     );
     
     
-    // 输入时钟必须都来自全局网络（BUFG/MMCM/PLL 输出）
+    // 输入时钟必须都来自全局网络（BUFG/MMCM/PLL 输出�?
     // PLL REF SEL
     BUFGMUX #(
-        .CLK_SEL_TYPE("SYNC")   // 同步切换，毛刺更小
+        .CLK_SEL_TYPE("SYNC")   // 同步切换，毛刺更�?
     ) u_mux_pll_01 (
         .O  (bgmux_out2),
         .I0 (clk_fb_pll_raw),            // 必须来自 BUFG 输出
@@ -328,7 +394,7 @@ BUFG u_sys_bufg_4 (.I (div_out_dtc), .O (div_out_dtc_g));
     );
     
     BUFGMUX #(
-        .CLK_SEL_TYPE("SYNC")   // 同步切换，毛刺更小
+        .CLK_SEL_TYPE("SYNC")   // 同步切换，毛刺更�?
     ) u_mux_pll_02 (
         .O  (bgmux_out3),
         .I0 (bgmux_out2),            // 必须来自 BUFG 输出
@@ -338,7 +404,7 @@ BUFG u_sys_bufg_4 (.I (div_out_dtc), .O (div_out_dtc_g));
     
     // 第一级：clk0 vs clk1
     BUFGMUX #(
-        .CLK_SEL_TYPE("SYNC")   // 同步切换，毛刺更小
+        .CLK_SEL_TYPE("SYNC")   // 同步切换，毛刺更�?
     ) u_mux_01 (
         .O  (clk_mux_01),
         .I0 (clk_ref_pll),            // 必须来自 BUFG 输出
@@ -381,3 +447,4 @@ BUFG u_sys_bufg_4 (.I (div_out_dtc), .O (div_out_dtc_g));
 
 
 endmodule
+

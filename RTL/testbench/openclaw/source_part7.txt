@@ -1,0 +1,461 @@
+FPGA DTC PLL - 完整设计源码合集
+============================================================
+
+===== src/fractionaln/p_counter.v =====
+`timescale  1ns / 1ps
+
+// 修复: Fout 由组合逻辑改为寄存器输出，消除 Pi 变化时的组合毛刺
+// 原设计: assign Fout = (qn_o == ~Pi_correct | qn_o == ~(Pi_correct-1)) ? 1 : 0;
+// 问题: Pi 来自 calculate_ps (~Fout_reg 下降沿更新)，更新时 p_counter 可能正在计数
+//       新的 Pi_correct 可能与当前 qn_o 瞬间匹配，在 Fout 上产生窄脉冲
+//       Fout_raw → Fout_reg(posedge Fin=625MHz) 会捕获该毛刺
+// 修复: Fout 在 Fin(=f45) 上寄存一拍，增加 1 个 f45 周期延迟，对反馈环路影响可忽略
+module p_counter #(
+    parameter WIDTH = 5
+) (
+    input wire rst_n,
+    input wire Fin,
+    input wire [WIDTH-1:0] Pi,
+
+    output wire  Fout,            // 修复: 改为寄存器输出
+    output wire LDo
+);
+
+    wire [WIDTH-1:0] clk_i;
+    wire [WIDTH-1:0] d_i;
+    wire [WIDTH-1:0] q_o;
+    wire [WIDTH-1:0] qn_o;
+    wire [WIDTH-1:0] LD_i;
+
+    wire h_nand;
+    wire ld_d;
+    wire ld_q;
+    wire [WIDTH-1:0] Pi_correct;
+    reg rst_n_d1;
+    wire ldi;
+
+    // Generate block
+    genvar i;
+    generate
+        for(i=0; i<WIDTH; i=i+1) begin:BLOCK1
+            dff  u_dff (
+                .clk                     ( clk_i[i]   ),
+                .LD                      ( LD_i[i]    ),
+				.rst_n					 ( rst_n	  ),
+                .P                       ( Pi_correct[i]      ),
+                .D                       ( d_i[i]     ),
+
+                .Q                       ( q_o[i]     ),
+                .Qn                      ( qn_o[i]    )
+            );
+        end
+    endgenerate
+
+    dff  u_ld_dff (
+        .clk                     ( Fin      ),
+        .LD                      ( ~rst_n   ),
+		.rst_n					 ( rst_n	),
+        .P                       ( 1'b1     ),
+        .D                       ( ld_d     ),
+
+        .Q                       ( ld_q     ),
+        .Qn                      (          )
+    );
+
+    always @(posedge Fin) begin
+        rst_n_d1 <= rst_n;
+    end
+
+    assign ldi = (rst_n == 1 & rst_n_d1 == 0) ? 1 : 0;
+	assign Fout = ld_q; //qn_o[Pi_correct] & qn_o[Pi_correct-1];
+    assign Pi_correct = Pi - 1'd1;
+    assign d_i = qn_o;
+    assign clk_i[0] = Fin;
+    assign clk_i[WIDTH-1:1] = q_o[WIDTH-2:0];
+    assign h_nand = ~(&qn_o[WIDTH-1:1]);
+    assign ld_d = ~(qn_o[0]|h_nand);
+    assign LD_i = {WIDTH{ld_q}};
+    assign LDo = ld_q;
+
+    // ============================================================
+    // 修复: Fout 寄存一拍，消除 Pi 变化时的组合毛刺
+    // ============================================================
+    //always @(posedge Fin or negedge rst_n) begin
+    //    if (!rst_n)
+    //        Fout <= 1'b0;
+    //    else
+    //        Fout <= qn_o[Pi_correct] & qn_o[Pi_correct] ;
+    //end
+
+endmodule
+
+
+===== src/fractionaln/div_2.v =====
+`timescale  1ns / 1ps
+
+module div2 (
+    input clk,
+    input rst_n,
+
+    output fout
+);
+
+// reg_sync Parametersnc.v
+parameter WIDTH      = 1;
+parameter RST_VALUE  = 0;
+
+// // reg_sync Inputs
+// reg   clk;
+// reg   rst_n;
+wire  [WIDTH-1:0]  D;
+
+// reg_sync Outputs
+wire  [WIDTH-1:0]  Q;
+wire  [WIDTH-1:0]  Qn;
+
+assign D = Q;
+assign fout = Q;
+
+reg_sync #(
+    .WIDTH     ( WIDTH ),
+    .RST_VALUE ( RST_VALUE ))
+ u_reg_sync (
+    .clk                     ( clk     ),
+    .rst_n                   ( rst_n   ),
+    .D                       ( D       ),
+
+    .Q                       ( Q       ),
+    .Qn                      ( Qn      )
+);
+    
+endmodule
+
+
+===== src/fractionaln/div_89.v =====
+`timescale  1ns / 1ps
+
+module div_89 (
+    input clk,
+    input rst_n,
+    input MC,    // MC = 0 时，8分频；MC = 1 时，9分频
+
+    output f45,
+    output f89
+);
+
+    wire D1;
+    wire Q1;
+    wire Qn1;
+    wire D2;
+    wire Q2;
+    wire Qn2;
+    wire D3;
+    wire Q3;
+    wire Qn3;
+    wire D4;
+    wire Q4;
+    wire Qn4;
+
+    // 这部分原理见 8/9 分频器的结构图
+    assign D1 = ~(Q2 & Q3);
+    assign D2 = Q1;
+    assign D3 = ~(Qn2 & (Qn4 & MC));
+    assign D4 = Qn4;
+
+    assign f89 = Qn4; // 异步 8/9 分频
+    assign f45 = Qn1; // 同步 4/5 分频
+
+    // D 触发器
+    reg_sync #(
+        .WIDTH ( 1 ))
+    u1_reg_sync (
+        .clk                     ( clk   ),
+        .rst_n                   ( rst_n ),
+        .D                       ( D1    ),
+        .Q                       ( Q1    ),
+        .Qn                      ( Qn1   )
+    );
+
+    reg_sync #(
+        .WIDTH ( 1 ))
+    u2_reg_sync (
+        .clk                     ( clk   ),
+        .rst_n                   ( rst_n ),
+        .D                       ( D2    ),
+        .Q                       ( Q2    ),
+        .Qn                      ( Qn2   )
+    );
+
+    reg_sync #(
+        .WIDTH ( 1 ))
+    u3_reg_sync (
+        .clk                     ( clk   ),
+        .rst_n                   ( rst_n ),
+        .D                       ( D3    ),
+        .Q                       ( Q3    ),
+        .Qn                      ( Qn3   )
+    );
+
+    reg_sync #(
+        .WIDTH ( 1 ))
+    u4_reg_sync (
+        .clk                     ( Q1    ),
+        .rst_n                   ( rst_n ),
+        .D                       ( D4    ),
+        .Q                       ( Q4    ),
+        .Qn                      ( Qn4   )
+    );
+    
+endmodule
+
+
+===== src/fractionaln/efm.v =====
+`timescale  1ns / 1ps
+
+module efm #(
+    parameter WIDTH = 24
+) (
+    input clk,
+    input rst_n,
+
+    input [WIDTH-1:0] x_i,
+    output y_o,
+    output [WIDTH-1:0] e_o
+);
+
+    wire [WIDTH:0] sum;
+    reg [WIDTH-1:0] error_r;
+
+    assign sum = x_i + error_r;
+
+    // always @(posedge clk or negedge rst_n) begin
+    //     if (!rst_n) begin
+    //         sum_r <= 'b0;
+    //     end else begin
+    //         sum_r <= x_i + error_r; 
+    //     end
+    // end
+
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            error_r <= 'b0;
+        end else begin
+            error_r <= sum[WIDTH-1:0];
+        end
+    end
+
+    // 原始输出
+    assign e_o = sum[WIDTH-1:0];
+    assign y_o = sum[WIDTH];
+    // // 优化输出
+    // reg [WIDTH:0] sum_r;
+    // always @(posedge clk or negedge rst_n) begin
+    //     if (!rst_n) begin
+    //         sum_r <= 'b0;
+    //     end else begin
+    //         sum_r <= sum; 
+    //     end
+    // end
+    // assign e_o = sum_r[WIDTH-1:0];
+    // assign y_o = sum_r[WIDTH];
+
+endmodule
+
+
+===== src/fractionaln/reg_async.v =====
+`timescale  1ns / 1ps
+
+module reg_async #(
+    parameter WIDTH = 1
+) (
+    input clk,
+    // input rst_n,
+
+    input [WIDTH-1:0] D,
+    output reg [WIDTH-1:0] Q,
+    output [WIDTH-1:0] Qn
+);
+
+    always @(posedge clk) begin
+        Q <= Q;
+    end
+    
+    assign Qn = ~Q;
+    
+endmodule
+
+
+===== src/fractionaln/reg_sync.v =====
+`timescale  1ns / 1ps
+
+module reg_sync #(
+    parameter WIDTH = 1,
+    parameter RST_VALUE = 0
+) (
+    input clk,
+    input rst_n,
+
+    input [WIDTH-1:0] D,
+    output reg [WIDTH-1:0] Q=0,
+    output [WIDTH-1:0] Qn
+);
+
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            Q <= {WIDTH{RST_VALUE}};
+        end else begin
+            Q <= D;
+        end
+    end
+    
+    assign Qn = ~Q;
+    
+endmodule
+
+
+===== dtc_pll_verify.py =====
+"""
+dtc_pll_verify.py — 贴合硬件的 MASH111+DTC 验证
+参数: 与 fpga_ssc_pll_top.v / fractionaln.v / dtc_comp.v 一致
+"""
+import numpy as np
+
+# ===== 硬件参数 =====
+TVCO = 1600; N_MAX = 1024; W = 10; HALF = 512
+Nint = 71; Frac = 213
+TAP = 20; SHIFT = 11; DMAX = 511; MID = 256
+# 理论最优增益: GAIN = TVCO * 2^SHIFT / (TAP * N_MAX) = 160
+GAIN = 160
+
+# ===== hk_efm (verilog精确) =====
+class Efm:
+    def __init__(self, w=10): self.w = w; self.sr = 0
+    def step(self, x):
+        c = (self.sr>>self.w)&1
+        v = x + (self.sr&((1<<self.w)-1)) - c
+        self.sr = v & ((1<<(self.w+1))-1)
+        return (self.sr>>self.w)&1, self.sr&((1<<self.w)-1)
+
+# ===== MASH111 (verilog精确) =====
+def run_mash(N):
+    e = [Efm(W) for _ in range(3)]; c0 = c1 = 0
+    ds = np.zeros(N, int); e3 = np.zeros(N, float)
+    for i in range(N):
+        y1, e1 = e[0].step(Frac)
+        y2, e2 = e[1].step(e1)
+        y3, e3_ = e[2].step(e2)
+        _c1 = y2 + y3 - c0; c2 = y1 + _c1 - c1
+        c0, c1 = y3, _c1
+        d = c2 & 0xF; d -= 16 if d & 8 else 0
+        ds[i] = d; e3[i] = e3_ - HALF
+    return ds, e3
+
+ds, es3 = run_mash(5000)
+
+# ===== 硬件精确 pipeline =====
+def sim(eo_start, eo_sel, gain):
+    """完整 pipeline:
+       posedge N: MASH->ds[N], e3[N]
+       negedge N: e3_r1<=e3[N], comp_3rd=..., E_combined<=...
+       posedge N+1: dtc_code_pipe<=code(E_combined)
+       negedge dtc_out: dtc_code_d1<=dtc_code_pipe -> delay edge N+2
+    """
+    ea = np.cumsum((Nint + ds).astype(float)) * TVCO
+    ec = np.zeros(5000)
+    e3r = [0.0]*6; Ec = [0.0]*3
+    code_pipe = 0     # dtc_code_pipe (posedge)
+    code_d1 = 0       # dtc_code_d1 (negedge)
+    
+    for n in range(5000):
+        e3r = [es3[n]] + e3r[:-1]
+        # negedge: c3 from e3_r1/r2/r3 (or r2/r3/r4)
+        if eo_start == 0:
+            c3 = e3r[0] - 2*e3r[1] + e3r[2]
+        else:
+            c3 = e3r[1] - 2*e3r[2] + e3r[3]
+        # E_combined: eo_sel
+        if eo_sel == 0: ec_ = c3
+        else: Ec = [c3] + Ec[:-1]; ec_ = Ec[eo_sel-1]
+        # posedge: dtc_code_pipe <= code
+        code = int(ec_ * gain / (1<<SHIFT)) + MID
+        code = max(0, min(DMAX, code))
+        # 当前边沿用 dtc_code_d1 (来自2周期前)
+        ec[n] = ea[n] + code_d1 * TAP
+        # 流水线: code_pipe -> code_d1 (negedge dtc_out)
+        code_d1 = code_pipe
+        code_pipe = code
+    
+    pj = np.diff(ec[200:]) - Nint*TVCO
+    return np.std(pj - np.mean(pj))
+
+# ===== 结果 =====
+gs = [50, 75, 100, 121, 150, 160, 180, 200, 250]
+print("="*60)
+print("  DTC PLL 验证 — 硬件精确 pipeline")
+print(f"  Nint={Nint} Frac={Frac} TAP={TAP}ps GAIN={GAIN}")
+print("="*60)
+print(f"\n{'配置':>10} {'最佳gain':>8} {'std(ps)':>8} {'改善':>8}")
+print("-"*40)
+for lb, es, ee in [('r1+eo0',0,0),('r1+eo1',0,1),('r2+eo0',1,0),('r2+eo1',1,1)]:
+    best = (99999, 0)
+    for g in gs:
+        s = sim(es, ee, g)
+        if s < best[0]: best = (s, g)
+    imp = (2077/best[0]-1)*100
+    print(f"{lb:>10}  {best[1]:>4}    {best[0]:>6.0f}   {imp:>+7.1f}%")
+
+s0 = sim(0,0,0)
+print(f"{'无补偿':>10}  {'-':>4}    {s0:>6.0f}   {'-':>8}")
+
+# 理论极限 (0-cycle lag, 无量化)
+ds2, es3_ = run_mash(5000)
+ea = np.cumsum((Nint + ds2).astype(float)) * TVCO
+c3 = np.zeros(5000)
+for i in range(2,5000):
+    c3[i] = (es3_[i] - 2*es3_[i-1] + es3_[i-2]) / N_MAX * TVCO
+eg = ea + c3; pj = np.diff(eg[200:]) - Nint*TVCO
+print(f"{'理论极限':>10}  {'-':>4}    {np.std(pj-np.mean(pj)):>6.0f}   {2077/np.std(pj-np.mean(pj)):>6.0f}x")
+
+print(f"\npipeline跟踪:")
+print(f"  posedge N:     MASH -> ds[N], e3[N]")
+print(f"  negedge N:     e3_r1<=e3[N], comp_3rd, E_combined")
+print(f"  posedge N+1:   dtc_code_pipe<=code")
+print(f"  negedge dtc:   dtc_code_d1<=code_pipe -> delay edge N+2")
+print(f"")
+print(f"  边沿 N+2 周期误差来自 ds[N] (经过d1+calc_ps+p_counter)")
+print(f"  边沿 N+2 补偿用 c3[N] (同周期!)")
+print(f"  -> 理论对齐正确, 但实际补偿量受gain/量化/sat限制")
+
+
+===== tb_auto_full.v =====
+`timescale 1ns / 1ps
+module tb_auto_full;
+    parameter SYS_CLK_PERIOD = 8.0;
+    reg sys_clk_p = 0; reg sys_clk_n = 0; reg sys_rst;
+    wire sma_ref_p, sma_ref_n, sma_dtc_p, sma_dtc_n;
+
+    fpga_ssc_pll_top u_dut (
+        .sys_clk_p(sys_clk_p), .sys_clk_n(sys_clk_n), .sys_rst(sys_rst),
+        .sma_ref_p(sma_ref_p), .sma_ref_n(sma_ref_n),
+        .sma_dtc_p(sma_dtc_p), .sma_dtc_n(sma_dtc_n));
+
+    always #(SYS_CLK_PERIOD/2) sys_clk_p = ~sys_clk_p;
+    always #(SYS_CLK_PERIOD/2) sys_clk_n = ~sys_clk_n;
+
+    initial begin sys_rst = 1; #103 sys_rst = 0; end
+    initial begin force u_dut.cal_mode_sel = u_dut.cal_mode_int; end
+
+    initial begin
+        #200;
+        wait(u_dut.u_cal.cal_mode);
+        $display("@%0t: Cal START", $time);
+        wait(u_dut.u_cal.cal_done);
+        $display("@%0t: Cal DONE gain=%0d code=%0d", $time,
+            u_dut.dtc_gain_cal, u_dut.dtc_code);
+        #5000;
+        $display("@%0t: DONE", $time);
+        $finish;
+    end
+endmodule
+
+

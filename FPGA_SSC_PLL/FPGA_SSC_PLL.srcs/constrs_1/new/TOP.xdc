@@ -42,25 +42,77 @@ create_clock -period 1.600 -name clk_out_pll [get_nets clk_out_pll]
 create_clock -period 40    -name div_out_dtc [get_nets div_out_dtc]
 create_clock -period 40    -name div_out_raw [get_nets div_out_raw]
 create_clock -period 10    -name f45 [get_nets u_fracn_div/u_dual_div/f45]
-create_clock -period 20    -name dtc_code [get_nets dtc_code[*]]
+#create_clock -period 20    -name dtc_code [get_nets dtc_code[*]]
 #ignore mmcm bufg conne33ction error
 #set_property CLOCK_DEDICATED_ROUTE BACKBONE [get_nets u_pll_mps_top/u_cleaner/clk_out1]
 
-## 强制 CARRY8 分散，增加布线延迟
-#set carry_cells [get_cells -hierarchical -filter {REF_NAME == CARRY8}]
-#set y_offset 0
-#foreach cell $carry_cells {
-#    set_property LOC SLICE_X0Y$y_offset $cell
-#    incr y_offset 8
-#}
+# ============================================================================
+# DTC (CARRY8 delay chain) 时序约束
+# CARRY8 作为可编程延迟链使用, CI→CO 是组合路径, 
+# 设 false_path 避免 Vivado 将其作为关键路径处理.
+# 精确到具体 cell hierarchy, 避免误伤其他 CARRY8.
+# ============================================================================
+
+# DTC 主路径 1 (u_lut_dtc_dly)
+#set_false_path -through [get_cells -hierarchical -filter {NAME =~ *lut_dtc_top/u_lut_dtc_dly/u_carry*}]
+## DTC 主路径 2 (u_lut_dtc_dly2)
+#set_false_path -through [get_cells -hierarchical -filter {NAME =~ *lut_dtc_top/u_lut_dtc_dly2/u_carry*}]
+## DTC 校准路径 (16 级 cascade)
+#set_false_path -through [get_cells -hierarchical -filter {NAME =~ *lut_dtc_top/cascade*/u_lut_dtc/u_carry*}]
+#set_false_path -through [get_cells -hierarchical -filter {NAME =~ *lut_dtc_top/u_lut_dtc_dly3/u_carry*}]
+#set_false_path -through [get_cells -hierarchical -filter {NAME =~ *lut_dtc_top/u_lut_dtc_dly4/u_carry*}]
+
+# 保持 carry 链的 DONT_TOUFF 属性不被综合器优化
+set_property BLOCK_SYNTH.COLLAPSE_ALL NONE [get_cells -hierarchical -filter {NAME =~ *lut_dtc_top*}]
+
+# ============================================================================
+# Pblock: 将所有 DTC CARRY8 约束在相邻 SLICE 区域
+# 确保各 CARRY8 链之间物理靠近, 延迟特性一致.
+#
+# ⚠️ 请将 X0Ymin~X0Ymax 替换为目标芯片的实际坐标.
+#    XCVU9P-FLGA2104-2L-E 参考:
+#    - 一个 CLOCK_REGION 约 60 SLICEs 高
+#    - 512-tap CARRY8 链需要 64 SLICEs (8 per CARRY8 × 64 CARRY8s)
+#    - 建议预留至少 80 SLICEs 高度, 选在芯片中部 CLOCK_REGION
+# ============================================================================
+#create_pblock pblock_dtc
+#add_cells_to_pblock pblock_dtc [get_cells -hierarchical -filter {NAME =~ *lut_dtc_top*}]
+#resize_pblock pblock_dtc -add SLICE_X0Y100:SLICE_X0Y180
+
+###############################################################################
+# idelay_cascade_constraints.xdc
+#
+# Placement for the cascaded IDELAYE3 pair inside idelay_dtc_top
+# (MASTER -> SLAVE dedicated cascade).
+#
+# WHY THIS IS REQUIRED:
+#   The dedicated CASC route (CASC_OUT -> CASC_IN) exists ONLY between ADJACENT
+#   IDELAYE3 BITSLICE sites in the SAME IO bank. If the two primitives are NOT
+#   placed in adjacent sites, Vivado fails with Route 35-19 ("no CASC path").
+#
+# HOW TO USE:
+#   1. Replace <idelay_dtc_top_inst> with the actual hierarchy path of your
+#      idelay_dtc_top instance in the design.
+#   2. Replace IDELAY_X0Y0 / IDELAY_X0Y1 with TWO ADJACENT IDELAYE3 sites in the
+#      IO bank where these primitives will be placed. Check your device package
+#      pinout / bank floorplan for adjacent BITSLICE coordinates. The two sites
+#      must be neighbors so the dedicated CASC_OUT->CASC_IN route can be used.
+#
+# NOTE: the instance names main_delay[0].u_idelay / main_delay[1].u_idelay match
+#       the generate block in idelay_dtc_top.v.
+###############################################################################
+
+# --- 2-stage cascade (MASTER + SLAVE) : adjust sites to your device ---
+#set_property LOC IDELAY_X0Y0 [get_cells {u_dtc_top/main_delay[0].u_idelay}]
+#set_property LOC IDELAY_X0Y1 [get_cells {u_dtc_top/main_delay[1].u_idelay}]
+
+# If MAIN_STAGES > 2, add one LOC per stage, all in adjacent BITSLICE sites:
+# set_property LOC IDELAY_X0Y2 [get_cells {<idelay_dtc_top_inst>/main_delay[2].u_idelay}]
+# set_property LOC IDELAY_X0Y3 [get_cells {<idelay_dtc_top_inst>/main_delay[3].u_idelay}]
+# ... (each stage must chain to its neighbor via the dedicated CASC route)
 
 
-#ADC
-# Define ADC clock period and half-period (UI/2) for DDR constraints
-set adc_clk_period 8.000
-set adc_clk_half_period [expr {$adc_clk_period / 2.0}]
 
-# delay 8ns for hold fix, 2UI, not care DATA_N or DATA_N+2
-set hold_fix_time [expr {$adc_clk_half_period * 1}]
 
-set_false_path -through [get_cells -hierarchical -filter {REF_NAME == CARRY8 && NAME =~ *lut_dtc*}]
+
+

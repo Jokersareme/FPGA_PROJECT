@@ -16,7 +16,7 @@ module hk_efm #(
     reg [WIDTH:0] sum_r;
 
     // 实现一阶的误差反馈调制器的功能，具体原理去论文中看
-    assign sum = x_i + sum_r[WIDTH-1:0] - {A_GAIN{sum_r[WIDTH]}};
+    assign sum = x_i + sum_r[WIDTH-1:0];
     // assign sum = x_i + sum_r[WIDTH-1:0];
 
     // 对求和结果延迟一个时钟周期

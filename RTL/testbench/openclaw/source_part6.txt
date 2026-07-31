@@ -1,0 +1,463 @@
+FPGA DTC PLL - 完整设计源码合集
+============================================================
+
+===== src/fractionaln/mash111.v =====
+`timescale  1ns / 1ps
+
+module mash111 #(
+    parameter WIDTH = 24,  // 小数分频的位?
+    parameter A_GAIN = 1   // A = A_GAIN*2-1, 控制反馈的大小，具体原理去论文中?
+) (
+    input clk,             // 时钟输入
+    input clk_ila,             // 时钟输入
+    input rst_n,           // 复位信号，低有效
+
+    input [WIDTH-1:0] x_i, // Sigma-Delta 调制器的输入，即分频中小数的输入
+    output reg [3:0] y_o,      // 量化输出
+    output [WIDTH-1:0] e_o, // 最后一?EFM 的误差输?
+    output [WIDTH-1:0] e3_o  // 3 EFM ԭʼ ( DTC )
+);
+
+    wire [WIDTH-1:0] x_i_1;
+    wire [WIDTH-1:0] e_o_1;
+    wire y_o_1;
+    wire [WIDTH-1:0] x_i_2;
+    wire [WIDTH-1:0] e_o_2;
+    wire y_o_2;
+    wire [WIDTH-1:0] x_i_3;
+    wire [WIDTH-1:0] e_o_3;
+    wire y_o_3;
+    
+    
+    reg y2_d;
+    reg y3_d;
+    reg y3_dd;
+
+    wire signed [2:0] c1;
+    wire signed [3:0] c2;
+    reg signed [0:0] c0_reg;
+    reg signed [2:0] c1_reg; 
+
+    wire [1:0] stage_sel;
+    wire  mash_eo_mode;
+    reg [WIDTH-1:0] eo_d1;
+
+        
+    // 前一?efm 的误差输出作为后一?efm 的输?
+    assign x_i_1 = x_i;
+    assign x_i_2 = e_o_1;
+    assign x_i_3 = e_o_2;
+
+    // ?3 ?efm 的输出求?
+    assign c1 = y_o_2 + y_o_3 - c0_reg;
+    assign c2 = y_o_1 + {c1[2], c1} - {c1_reg[2], c1_reg}; // 补全符号?
+
+//    assign y_o = c2;
+
+    // 暴露三级 EFM 原始误差给外?combiner
+            assign e3_o = e_o_3;
+    // 为兼容旧接口, 保留 e_o (输出 e1 ?1 拍延?
+    assign e_o = eo_d1;
+
+    // 延迟
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            c0_reg <= 'b0;
+            c1_reg <= 'b0;
+            y2_d  <= 1'b0;
+            y3_d  <= 1'b0;
+            y3_dd <= 1'b0;
+        end else begin
+            c0_reg <= y_o_3;
+            c1_reg <= c1;
+            y2_d <= y_o_2;
+            y3_d <= y_o_3;
+            y3_dd <= y3_d;
+        end 
+    end
+    
+        always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            eo_d1 <= 1'b0;
+			y_o <= 4'b0;
+        end else begin
+            eo_d1 <= e_o_1;
+			y_o <=  (stage_sel == 2'b00) ? c2 :
+					(stage_sel == 2'b01) ? y_o_1 :
+					(stage_sel == 2'b10) ? y_o_1 + y_o_2 - y2_d : y_o_1 + y_o_2 - y2_d + (y_o_3 - y3_d - y3_d + y3_dd);
+        end 
+		end
+
+
+    // 三级 efm 级联
+    hk_efm #(
+        .WIDTH ( WIDTH ),
+        .A_GAIN(A_GAIN))
+    u_hk_efm_1 (
+        .clk                     ( clk     ),
+        .rst_n                   ( rst_n   ),
+        .x_i                     ( x_i_1   ),
+
+        .y_o                     ( y_o_1   ),
+        .e_o                     ( e_o_1   )
+    );
+
+    hk_efm #(
+        .WIDTH ( WIDTH ),
+        .A_GAIN(A_GAIN))
+    u_hk_efm_2 (
+        .clk                     ( clk     ),
+        .rst_n                   ( rst_n   ),
+        .x_i                     ( x_i_2   ),
+
+        .y_o                     ( y_o_2   ),
+        .e_o                     ( e_o_2   )
+    );
+
+    hk_efm #(
+        .WIDTH ( WIDTH ),
+        .A_GAIN(A_GAIN))
+    u_hk_efm_3 (
+        .clk                     ( clk     ),
+        .rst_n                   ( rst_n   ),
+        .x_i                     ( x_i_3   ),
+
+        .y_o                     ( y_o_3   ),
+        .e_o                     ( e_o_3   )
+    );
+//    assign stage_sel = 2'b01;
+    mash_stage u_mash_stage (
+        .clk (clk),
+        .probe_out0 (stage_sel),
+        .probe_out1 (mash_eo_mode)
+    );
+    
+        ila_1 u_ila (
+        .clk    (clk_ila),
+        .probe0 (x_i_1),
+        .probe1 (e_o_1),
+        .probe2 (e_o_2),
+        .probe3 (e_o_3),  // 3-bit 扩展?4-bit 匹配 ILA 宽度，或按实?ILA 配置调整
+        .probe4 (y_o)  // 3-bit 扩展?4-bit 匹配 ILA 宽度，或按实?ILA 配置调整
+    );
+    
+endmodule
+
+
+===== src/fractionaln/hk_efm.v =====
+`timescale  1ns / 1ps
+
+module hk_efm #(
+    parameter WIDTH = 24,  // ???????
+    parameter A_GAIN = 1   // A = A_GAIN*2-1, ?????????????????
+) (
+    input clk,             // ????
+    input rst_n,           // ????????
+
+    input [WIDTH-1:0] x_i, // ???????????EFM????
+    output y_o,            // ????
+    output [WIDTH-1:0] e_o // ?????????? EFM ???
+);
+
+    wire [WIDTH:0] sum;
+    reg [WIDTH:0] sum_r = 0;
+
+    // ?????????????????????????
+    assign sum = x_i + sum_r[WIDTH-1:0] - {A_GAIN{sum_r[WIDTH]}};
+    // assign sum = x_i + sum_r[WIDTH-1:0];
+
+    // ?????????????
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            sum_r <= 'b0;
+        end else begin
+            sum_r <= sum;
+        end
+    end
+
+    // ????
+    assign e_o = sum_r[WIDTH-1:0];
+    // assign y_o = sum[WIDTH];
+    // ????
+    // ??? y ????????????? Sigma-Delta ??????????? Sigma-Delta ??????? y ??????????????????????????????
+    assign y_o = sum_r[WIDTH];
+
+endmodule
+
+
+===== src/fractionaln/calculate_ps.v =====
+`timescale  1ns / 1ps
+
+// ????????? Sigma-Delta ????????????????????? P ???? S ???
+module calculate_ps #(
+    parameter P_WIDTH = 6,
+    parameter S_WIDTH = 2,
+    parameter INT_WIDTH = 8
+) (
+    input wire clk,
+    input wire rst_n,
+
+    input wire [INT_WIDTH-1:0] Integer,  // ????
+
+    input wire [3:0] delta_sigma,        // Sigma-Delta ??????
+
+    input wire [9:0] Ei,        // Sigma-Delta ??????
+	
+    output wire [S_WIDTH-1:0] Si,
+    output wire [P_WIDTH-1:0] Pi,
+	
+    output reg [9:0] Eo        // Sigma-Delta ??????
+);
+
+    reg [INT_WIDTH-1:0] real_integer = 0;
+
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            real_integer <= Integer;
+			Eo <= 0;
+        end else begin
+            real_integer <= Integer + {{(INT_WIDTH-4){delta_sigma[3]}}, delta_sigma};
+//            real_integer <= Integer + {{(INT_WIDTH-4){delta_sigma[3]}}, delta_sigma};
+			Eo <= Ei;
+        end
+    end
+
+    //assign Pi = real_integer[INT_WIDTH-1:INT_WIDTH-P_WIDTH];
+	assign Pi = real_integer >> 2;
+    assign Si = real_integer[S_WIDTH-1:0];
+    
+endmodule
+
+
+===== src/fractionaln/dual_div.v =====
+`timescale  1ns / 1ps
+
+// P/S 双模分频器
+// 修复: 删除 ss_cnt/MC_dly 延迟链，MC 直接连接
+// 原 MC_dly 用自由计数器延迟 MC 信号，导致 4/5 预分频器模数切换错位 → 输出周期突变(毛刺)
+// MC 来自 s_counter 的 mc_q，已在 Fin 上寄存并通过 LDi 与分频周期边界同步，无需额外延迟
+module dual_div #(
+    parameter P_WIDTH = 6,
+    parameter S_WIDTH = 2
+) (
+    input wire clk,              // 时钟输入 (Fin, 625MHz)
+    input wire clk_ila,          // ILA 时钟
+    input wire rst_n,            // 复位信号，低有效
+    input wire [S_WIDTH-1:0] Si, // S 计数器的最大值
+    input wire [P_WIDTH-1:0] Pi, // P 计数器的最大值
+
+    output wire Fdiv             // 分频输出
+);
+
+    wire  f45;
+    wire  MC;
+    wire  LD;
+
+    ila_dualdiv u_ila_dualdiv (
+        .clk(clk_ila),
+
+        .probe0(Pi),            // input wire [5:0]  probe0
+        .probe1(Si),            // input wire [1:0]  probe1
+        .probe2({f45,Fdiv}),    // input wire [1:0]  probe2
+        .probe3({MC,MC}),       // input wire [1:0]  probe3  (原为{MC,MC_dly}，现两者均为MC)
+        .probe4(4'd0),          // input wire [3:0]  probe4  (原为ss_cnt，已删除)
+        .probe5(LD)             // input wire [0:0]  probe5
+    );
+
+    div_45  u_div_45 (
+        .clk                     ( clk        ),
+        .rst_n                   ( rst_n      ),
+        .MC                      ( MC         ),  // 修复: 原为 MC_dly，现直接用 MC
+
+        .f45                     ( f45        )
+    );
+
+    p_counter #(
+        .WIDTH ( P_WIDTH ))
+    u_p_counter (
+        .rst_n                   ( rst_n   ),
+        .Fin                     ( f45     ),
+        .Pi                      ( Pi      ),
+
+        .Fout                    ( Fdiv    ),
+        .LDo                     ( LD      )
+    );
+
+    s_counter #(
+        .WIDTH ( S_WIDTH ))
+    u_s_counter (
+		.rst_n                   ( rst_n ),
+        .Fin                     ( f45   ),
+        .Si                      ( Si    ),
+        .LDi                     ( LD    ),
+
+        .MCo                     ( MC    )
+    );
+
+endmodule
+
+
+===== src/fractionaln/dff.v =====
+`timescale  1ns / 1ps
+
+module dff (
+    input clk,
+    input LD,
+    input rst_n,
+    input P,
+    input D,
+    output reg Q = 0,
+    output Qn
+);
+	
+    always @(posedge clk or negedge rst_n or posedge LD) begin
+		if (~rst_n) begin
+			Q <= 1'b0;
+		end else if (LD) begin
+            Q <= P;
+        end else begin
+            Q <= D;
+        end
+    end
+    
+    assign Qn = ~Q;
+    
+endmodule
+
+
+===== src/fractionaln/div_45.v =====
+`timescale 1ns / 1ps
+
+module div_45 (
+    input clk,
+    input rst_n,
+    input MC,    // MC = 0 时，4分频；MC = 1 时，5分频
+
+    output f45
+);
+
+    wire D1;
+    wire Q1, Qn1;
+    wire D2;
+    wire Q2, Qn2;
+    wire D3;
+    wire Q3, Qn3;
+
+    // 4/5 分频器组合逻辑
+    assign D1 = ~(Q2 & (Q3 | ~MC));  // MC=0: ~Q2 (4分频); MC=1: ~(Q2&Q3) (5分频)
+    assign D2 = Q1;
+    assign D3 = Q2;
+
+    assign f45 = Qn3;  // 4/5 分频输出
+
+    // D 触发器（3 个，去掉原来的 u4）
+    reg_sync #( .WIDTH ( 1 )) u1_reg_sync (
+        .clk   ( clk   ),
+        .rst_n ( rst_n ),
+        .D     ( D1    ),
+        .Q     ( Q1    ),
+        .Qn    ( Qn1   )
+    );
+
+    reg_sync #( .WIDTH ( 1 )) u2_reg_sync (
+        .clk   ( clk   ),
+        .rst_n ( rst_n ),
+        .D     ( D2    ),
+        .Q     ( Q2    ),
+        .Qn    ( Qn2   )
+    );
+
+    reg_sync #( .WIDTH ( 1 )) u3_reg_sync (
+        .clk   ( clk   ),
+        .rst_n ( rst_n ),
+        .D     ( D3    ),
+        .Q     ( Q3    ),
+        .Qn    ( Qn3   )
+    );
+
+endmodule
+
+
+===== src/fractionaln/s_counter.v =====
+`timescale  1ns / 1ps
+
+// 修复: 门控时钟 clk_i[0] = ~((~h_and)&(~Fin)) 改为时钟使能方式
+// 问题: 组合逻辑生成的门控时钟在 h_and/Fin 变化时会产生毛刺，导致 DFF 误触发
+// 修复: clk_i[0] 直接使用 Fin，在 D 输入端加使能逻辑
+//       使能 = ~h_and，即计数器未全1时允许翻转，全1时保持
+module s_counter #(
+    parameter WIDTH = 3
+) (
+    input rst_n,
+    input wire Fin,
+    input wire [WIDTH-1:0] Si,
+    input wire LDi,
+
+    output wire MCo
+);
+
+    wire [WIDTH-1:0] clk_i;
+    wire [WIDTH-1:0] d_i;
+    wire [WIDTH-1:0] q_o;
+    wire [WIDTH-1:0] qn_o;
+    wire [WIDTH-1:0] LD_i;
+
+    wire h_and;
+    wire mc_d;
+    wire mc_q;
+    reg rst_n_d1;
+    wire ldi;
+
+    genvar i;
+    generate
+        for(i=0; i<WIDTH; i=i+1) begin:BLOCK1
+            dff  u_dff (
+                .clk                     ( clk_i[i]   ),
+                .LD                      ( LD_i[i]    ),
+				.rst_n					 ( rst_n	  ),
+                .P                       ( Si[i]      ),
+                .D                       ( d_i[i]     ),
+
+                .Q                       ( q_o[i]     ),
+                .Qn                      ( qn_o[i]    )
+            );
+        end
+    endgenerate
+
+    dff  u_mc_dff (
+        .clk                     ( Fin      ),
+        .LD                      ( ~rst_n     ),
+		.rst_n			 		 ( rst_n	  ),
+        .P                       ( 1'b1     ),
+        .D                       ( mc_d     ),
+
+        .Q                       ( mc_q     ),
+        .Qn                      (     )
+    );
+
+    always @(posedge Fin) begin
+        rst_n_d1 <= rst_n;
+    end
+
+    assign ldi = (rst_n == 1 & rst_n_d1 == 0) ? 1 : 0;
+
+    // ============================================================
+    // 修复: 门控时钟改时钟使能
+    // 原: assign clk_i[0] = ~((~h_and)&(~Fin));  -- 门控时钟，有毛刺风险
+    // 改为: clk_i[0]=Fin (纯时钟), d_i[0] 在 h_and=1 时保持原值
+    // ============================================================
+    assign h_and = &qn_o;
+
+    // 修复: bit0 使用 Fin 作为时钟，通过 d_i 实现使能
+    assign clk_i[0] = Fin;                           // 纯时钟，无门控
+    assign d_i[0]   = h_and ? q_o[0] : qn_o[0];     // 使能逻辑: h_and=1时保持
+    assign d_i[WIDTH-1:1] = qn_o[WIDTH-1:1];        // 高位不变
+
+    assign clk_i[WIDTH-1:1] = q_o[WIDTH-2:0];
+    assign mc_d = ~(LDi|h_and);
+    assign MCo = mc_q;
+    assign LD_i = {WIDTH{LDi}};
+
+endmodule
+
+

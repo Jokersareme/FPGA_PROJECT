@@ -1,0 +1,208 @@
+﻿`timescale  1ns / 1ps
+
+// ??????????????? mash111-Sigma-Delta ?????????
+module fractionaln #(
+    parameter P_WIDTH = 6,                  // P ??????
+    parameter S_WIDTH = 2,                  // S ??????
+    parameter INT_WIDTH = 8,                // ???????
+    parameter FRAC_WIDTH = 10               // ???????
+) (
+    input wire Fin,                         // ????????
+    input wire Sys_clk,                         // ????????
+    input wire rst_n,                       // ????????
+
+    input wire [INT_WIDTH-1:0] Integer,     // ??????
+    input wire [FRAC_WIDTH-1:0] Fraction,   // ??????
+    
+    output reg [FRAC_WIDTH-1:0] Eo,          // 1 ??? (???)
+    output reg [FRAC_WIDTH+2:0] E_combined,  // 3 ????? (?? 3 ? DTC ??)
+    output wire Fout                         // ????
+);
+
+	wire rst_n_sync;
+    wire [3:0] delta_sigma;
+    wire clk_delta_sigma;
+    wire [S_WIDTH-1:0] Si;
+    wire [P_WIDTH-1:0] Pi;
+    //reg Fout_reg;
+    wire [FRAC_WIDTH-1:0] Eo_raw;
+    wire [FRAC_WIDTH-1:0] mash_e1, mash_e2, mash_e3;  // ?? EFM ????
+	reg [FRAC_WIDTH-1:0] Eo_d1 = 0;
+	reg [FRAC_WIDTH-1:0] Eo_d2 = 0;
+	reg [FRAC_WIDTH-1:0] Eo_d3 = 0;
+
+    // 3 ? combiner: e? + (e? - e?[n-1]) + (e? - 2?e?[n-1] + e?[n-2])
+    // ??: Eo_raw (= e1[n-1]) ?? 1 ???,
+    //       mash_e2/mash_e3 ?????, ??? 1 ???? e1
+    reg [FRAC_WIDTH-1:0] e2_r1 = 0, e2_r2 = 0, e2_r3 = 0, e2_r4 = 0;           // e2[n], e2[n-1], e2[n-2]
+    reg [FRAC_WIDTH-1:0] e3_r1 = 0, e3_r2 = 0, e3_r3 = 0, e3_r4 = 0;     // e3[n], e3[n-1], e3[n-2], e3[n-3]
+    wire signed [FRAC_WIDTH+2:0] comp_3rd;
+    wire signed [FRAC_WIDTH+5:0] comp_2rd;  // wide enough: Eo_raw(signed) + d_delta_sigma*1024
+    reg [FRAC_WIDTH+2:0] Ec_d1 = 0, Ec_d2 = 0, Ec_d3 = 0;            // E_combined ????
+
+    assign clk_delta_sigma = Fout;
+	reg [3:0] delta_sigma_d1 = 0;
+	reg [3:0] delta_sigma_d2 = 0;
+	
+	wire [1:0] eo_dly_sel;
+	
+	
+	    always @(posedge Fout or negedge rst_n) begin
+        if (!rst_n) begin
+            Eo <= 'd0;
+        end else begin
+        	Eo <= (eo_dly_sel==2'b00) ? Eo_raw :
+	            (eo_dly_sel==2'b01) ? Eo_d1 :
+	            (eo_dly_sel==2'b10) ? Eo_d2 : Eo_d3;
+        end 
+    end
+
+	
+	
+    // 3 阶组合误�? (1-z⁻�?²·e3[n-1] = e3[n-1] - 2·e3[n-2] + e3[n-3]
+    // 2nd order: comp_2rd = signed(Eo_raw) + signed(d_delta_sigma)*1024
+    // where d_delta_sigma = delta_sigma_d1 - delta_sigma_d2
+    wire signed [4:0] d_delta_sigma;
+    assign d_delta_sigma = $signed(delta_sigma_d1) - $signed(delta_sigma_d2);
+    assign comp_2rd = $signed(Eo_raw) + d_delta_sigma * $signed(1024);
+					
+    // 3 阶组合误�? (1-z⁻�?²·e3[n-1] = e3[n-1] - 2·e3[n-2] + e3[n-3]
+    assign comp_3rd = $signed({2'b0, e3_r2})        // +e3[n]
+                    - $signed({1'b0, e3_r3, 1'b0})  // -2*e3[n-1]
+                    + $signed({2'b0, e3_r4});        // +e3[n-2]
+					
+	reg signed [FRAC_WIDTH+2:0] sum_eo1;
+	reg signed [FRAC_WIDTH+2:0] sum_eo2;
+	
+	wire signed [FRAC_WIDTH+2:0] sum_w1;
+	wire signed [FRAC_WIDTH+2:0] sum_w2;
+	
+	assign sum_w1 = $signed(sum_eo1) + $signed(comp_3rd);
+	assign sum_w2 = $signed(sum_eo1) + $signed(sum_eo2);
+	
+	always @(negedge Fout or negedge rst_n) begin
+		if (!rst_n) begin
+            sum_eo1 <= 'd0;
+            sum_eo2 <= 'd0;
+		end else begin
+			sum_eo1 <= sum_w1;
+			sum_eo2 <= sum_w2;
+		end
+	end
+	
+    always @(negedge Fout or negedge rst_n) begin
+        if (!rst_n) begin
+            delta_sigma_d1 <= 0;
+            delta_sigma_d2 <= 0;
+            Eo_d1 <= 'd0;
+            Eo_d2 <= 'd0;
+            Eo_d3 <= 'd0;
+            e2_r1 <= 'd0;
+            e2_r2 <= 'd0;
+            e2_r3 <= 'd0;
+            e2_r4 <= 'd0;
+            e3_r1 <= 'd0;
+            e3_r2 <= 'd0;
+            e3_r3 <= 'd0;
+            e3_r4 <= 'd0;
+            Ec_d1 <= 'd0; Ec_d2 <= 'd0; Ec_d3 <= 'd0;
+            E_combined <= 'd0;
+            
+        end else begin
+            // 1 ????? (?)
+            Eo_d1    <= Eo_raw;
+            Eo_d2    <= Eo_d1;
+            Eo_d3    <= Eo_d2;
+            delta_sigma_d1 <= delta_sigma;
+            delta_sigma_d2 <= delta_sigma_d1;
+            
+            // 3 ?????
+            // mash_e2/mash_e3 ????? (??? e2[n], e3[n])
+            e2_r1 <= mash_e2;     // e2[n]
+            e2_r2 <= e2_r1;       // e2[n-1]
+            e2_r3 <= e2_r2;  
+			e2_r4 <= e2_r3;			// e2[n-2]
+            e3_r1 <= mash_e3;     // e3[n]
+            e3_r2 <= e3_r1;       // e3[n-1]
+            e3_r3 <= e3_r2;       // e3[n-2]
+            e3_r4 <= e3_r3;       // e3[n-3]
+
+            Ec_d1 <= comp_3rd[FRAC_WIDTH+2:0];
+            Ec_d2 <= Ec_d1;
+            Ec_d3 <= Ec_d2;
+            // E_combined ???? (?? eo_dly_sel, ? Eo ????? VIO)
+            E_combined <= (eo_dly_sel==2'b00) ? comp_3rd[FRAC_WIDTH+2:0] :
+                          (eo_dly_sel==2'b01) ? Ec_d1 :
+                          (eo_dly_sel==2'b10) ? Ec_d2 : Ec_d3;
+        end 
+    end
+    
+    vio_eo u_vio_eo (
+        .clk (Sys_clk),
+        
+        .probe_out0 (eo_dly_sel)
+        );
+        
+    
+    //assign Fout = Fout_reg;
+    
+	dff  u_sync_rstn_dff (
+        .clk                     ( Fin      ),
+        .LD                      ( 1'b0     ),
+		.rst_n					 ( 1'b1		),
+        .P                       ( 1'b1     ),
+        .D                       ( rst_n    ),
+
+        .Q                       ( rst_n_sync     ),
+        .Qn                      (     )
+    );
+
+    // Sigma-Delta ??? (?????? EFM ????)
+    mash111 #(
+        .WIDTH  ( FRAC_WIDTH ),
+        .A_GAIN ( 1  ))
+    u_mash111 (
+        .clk                     ( clk_delta_sigma ),
+        .clk_ila                 ( Sys_clk         ),
+        .rst_n                   ( rst_n_sync      ),
+        .x_i                     ( Fraction        ),
+
+        .y_o                     ( delta_sigma     ),
+        .e_o                     ( Eo_raw          ),
+        .e2_o                     ( mash_e2          ),
+        .e3_o                    ( mash_e3         )
+    );
+
+    // ????????? Sigma-Delta ????????????????????? P ???? S ???
+    calculate_ps #(
+        .P_WIDTH   ( P_WIDTH ),
+        .S_WIDTH   ( S_WIDTH ),
+        .INT_WIDTH ( INT_WIDTH ))
+    u_calculate_ps (
+        .clk                     ( ~clk_delta_sigma ),
+        .rst_n                   ( rst_n_sync      ),
+        .Integer                 ( Integer         ),
+        .delta_sigma             ( delta_sigma_d1     ),
+		.Ei						 ( Eo_raw		   ),
+        .Si                      ( Si              ),
+        .Pi                      ( Pi              ),
+		.Eo						 (    		   )
+    );
+    
+    // P/S ?????
+    dual_div #(
+        .P_WIDTH ( P_WIDTH ),
+        .S_WIDTH ( S_WIDTH ))
+    u_dual_div (
+        .clk                     ( Fin        ),
+        .clk_ila                 ( Sys_clk    ),
+        .rst_n                   ( rst_n_sync ),
+        .Si                      ( Si         ),
+        .Pi                      ( Pi         ),
+
+        .Fdiv                    ( Fout       )
+    );    
+    
+endmodule
+
+
